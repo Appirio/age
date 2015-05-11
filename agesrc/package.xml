@@ -7,8 +7,8 @@
         <members>AgeScheduledBatchJobs</members>
         <members>AgeUserController</members>
         <members>AgeUserControllerTest</members>
-        <members>AwardMillionBiller</members>
-        <members>AwardMillionBillerTest</members>
+        <!-- <members>AwardMillionBiller</members> -->
+        <!-- <members>AwardMillionBillerTest</members> -->
         <members>BadgeException</members>
         <members>BadgesController</members>
         <members>BadgesControllerTest</members>
