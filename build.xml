@@ -1,0 +1,39 @@
+<project name="Sample usage of Salesforce Ant tasks" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <property file="buildall.properties"/>
+    <property environment="env"/>
+    <tstamp/>
+
+
+
+
+
+<target name="fetchAge">
+	<sf:retrieve
+		username="${username}"
+		password="${password}"
+		serverurl="${serverurl}"
+		retrieveTarget="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/age"
+		unpackaged="age_package.xml"
+		pollWaitMillis="10000"
+		maxPoll="20"/>
+</target>
+
+<target name="deployAge2dev6">
+  <sf:deploy
+    username="${dev6.username}"
+    password="${dev6.password}"
+    serverurl="${dev6.serverurl}"
+    deployroot="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/agesrc">
+  </sf:deploy>
+</target>
+
+
+
+
+
+
+
+
+
+</project>
