@@ -24,7 +24,7 @@
     username="${dev6.username}"
     password="${dev6.password}"
     serverurl="${dev6.serverurl}"
-    deployroot="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/agesrc">
+    deployroot="agesrc">
   </sf:deploy>
 </target>
 

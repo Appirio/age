@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Funding source of a Challenge</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Current_Balance__c</fullName>
+        <description>Current balance of the Points Bucket</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Current balance of the Points Bucket</inlineHelpText>
+        <label>Current Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Number_of_Direct_Reports__c</fullName>
+        <description>Number of direct reports that this Points Bucket owner has, as a manager.  This number is used solely for computing the amount of points to add during periodic replenishment.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Number of direct reports that this Points Bucket owner has, as a manager.  This number is used solely for computing the amount of points to add during periodic replenishment.</inlineHelpText>
+        <label>Number of Direct Reports</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Owner_Employee_ID__c</fullName>
+        <externalId>false</externalId>
+        <formula>Owner__r.WD_Employee_ID__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Owner Employee ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Owner of the Points Bucket</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Owner of the Points Bucket</inlineHelpText>
+        <label>Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Points_Buckets</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Owner_is_Active__c</fullName>
+        <description>Formula field, indicating if the owner of this Points Bucket is an active SFDC user.</description>
+        <externalId>false</externalId>
+        <formula>Owner__r.IsActive</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Formula field, indicating if the owner of this Points Bucket is an active SFDC user.</inlineHelpText>
+        <label>Owner is Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Replenishment_Amount__c</fullName>
+        <description>Formula field that shows, based on the &quot;Replenishment Type&quot; field, how many additional points to add to a Points Bucket during a periodic replenishment.</description>
+        <externalId>false</externalId>
+        <formula>CASE(Replenishment_Type__c,
+  &quot;Office Manager&quot;, 1500,
+  &quot;People Manager&quot;, 1000 * Number_of_Direct_Reports__c,
+  &quot;Client Services Director&quot;, 5000 + (1000 * Number_of_Direct_Reports__c),
+  &quot;Partner&quot;, 5000 + (1000 * Number_of_Direct_Reports__c),
+  &quot;Account Executive&quot;, 5000 + (1000 * Number_of_Direct_Reports__c),
+  &quot;Solutions Architect&quot;, 5000 + (1000 * Number_of_Direct_Reports__c),
+  &quot;Director&quot;, MAX(5000, 1000 * Number_of_Direct_Reports__c),
+  &quot;VP&quot;, 25000,
+  &quot;Senior Management&quot;, 50000,
+  null
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Formula field that shows, based on the &quot;Replenishment Type&quot; field, how many additional points to add to a Points Bucket during a periodic replenishment.</inlineHelpText>
+        <label>Replenishment Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Replenishment_Type__c</fullName>
+        <description>Some points buckets are periodically replenished (e.g. managers get 1,000 points per quarter, per team member).  This field, in conjunction with a formula, indicates how many points to top off the points bucket with.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Some points buckets are periodically replenished (e.g. managers get 1,000 points per quarter, per team member).  This field, in conjunction with a formula, indicates how many points to top off the points bucket with.</inlineHelpText>
+        <label>Replenishment Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Office Manager</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>People Manager</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Client Services Director</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Account Executive</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Solutions Architect</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Partner</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Director</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VP</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Title__c</fullName>
+        <externalId>false</externalId>
+        <label>Title</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Points Bucket</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Title__c</columns>
+        <columns>Current_Balance__c</columns>
+        <columns>Owner__c</columns>
+        <columns>Owner_is_Active__c</columns>
+        <columns>Replenishment_Type__c</columns>
+        <columns>Number_of_Direct_Reports__c</columns>
+        <columns>Replenishment_Amount__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+
+  
+    <nameField>
+        <displayFormat>PB-{0000}</displayFormat>
+        <label>Name</label>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Points Buckets</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Title__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Owner__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Current_Balance__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Title__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Owner__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Current_Balance__c</lookupDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Title__c</searchFilterFields>
+        <searchFilterFields>Owner__c</searchFilterFields>
+        <searchFilterFields>Current_Balance__c</searchFilterFields>
+        <searchResultsAdditionalFields>Title__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Owner__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Current_Balance__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>Add_Shoutout_Challenges</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Add Shoutout Challenges</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>//
+// (c) Appirio
+//
+// 2014-07-11     Glenn Weinstein     Original
+
+{!REQUIRESCRIPT(&quot;/soap/ajax/30.0/connection.js&quot;)}
+
+// Adds a Challenge Points Bucket record for all &quot;shoutout&quot; challenges.
+
+var query = &quot;&quot;;
+query += &quot;SELECT Id &quot;;
+query += &quot;FROM   Challenge__c &quot;;
+query += &quot;WHERE  Title__c LIKE &apos;%Shoutout%&apos; &quot;;
+query += &quot;AND    Reward_Points__c &gt; 0 &quot;;
+
+var shoutouts = sforce.connection.query(query).getArray(&quot;records&quot;);
+
+var cpbList = [];
+
+for (i = 0; i &lt; shoutouts.length; i++) {
+  var cpb = new sforce.SObject(&quot;Challenge_Points_Bucket__c&quot;);
+  cpb.Points_Bucket__c = &quot;{!Points_Bucket__c.Id}&quot;;
+  cpb.Challenge__c = shoutouts[i].Id;
+  cpbList.push(cpb);
+}
+
+try {
+  var result = sforce.connection.create(cpbList);
+  if (!result[0].getBoolean(&quot;success&quot;)) {
+    alert(&quot;An error occurred while trying to add shoutout Challenges to this Points Bucket:\n\n&quot; + result);
+  }
+} catch(e) {
+  alert(e);
+}
+
+window.location.reload();</url>
+    </webLinks>
+</CustomObject>
