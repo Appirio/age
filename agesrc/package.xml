@@ -146,7 +146,7 @@
         <name>CustomTab</name>
     </types>
     <types>
-       <members>AppirioLogos</members>
+        <members>AppirioLogos</members>
         <members>AppirioLogos/AGE_Logo.png</members>
         <name>Document</name>
     </types>
@@ -214,5 +214,5 @@
         <members>Points__c</members>
         <name>Workflow</name>
     </types>
-    <version>29.0</version>
+    <version>33.0</version>
 </Package>
