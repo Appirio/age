@@ -1,0 +1,1044 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" showChat="false" controller="ChallengeManagerController">
+
+   <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap.css'))}"/>
+      <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-select.css'))}"/>
+         <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/jquery.jscrollpane.css'))}"/>
+                  <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/prettyCheckable.css'))}"/>
+           <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/jquery-ui-1.10.3.custom.css'))}"/>
+            <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/owl.carousel.css'))}"/>
+               <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-theme.css'))}"/>
+                              <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/style.css'))}"/>
+
+<html lang="en" ng-app="challengeManagerApp" ng-controller="ctrlChallengeManager" ng-init="load()">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Challenges</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<header>
+    <div class="container" ng-controller="ctrlAgeUserInfo" ng-init="loadLoggedInUser()">
+        <div class="row">
+            <div class="col-sm-8">
+                <a href="#"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/AGE.png'))}" width="300px"/></a>
+            </div>
+            <div class="col-sm-4 text-right">
+                Hi, <a href="/apex/AgeProfile">{{user.Name}}</a>
+                <img ng-src="{{user.SmallPhotoUrl}}"/>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="navbar" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand visible-xs" href="#">MENU</a>
+        </div>
+        <div class="collapse navbar-collapse col-sm-9" id="nav-menu">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/apex/AgeProfile">Profile</a></li>
+                <li><a href="/apex/Community">Community</a></li>
+                <li class="active"><a href="/apex/Challenges">Challenges</a></li>
+                <li><a href="/apex/Badges">Badges</a></li>
+                <li><a href="/">Salesforce</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-3 navbar-right">
+            <form class="navbar-form" role="search">
+
+                <div class="search-control" ng-init="loadUsers()" ng-controller="ctrlUserSearch">
+                    <input type="text" ng-model="selectedUser" typeahead="e as e.Name for e in users | filter:{Name:$viewValue} | limitTo:8" typeahead-on-select="goToProfile($item)" class="form-control" placeholder="Search Members"/>
+                    <button type="submit" class="btn btn-default"></button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="page-header">
+        <div class="row">
+            <h3 class="col-md-8 col-sm-8">Challenges</h3>
+            <div class="col-md-4 col-sm-4">
+                <a class="btn btn-primary pull-right" ng-href="{{newChallengeURL}}" ng-show="userSecuritySettings.Create_New_Challenge__c">Create A New Challenge</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <aside class="col-md-4 col-sm-4 col-sm-push-8">
+            <form>
+                <fieldset>
+                    <h6>Appirian</h6>
+                    <div class="search-control form-group">                        
+                        <input type="search" class="form-control" ng-model="selectedEmployee" typeahead="e as e.Name for e in employees | filter:{Name:$viewValue} | limitTo:8" typeahead-on-select="changeSelectedEmployee($item)" placeholder=""/>
+                        <button type="submit" class="btn btn-default"></button>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <h6 data-toggle="collapse" href="#collapse-filtes" class="collapse-filtes-header collapsed">Filter Results</h6>
+
+                    <div id="collapse-filtes" class="collapse">
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Challenge</div>
+                            <div class="panel-body">
+                                <div class="search-control form-group">
+                                    <input type="search" ng-model="placeholderTitle" typeahead-on-select="setChallengeTitle($item)" class="form-control" typeahead="c as c for c in filterableChallenges | filter:$viewValue | limitTo:8" placeholder="Search..."/>
+                                    <button type="submit" class="btn btn-default"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Status</div>
+                            <div class="panel-body">
+                                <pretty-checkable-group models="statuses"/>
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Core Value</div>
+                            <div class="panel-body">
+                                <pretty-checkable-group models="coreValues" />
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Focus</div>
+                            <div class="panel-body">
+                                <pretty-checkable-group models="focuses"/>
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Points</div>
+                            <div class="panel-body">
+                                <form>
+                                    <div class="form-group">
+                                        <div class="slider" slider="{{maxPoints}}" min="minPoints" max="maxPoints">
+                                            <span class="value">{{maxPoints - minPoints}}</span>
+                                            <div class="marks">
+                                                <span class="pull-left">0</span>
+                                                <span class="pull-right">4000</span>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </aside><!-- /.aside -->
+
+        <div class="col-md-8 col-sm-8 col-sm-pull-4">
+
+            <div class="panel-badge panel panel-default" ng-repeat="challenge in aJChallengeMap | filter:coreValueSelection | filter:focusSelection | filter:{challenge.Title__c:challengeTitle} | filter:{challenge.Id:challengeId} | filter:statusSelection | filter:pointsRange | orderBy:orderProp">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-sm-9 col-xs-12">
+                            <h4 ng-bind="htmlMe(challenge.challenge.Title__c)"></h4>
+                            <div class="row">
+                                <dl class="dl-horizontal col-md-7">
+                                    <dt>Core Value:</dt>
+                                    <dd>{{challenge.challenge.Core_Value__c}}</dd>
+                                    <dt>Focus:</dt>
+                                    <dd>{{challenge.challenge.Focus__c}}</dd>
+                                    <dt>Automated:</dt>
+                                    <dd ng-show="challenge.challenge.Automated__c">Yes</dd>
+                                    <dd ng-show="!challenge.challenge.Automated__c">No</dd> 
+                                </dl>
+                                <dl class="dl-horizontal col-md-5">
+                                    <dt>Total # Awarded:</dt>
+                                    <dd>{{challenge.count}}</dd>
+                                    <dt ng-show="challenge.lastAwardedDate">Last Awarded:</dt>
+                                    <dd ng-show="challenge.lastAwardedDate">{{convertToUTC(challenge.lastAwardedDate) | date:'M/d/yyyy'}}</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-3 col-xs-12 text-right">
+                            <button class="btn btn-primary" data-toggle="modal" href="#modal-award" ng-click="setChallengeForAward(challenge)" ng-show="showAwardButton(challenge)">Award</button>
+                            <span ng-show="showMaxReached(challenge)">Max Achievement has been reached</span>
+                            <span ng-show="showInactive(challenge)">Challenge is Inactive</span>
+                            <span ng-show="showAutomated(challenge)">Challenge is Automated</span>                             
+                            <p>{{challenge.challenge.Reward_Points__c}} Points</p>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="panel-footer" ng-show="challenge.challenge.Description__c" ng-bind="htmlMe(challenge.challenge.Description__c)">
+                </div>
+            </div><!-- /.panel-badge -->
+
+        </div>
+
+    </div>
+</div><!-- /.container -->
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 clearfix">
+                <ul class="list-unstyled list-inline pull-left">
+                    <li><a href="/apex/AgeProfile">Profile</a></li>
+                    <li><a href="/apex/Community">Community</a></li>
+                    <li><a href="/apex/Challenges">Challenges</a></li>
+                    <li><a href="/apex/Badges">Badges</a></li>
+                    <li><a href="/">Salesforce</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4 text-right">
+                <a href="http://www.appirio.com"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/logo-APPIRIO.png'))}"/></a>
+                <a class="btn btn-primary btn-top"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/icon-top.png'))}"/></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-award" tabindex="-1" role="dialog" aria-labelledby="modal-award" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group input-group">
+                        <input type="text" placeholder="Effective Date" date="awardDate" date-picker="true" class="date form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="submitAwardChallenge()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+                                                           <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.js'))}"/>
+                                                            <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/bootstrap.min.js'))}"/>
+                                                                                          <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/bootstrap-select.js'))}"/>
+                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/prettyCheckable.js'))}"/>
+                                                                                                                        <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.mousewheel.js'))}"/>
+                                                                                                                                                      <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.jscrollpane.min.js'))}"/>
+                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery-ui-1.10.3.custom.min.js'))}"/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/owl.carousel.min.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/script.js'))}"/>
+                                                                                                                                                                                                                  <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/angular.min-1.1.4.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/ui-bootstrap-tpls.min-0.5.0.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/moment.min-2.1.0.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/underscore.min-1.5.1.js'))}"/>
+
+<script type="text/javascript">
+
+/**
+ * Convert url parameters to JavaScript Object for
+ * easy data extraction
+ *
+ * created by Nir Kaufman
+ * il.linkedin.com/in/nirkaufman/
+ *
+ */
+var qs = angular.module('Qs', []);
+
+/**
+ * This service will return the Query object that
+ * contain all the url parameters passed.
+ * it depends on the global angular $window object
+ * that build in the library
+ */
+qs.factory('Query', function ($window) {
+
+    var query_string = {};
+    var query = $window.location.search.substring(1);
+    var vars = query.split("&");
+
+    for (var i = 0; i < vars.length; i++) {
+
+        var pair = vars[i].split("=");
+
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = pair[1];
+        } else if (typeof query_string[pair[0]] === "string") {
+            query_string[pair[0]] = [ query_string[pair[0]], pair[1] ];
+        } else {
+            query_string[pair[0]].push(pair[1]);
+        }
+    }
+    return query_string;
+})
+
+var au = angular.module('ageUserInfo', []);
+    
+    //factory method to load logged in user    
+    au.factory('loadLoggedInUser', ['$q', '$rootScope', 'controllerName', function($q, $rootScope, controllerName) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          controllerName + '.getLoggedInUser',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);      
+    
+
+    au.controller('ctrlAgeUserInfo', 
+      ['$scope', '$location', 'loadLoggedInUser',
+      function ($scope, $location, loadLoggedInUser) {
+      
+      $scope.user = [];
+      
+      $scope.loadLoggedInUser = function(){
+        loadLoggedInUser().then(function(results){$scope.user=results})
+      
+      }
+      
+      
+      }])  
+      
+      
+    var userSearch = angular.module('userSearch', []);
+    
+    //factory method to load all employees from the ChallengeManagerController
+    userSearch.factory('loadUsersForSearch', ['$q', '$rootScope', 'controllerName', function($q, $rootScope, controllerName) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          controllerName + '.getAllUsers',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //defines the controller
+  var userSearchController=userSearch.controller('ctrlUserSearch', 
+      ['$scope', '$location', 'loadUsersForSearch',
+      function ($scope, $location, loadUsersForSearch) {
+      
+      $scope.users = [];
+      $scope.selectedUser = '';
+      
+      $scope.loadUsers = function(){
+        loadUsersForSearch().then(function(results){$scope.users=results})
+      
+      }
+      
+      $scope.goToProfile = function(user){
+        location.href=window.location.protocol + '//' + window.location.hostname + '/apex/AgeProfile?userId=' + user.Id;
+      }
+      
+      }]) 
+
+
+
+    <!-- Name your application -->
+    var challengeManagerApp = angular.module('challengeManagerApp', ['ui.bootstrap', 'Qs', 'ageUserInfo', 'userSearch']);
+    
+    challengeManagerApp.provider('controllerName', function(){ this.$get = function(){  return 'ChallengeManagerController'}})
+    
+    
+    //factory method to load all employees from the ChallengeManagerController
+    challengeManagerApp.factory('loadUserSecuritySettings', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'ChallengeManagerController.getUserSecuritySettings',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory method to load all employees from the ChallengeManagerController
+    challengeManagerApp.factory('loadEmployees', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'ChallengeManagerController.getAllUsers',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    challengeManagerApp.config(['$locationProvider', function($locationProvider) {
+     $locationProvider.html5Mode(false);
+     }]);
+     
+    //factory method to load all challenges from the ChallengeManagerController            
+    challengeManagerApp.factory('loadAJChallengeMap', ['$q', '$rootScope', function($q, $rootScope) {
+      return function(selectedEmployee) {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'ChallengeManagerController.getAJChallengeMap', selectedEmployee,
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    //factory method to load all possible Core Values for the filter from the ChallengeManagerController
+    challengeManagerApp.factory('loadCoreValues', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'ChallengeManagerController.getCoreValueTypes',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+
+    //factory method to load all possible Focuses for the filter from the ChallengeManagerController    
+    challengeManagerApp.factory('loadFocuses', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'ChallengeManagerController.getFocusTypes',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+  
+    //factory to award a challenge
+    challengeManagerApp.factory('awardChallenge', ['$q', '$rootScope', function($q, $rootScope) {
+      return function(selectedUserId, selectedChallengeId, selectedDate, count) {
+        var deferred = $q.defer();
+   
+        Visualforce.remoting.Manager.invokeAction(
+          'ChallengeManagerController.savePoints', selectedUserId, selectedChallengeId, selectedDate, count,
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory method to get the new challenge url for the button
+    challengeManagerApp.factory('loadNewChallengeURL', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.ChallengeManagerController.getNewChallengeURL}',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+
+    challengeManagerApp.directive('slider', function() {
+        return {
+            restrict: 'A',
+            scope: { min : "=min", max: "=max" },
+            link : function(scope, element, attrs) {
+                var slider_value;
+                $(element).slider({
+                    min:0,
+                    max:4000,
+                    step : 50,
+                    values: [scope.min, scope.max],
+                    orientation: "horizontal",
+                    range: true,
+                    animate: true,
+                    create: function( event, ui ) {
+                        var options = $(this).slider( "option" );
+                        $(this).find('.marks .pull-left').text(options.min);
+                        $(this).find('.marks .pull-right').text(options.max);
+                        slider_value=$(this).find('.value');
+                        slider_value.text(options.values[0]+' - '+options.values[1]);
+                    },
+                    stop: function( event, ui ) {
+                        scope.min = ui.values[0];
+                        scope.max = ui.values[1];
+                        scope.$apply();
+                    },
+                    slide: function( event, ui ) {
+                        slider_value.text(ui.values[0]+' - '+ui.values[1]);
+                    }
+                });            
+            }
+        }
+    });
+    
+    challengeManagerApp.directive('datePicker', function() {
+        return {
+            restrict: 'A',
+            scope: { date : "=date" },
+            link: function(scope, element, attrs){
+            
+                $(element).datepicker({
+                    showOn: "button",
+                    buttonImage: "{!JSENCODE(URLFOR($Resource.AgeResources, 'i/icon-date.png'))}",
+                    buttonImageOnly: true,
+                    dayNamesMin: [ "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" ],
+                    firstDay: 1,
+                    showOtherMonths: true,
+                    onSelect : function(date) {
+                      scope.date = date; 
+                      scope.$apply()
+                    }
+                });
+            
+            }
+        }
+    
+    });
+    
+    challengeManagerApp.directive('prettyCheckableGroup', function() {
+        return {
+            restrict: 'E',
+            scope: {models: "="},
+            replace: true,
+            template : '<div><div ng-repeat="model in models" class="form-group" ng-class="{active: showAll, more:$index > 2}"><div class="clearfix prettycheckbox labelright  blue " ng-click="model.checked = !model.checked"><input label="{{model.name}}" type="checkbox" style="display: none;"><a ng-class="{checked : model.checked}"></a><label for="undefined">{{model.name}}</label></div></div><div class="for-group" ng-show="models.length > 3"><a style="cursor:pointer" class="show-more" ng-click="toggle()">{{showText}}</div><div class="actions"><a style="cursor:pointer" ng-click="clearAll()">Clear all</a></div></div>',
+            link: function(scope, element, attrs) {
+                scope.showText = "Show More...";
+                scope.showAll = false;
+                scope.toggle = function(){
+                    if(scope.showText === "Show More...") {
+                        scope.showText = "Show Less..."
+                        scope.showAll = true;
+                    } else {
+                        scope.showText = "Show More..."
+                        scope.showAll = false;
+                    }
+                }
+                scope.clearAll = function() {
+                    angular.forEach(scope.models, function(item, key){
+                        item.checked = false;
+                    })
+                }
+                
+            }
+        }
+    
+    });
+       
+    
+  //defines the controller
+  var challengeManagerController=challengeManagerApp.controller('ctrlChallengeManager', 
+      ['$scope', '$location', 'loadAJChallengeMap','$timeout', 'loadCoreValues', 'loadFocuses', 'awardChallenge', 
+        'loadEmployees', 'loadUserSecuritySettings', 'loadLoggedInUser', 'loadNewChallengeURL',
+      function ($scope, $location, loadAJChallengeMap, $timeout, loadCoreValues, loadFocuses, awardChallenge, 
+        loadEmployees, loadUserSecuritySettings, loadLoggedInUser, loadNewChallengeURL) {
+      
+      $scope.user = '';
+      $scope.employees = [];
+      $scope.selectedEmployee = '';
+      // Set from the load function based on the params
+      $scope.userId = '';
+      $scope.selectedEmployeeItem = '';
+      $scope.newChallengeURL = '';
+      
+      $scope.htmlMe = function (html) {
+        return $("<div/>").html(html).text();
+      }
+      
+      $scope.userSecuritySettings = [];
+      
+      //unfiltered challenges
+      $scope.aJChallengeMap = [];
+      
+      //default sort order for data set
+      $scope.orderProp = 'challenge.Title__c';
+            
+      //filters
+      $scope.statuses = [{name:'Active', checked : false}, {name : 'Recently Ended', checked : false}, {name:'Ended in Last Year', checked : false}, {name:'Archived', checked : false}];
+      // Loaded from the Server
+      $scope.coreValues = [];
+      $scope.focuses = [];
+      // Defaults
+      $scope.minPoints = 0;
+      $scope.maxPoints = 3000;
+      
+      
+      //Helper to update url params based on selected filers
+      $scope.$watch(
+        function(){
+            return [$scope.coreValues, $scope.focuses, $scope.statuses];
+        }, 
+        function(newVal, oldVal) {
+            $scope.updateParams();
+        }, 
+        true);
+
+      //coming from the URL, if there is a challengeId, the challenge title gets set
+      $scope.$watch(
+        function(){
+            return [$scope.challengeTitle];
+        }, 
+        function(newVal, oldVal) {
+            $scope.updateParams();
+            $scope.placeholderTitle = $scope.htmlMe($scope.challengeTitle);
+        }, 
+        true);
+        
+      $scope.$watch(
+        function(){
+          return $scope.placeholderTitle;
+        
+        },
+        function(newVal, oldVal) {
+          if($scope.placeholderTitle.length==0){
+            $scope.challengeTitle = '';
+            $scope.challengeId = '';
+          }
+        }
+      )  
+
+      $scope.challengeId = '';
+      $scope.challengeTitle = '';
+      $scope.placeholderTitle = '';
+
+      $scope.setChallengeTitle = function(title){
+        console.log(title);
+        $scope.challengeId = '';
+        $scope.challengeTitle = title;
+      }
+
+      $scope.filterableChallenges = [];
+
+      // Any time the list of challenges changes, then reload the typeahead - useful for when a different user is selected
+      $scope.$watch(function(){return $scope.aJChallengeMap}, function(){$scope.updateFilterableChallenges()})
+
+      $scope.updateFilterableChallenges = function() {
+        angular.forEach($scope.aJChallengeMap, function(item, key){
+            $scope.filterableChallenges.push(item.challenge.Title__c);
+        })
+        
+        $scope.filterableChallenges = _.uniq($scope.filterableChallenges);
+      }
+
+
+      
+      //used for the calendar widget for award
+      $scope.dt = new Date();
+      
+      $scope.changeSelectedEmployee = function(){
+        $scope.userId = $scope.selectedEmployee.Id;
+        $scope.unsetChallengeIdAndUpdateParams();
+        loadAJChallengeMap($scope.userId).then(function(result){
+          $scope.aJChallengeMap = result;
+          console.log(result);        
+        }); 
+      }
+
+      //Ended_in_Last_Year__c      
+      // Filter function
+      $scope.statusSelection = function(item) {
+          for(var i=0; i < $scope.statuses.length;i++){
+              var status = $scope.statuses[i];
+              if(status.checked && status.name == 'Active'){
+                  return item.challenge.Active__c == true;
+              }
+              else if(status.checked && status.name == 'Recently Ended'){
+                  return item.challenge.Recently_Ended__c;
+              }
+              else if(status.checked && status.name == 'Ended in Last Year'){
+                  return item.challenge.Ended_in_Last_Year__c;
+              }
+              else if(status.checked && status.name == 'Archived') {
+                  return item.challenge.Archived__c;
+              }
+          }
+          return true;
+
+      }
+      
+      //function for core value filter
+      $scope.coreValueSelection = function(item){
+        var selectedValues =  [];
+        for(var i=0; i < $scope.coreValues.length;i++){
+            if($scope.coreValues[i].checked){
+                selectedValues.push($scope.coreValues[i].name);
+            }
+        }
+        
+        if(selectedValues.length == 0) {
+            return true;
+        }
+        else {
+            return _.contains(selectedValues, item.challenge.Core_Value__c);
+        }
+      }
+      
+      //function for focus filter
+      $scope.focusSelection = function(item){
+        var selectedValues =  [];
+        for(var i=0; i < $scope.focuses.length;i++){
+            if($scope.focuses[i].checked){
+                selectedValues.push($scope.focuses[i].name);
+            }
+        }
+        
+        if(selectedValues.length == 0) {
+            return true;
+        }
+        else {
+            return _.contains(selectedValues, item.challenge.Focus__c);
+        }
+      }
+      
+      //function for points filter
+      $scope.pointsRange = function(item){
+        return item.challenge.Reward_Points__c >= $scope.minPoints && item.challenge.Reward_Points__c <= $scope.maxPoints;
+      }
+      
+      $scope.showAwardButton = function(challenge) {
+       
+        if ($scope.userId === $scope.user.Id) {
+          return !challenge.maxNumberReached && challenge.challenge.Active__c && !challenge.challenge.Automated__c;
+        } else {
+          return !challenge.maxNumberReached && challenge.challenge.Active__c && !challenge.challenge.Automated__c && $scope.userSecuritySettings.Award_Points_to_Another_User__c;
+        }
+      }
+      
+      $scope.showMaxReached = function(challenge) {
+        return challenge.maxNumberReached;
+      }
+      
+      $scope.showInactive = function(challenge) {
+        return !challenge.challenge.Active__c;
+      } 
+      
+      $scope.showAutomated = function(challenge) {
+        return challenge.challenge.Automated__c;
+      }
+      
+      $scope.challengeForAward;
+      $scope.awardDate = new Date();
+      $scope.setChallengeForAward = function(challenge) {
+        $scope.challengeForAward = challenge;      
+      
+      }
+      
+      $scope.submitAwardChallenge = function() {
+        $scope.challengeForAward.awardDate = $scope.awardDate;
+        $scope.save($scope.challengeForAward);
+      }
+      
+      $scope.convertToUTC = function(dt) {
+        var localDate = new Date(dt);
+        var localTime = localDate.getTime();
+        var localOffset = localDate.getTimezoneOffset() * 60000;
+        return new Date(localTime + localOffset);
+      };
+      
+
+      $scope.save = function(challenge) {
+        awardChallenge($scope.selectedEmployee.Id, 
+                       challenge.challenge.Id, 
+                       moment(challenge.awardDate).format("MM/DD/YYYY"),challenge.count)
+                        .then(
+                              function(result) {
+                                if(result.success) {
+                                    challenge.maxNumberReached = result.maxNumberReached
+                                    challenge.count = challenge.count+1;
+                                    if(challenge.lastAwardedDate) {
+                                        if(moment(challenge.lastAwardedDate).isBefore(moment(challenge.awardDate))){
+                                          challenge.lastAwardedDate = moment(challenge.awardDate).format("MM/DD/YYYY");                                        
+                                        }
+                                    } else {
+                                        challenge.lastAwardedDate = moment(challenge.awardDate).format("MM/DD/YYYY");
+                                    }
+                                    return true;
+                                }
+                                else {
+                                    alert(result.message);
+                                    return false;
+                                }
+                               });
+      }
+            
+      $scope.search = {};
+      $scope.updateParams = function() {
+        
+        console.log("Updating Params");
+        
+        var search = {};
+        
+        if($scope.userId.length > 0) {
+          search.userId = $scope.userId;
+        }
+              
+        if($scope.challengeTitle.length > 0 ) {
+            search.challengeTitle = $scope.challengeTitle;
+        }
+        
+        search.minPoints = $scope.minPoints;
+        search.maxPoints = $scope.maxPoints;
+
+        var selectedStatuses = [];
+        for(var i = 0; i < $scope.statuses.length; i++){
+            if($scope.statuses[i].checked){
+              selectedStatuses.push($scope.statuses[i].name);
+            }
+        }
+
+        if(selectedStatuses.length > 0) {
+          search.selectedStatuses = selectedStatuses;
+        }
+        
+        var selectedCoreValues = [];
+        for(var i = 0; i < $scope.coreValues.length; i++){
+            if($scope.coreValues[i].checked){
+              selectedCoreValues.push($scope.coreValues[i].name);
+            }
+        }
+        
+        if(selectedCoreValues.length > 0) {
+          search.selectedCoreValues = selectedCoreValues;
+        }
+        
+        var selectedFocusValues = [];
+        for(var i = 0; i < $scope.focuses.length; i++){
+            if($scope.focuses[i].checked){
+              selectedFocusValues.push($scope.focuses[i].name);
+            }
+        }
+        
+        if(selectedFocusValues.length > 0) {
+          search.selectedFocusValues = selectedFocusValues;
+        }
+        
+        $location.search(search);
+        
+      }
+      
+      $scope.unsetChallengeIdAndUpdateParams = function() {
+          $scope.challengeId = ''
+          console.log('unsetChallengeIdAndUpdateParams calling update')
+          $scope.updateParams();
+      }
+  
+      $scope.search = $location.search();
+      
+      console.log($scope.search);
+      
+      //Inital Load
+      $scope.load = function(){
+        loadNewChallengeURL().then(function(results){console.log(results); $scope.newChallengeURL=results});
+      
+        loadLoggedInUser().then(function(results){$scope.user=results});
+        
+        if($scope.search.userId && $scope.search.userId.length>0) {
+            $scope.userId = $scope.search.userId;
+        }
+        else {
+            $scope.userId = '{!selectedEmployee}';
+        }
+
+        // Default the status if any
+        var selectedStatuses = [];
+        
+        selectedStatuses[0] = 'Active';        
+          
+        if($scope.search.selectedStatuses && $scope.search.selectedStatuses.length>0) {
+          selectedStatuses = $scope.search.selectedStatuses.split(',');
+        }
+          
+        for(var i = 0; i < $scope.statuses.length; i++){
+          if(_.contains(selectedStatuses, $scope.statuses[i].name)){
+            $scope.statuses[i].checked = true;
+          }
+        }
+        
+        console.log("USERID : " + $scope.userId);
+        
+        // Default the title if in the URL
+        if($scope.search.challengeTitle && $scope.search.challengeTitle.length>0) {
+            $scope.challengeTitle = $scope.search.challengeTitle;
+        }
+        if($scope.search.minPoints && $scope.search.minPoints.length>0) {
+            $scope.minPoints = $scope.search.minPoints;
+        }
+        if($scope.search.maxPoints && $scope.search.maxPoints.length>0) {
+            $scope.maxPoints = $scope.search.maxPoints;
+        }
+        
+        // Start loading data from the server
+        loadUserSecuritySettings().then(function(result){
+          $scope.userSecuritySettings = result;
+        });
+      
+        loadEmployees().then(function(result){
+          $scope.employees = result;
+          
+          for(var i = 0; i<$scope.employees.length; i++) {
+            if ($scope.employees[i].Id === $scope.userId){
+              $scope.selectedEmployee = $scope.employees[i];
+            }
+          }       
+        }); 
+      
+        loadCoreValues().then(function(result){
+        
+          var selectedCoreValues = [];
+          
+          if($scope.search.selectedCoreValues && $scope.search.selectedCoreValues.length>0) {
+            selectedCoreValues = $scope.search.selectedCoreValues.split(',');
+          }
+          
+          for(var i = 0; i < result.length; i++){
+            $scope.coreValues.push({name:result[i], checked:_.contains(selectedCoreValues, result[i])});
+          }
+       
+        }); 
+
+        loadFocuses().then(function(result){
+          var selectedFocusValues = [];
+          
+          if($scope.search.selectedFocusValues && $scope.search.selectedFocusValues.length>0) {
+            selectedFocusValues = $scope.search.selectedFocusValues.split(',');
+          }
+          
+          for(var i = 0; i < result.length; i++){
+            $scope.focuses.push({name:result[i], checked:_.contains(selectedFocusValues, result[i])});
+          }
+        }); 
+        
+        loadAJChallengeMap($scope.userId).then(function(result){
+          $scope.aJChallengeMap = result; 
+          console.log(result);
+          
+          // Set the title of the selected challenge in the filter
+          if($scope.search.challengeId) {
+
+            $scope.challengeId = $scope.search.challengeId;
+
+            for(var i=0; i < result.length;i++) {
+              if($scope.aJChallengeMap[i] && $scope.aJChallengeMap[i].challenge.Id === $scope.challengeId) {
+                $scope.challengeTitle = $scope.aJChallengeMap[i].challenge.Title__c;
+              }
+            }
+          }  
+          $scope.updateParams();
+        });       
+      }
+                                       
+    }])
+
+</script>
+</body>
+</html>
+</apex:page>

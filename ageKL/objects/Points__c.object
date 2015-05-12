@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <content>PointRedirectToChallenges</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Earned or spent Points per user.</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Amount__c</fullName>
+        <description>Amount of Points</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Amount of Points</inlineHelpText>
+        <label>Amount</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Awarded_From_Id__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>User that awarded the Points.  This is used to check Points Bucket.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>User that awarded the Points.  This is used to check Points Bucket.</inlineHelpText>
+        <label>Awarded From Id</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Points</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Challenge_Title__c</fullName>
+        <externalId>false</externalId>
+        <formula>Challenge__r.Title__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Challenge Title</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Challenge__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Challenge that the user has completed to earn points</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Challenge that the user has completed to earn points</inlineHelpText>
+        <label>Challenge</label>
+        <referenceTo>Challenge__c</referenceTo>
+        <relationshipLabel>Points</relationshipLabel>
+        <relationshipName>Earned_Points</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Date__c</fullName>
+        <defaultValue>today()</defaultValue>
+        <description>Effective date, i.e. the date the points were actually earned.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Effective date, i.e. the date the points were actually earned.</inlineHelpText>
+        <label>Effective Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Entered_in_Company_Store__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>IT will check this box when these points have been added to the user&apos;s Company Store balance.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>IT will check this box when these points have been added to the user&apos;s Company Store balance.</inlineHelpText>
+        <label>Entered in Company Store</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <description>Notes on how or why these points were assigned.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Notes on how or why these points were assigned.</inlineHelpText>
+        <label>Notes</label>
+        <length>32768</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Points_Bucket__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Points Bucket</label>
+        <referenceTo>Points_Bucket__c</referenceTo>
+        <relationshipLabel>Points</relationshipLabel>
+        <relationshipName>Points</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Source__c</fullName>
+        <description>Where the points are coming from.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Where the points are coming from.</inlineHelpText>
+        <label>Source</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Challenge Completed</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Manager Bucket</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Points Transfer</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Transaction status of the points.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Transaction status of the points.</inlineHelpText>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Pending</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Complete</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Tag__c</fullName>
+        <description>Optional tag representing an attribute of the award.  For example, when a user achieves a professional certification, they may be awarded the &quot;Certification&quot; challenge, with the Tag set to the name of the certification.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Optional tag representing an attribute of the award.  For example, when a user achieves a professional certification, they may be awarded the &quot;Certification&quot; challenge, with the Tag set to the name of the certification.</inlineHelpText>
+        <label>Tag</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_Link__c</fullName>
+        <description>Link to the record that represents the &quot;why&quot; or &quot;how&quot; these points were awarded. For example, when awarding points for asset reuse, this might contain a link to the reused asset.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Link to the record that represents the &quot;why&quot; or &quot;how&quot; these points were awarded. For example, when awarding points for asset reuse, this might contain a link to the reused asset.</inlineHelpText>
+        <label>Target Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Target_Name__c</fullName>
+        <description>Name of the record that represents the &quot;why&quot; or &quot;how&quot; these points were awarded. For example, when awarding points for asset reuse, this might contain the name of the reused asset.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Name of the record that represents the &quot;why&quot; or &quot;how&quot; these points were awarded. For example, when awarding points for asset reuse, this might contain the name of the reused asset.</inlineHelpText>
+        <label>Target Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_Record_Id__c</fullName>
+        <description>For Earned Points: the Id of the Object that references the Points that were awarded.
+
+For Transferred Points: the Id of the Object to WHERE the points were transferred to.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>For Earned Points: the Id of the Object that references the Points that were awarded.
+
+For Transferred Points: the Id of the Object to WHERE the points were transferred to.</inlineHelpText>
+        <label>Target Record Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>The Type of points</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Type of points</inlineHelpText>
+        <label>Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>General</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Shareable</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>User_Email__c</fullName>
+        <externalId>false</externalId>
+        <formula>User__r.Email</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>User Email</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>User_Location__c</fullName>
+        <externalId>false</externalId>
+        <formula>User__r.City + &apos;, &apos; + User__r.Country</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>User Location</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>User_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>User__r.Full_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>User Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>User__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>User that has earned the Challenge points</description>
+        <externalId>false</externalId>
+        <inlineHelpText>User that has earned the Challenge points</inlineHelpText>
+        <label>User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Earned_Points</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Points</label>
+    <listViews>
+        <fullName>Not_Entered_in_Company_Store</fullName>
+        <columns>NAME</columns>
+        <columns>Entered_in_Company_Store__c</columns>
+        <columns>Challenge__c</columns>
+        <columns>Challenge_Title__c</columns>
+        <columns>User__c</columns>
+        <columns>Amount__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Entered_in_Company_Store__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Points__c.Earned_Points</value>
+        </filters>
+        <label>Not Entered in Company Store</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>Points_for_a_Single_User</fullName>
+        <columns>NAME</columns>
+        <columns>Entered_in_Company_Store__c</columns>
+        <columns>Challenge__c</columns>
+        <columns>Challenge_Title__c</columns>
+        <columns>User__c</columns>
+        <columns>Amount__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>User__c</field>
+            <operation>contains</operation>
+            <value>jeegar</value>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Points__c.Earned_Points</value>
+        </filters>
+        <label>Points for a Single User</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>currentandprev</fullName>
+        <booleanFilter>1 or 2</booleanFilter>
+        <columns>NAME</columns>
+        <columns>User__c</columns>
+        <columns>Challenge__c</columns>
+        <columns>Challenge_Title__c</columns>
+        <columns>Amount__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CREATED_DATE</field>
+            <operation>equals</operation>
+            <value>THIS_MONTH</value>
+        </filters>
+        <filters>
+            <field>CREATED_DATE</field>
+            <operation>equals</operation>
+            <value>LAST_MONTH</value>
+        </filters>
+        <label>Current and Previous Month</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <displayFormat>P-{0000}</displayFormat>
+        <label>Name</label>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Points</pluralLabel>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Earned_Points</fullName>
+        <active>true</active>
+        <description>Points earned by user who completed a challenge or given to managers</description>
+        <label>Earned Points</label>
+        <picklistValues>
+            <picklist>Source__c</picklist>
+            <values>
+                <fullName>Challenge Completed</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Manager Bucket</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Complete</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Pending</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>General</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Shareable</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Transferred_Points</fullName>
+        <active>true</active>
+        <description>Points that have been transferred to a Points Bucket or to the Company Store</description>
+        <label>Transferred Points</label>
+        <picklistValues>
+            <picklist>Source__c</picklist>
+            <values>
+                <fullName>Challenge Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manager Bucket</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Points Transfer</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Complete</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Pending</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>General</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Shareable</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>User__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Challenge__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Challenge_Title__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Amount__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Date__c</customTabListAdditionalFields>
+        <excludedStandardButtons>New</excludedStandardButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Only_SysAdmin_Can_Edit</fullName>
+        <active>true</active>
+        <description>Only a SysAdmin can edit the type of points</description>
+        <errorConditionFormula>ISCHANGED(RecordTypeId)&amp;&amp;( 
+$Profile.Name != &quot;System Administrator&quot;)</errorConditionFormula>
+        <errorMessage>You can not edit the RecordType</errorMessage>
+    </validationRules>
+</CustomObject>

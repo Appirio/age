@@ -1,0 +1,1048 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" showChat="false" controller="BadgesController">
+
+   <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap.css'))}"/>
+      <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-select.css'))}"/>
+         <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/jquery.jscrollpane.css'))}"/>
+                  <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/prettyCheckable.css'))}"/>
+           <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/jquery-ui-1.10.3.custom.css'))}"/>
+            <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/owl.carousel.css'))}"/>
+               <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-theme.css'))}"/>
+                              <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/style.css'))}"/>
+
+<html lang="en" ng-app="badgesApp" ng-controller="ctrlBadges" ng-init="load()">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Badges</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<header>
+    <div class="container" ng-controller="ctrlAgeUserInfo" ng-init="loadLoggedInUser()">
+        <div class="row">
+            <div class="col-sm-8">
+                <a href="#"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/AGE.png'))}" width="300px"/></a>
+            </div>
+            <div class="col-sm-4 text-right">
+                Hi, <a href="/apex/AgeProfile">{{user.Name}}</a>
+                <img ng-src="{{user.SmallPhotoUrl}}"/>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="navbar" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand visible-xs" href="#">MENU</a>
+        </div>
+        <div class="collapse navbar-collapse col-sm-9" id="nav-menu">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/apex/AgeProfile">Profile</a></li>
+                <li><a href="/apex/Community">Community</a></li>
+                <li><a href="/apex/Challenges">Challenges</a></li>
+                <li class="active"><a href="/apex/Badges">Badges</a></li>
+                <li><a href="/">Salesforce</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-3 navbar-right">
+            <form class="navbar-form" role="search">
+                <div class="search-control" ng-init="loadUsers()" ng-controller="ctrlUserSearch">
+                    <input type="text" ng-model="selectedUser" typeahead="e as e.Name for e in users | filter:{Name:$viewValue} | limitTo:8" typeahead-on-select="goToProfile($item)" class="form-control" placeholder="Search Members"/>
+                    <button type="submit" class="btn btn-default"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="page-header">
+        <div class="row">
+            <h3 class="col-md-8 col-sm-8">Badges</h3>
+            <div class="col-md-4 col-sm-4">
+                <a class="btn btn-primary pull-right" ng-href="{{newBadgeURL}}" ng-show="userSecuritySettings.Create_New_Badge__c">Create A New Badge</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <aside class="col-md-4 col-sm-4 col-sm-push-8">
+            <form>
+                <fieldset>
+                    <h6>Appirian</h6>
+                    <div class="search-control form-group">
+                        <input type="search" class="form-control" ng-model="selectedEmployee" typeahead="e as e.Name for e in employees | filter:{Name:$viewValue} | limitTo:8" typeahead-on-select="changeSelectedEmployee($item)" placeholder=""/>
+                        <button type="submit" class="btn btn-default"></button>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <h6 data-toggle="collapse" href="#collapse-filtes" class="collapse-filtes-header collapsed">Filter Results</h6>
+
+                    <div id="collapse-filtes" class="collapse">
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Badge</div>
+                            <div class="panel-body">
+                                <div class="search-control form-group">
+                                    <input type="search" ng-model="placeholderTitle" typeahead-on-select="setBadgeTitle($item)" class="form-control" typeahead="b as b.badge.Title__c for b in badges | filter:{badge.Title__c:$viewValue} | limitTo:8" placeholder="Search..."/>
+                                    <button type="submit" class="btn btn-default"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Challenge</div>
+                            <div class="panel-body">
+                                <div class="search-control form-group">
+                                    <input type="search" ng-model="lastSelectedChallenge" class="form-control" typeahead="c as c for c in filterableChallenges | filter:$viewValue | limitTo:8" typeahead-on-select="addChallengeTitleToFilters($item)" placeholder="Search..."/>
+                                    <button type="submit" class="btn btn-default"></button>
+                                    <div class="list-keyword">
+                                        <ul class="list-unstyled">
+                                            <li ng-repeat="title in challengeTitlesForFilter">{{title}}<a style="cursor:pointer" ng-click="removeChallengeTitleToFilters(title)"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Status</div>
+                            <div class="panel-body">
+                                <pretty-checkable-group models="statuses" />
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Core Value</div>
+                            <div class="panel-body">
+                                <pretty-checkable-group models="coreValues" />
+                            </div>
+                        </div>
+                        <div class="panel-filter panel">
+                            <div class="panel-heading">By Focus</div>
+                            <div class="panel-body">                                 
+                              <pretty-checkable-group models="focuses" />
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </aside><!-- /.aside -->
+
+        <div class="col-md-8 col-sm-8 col-sm-pull-4">
+
+            <div class="panel-badge panel panel-default" ng-repeat="badgeHolder in badges | filter:focusSelection | filter:coreValueSelection | filter:statusSelection | filter:{badge.Title__c:badgeTitle} | filter:{badge.Id:badgeId} | filter:challengeTitleFilter | orderBy:orderProp">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-9 col-xs-12"><h4 ng-bind="htmlMe(badgeHolder.badge.Title__c)"></h4></div>
+                        <div class="col-sm-3 col-xs-12"><button class="btn btn-primary pull-right" data-toggle="modal" href="#modal-award" ng-click="setBadgeForAward(badgeHolder)" ng-show="showAwardButton(badgeHolder)">Award</button></div>
+                        <span ng-show="badgeHolder.badge.Awarded_Badges__r">Awarded on {{convertToUTC(badgeHolder.badge.Awarded_Badges__r[0].CreatedDate) | date:'M/d/yyyy'}}</span>
+                        <span ng-show="!badgeHolder.badge.Active__c">Badge is Inactive</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 add-top-margin">
+                            <img ng-src="{{badgeHolder.badge.Image_URL__c}}" width="160px"/>
+                        </div>
+                        <div class="col-md-8">
+                            <dl class="dl-horizontal">
+                                <dt>Core Value:</dt>
+                                <dd>{{badgeHolder.badge.Core_Value__c}}</dd>
+                                <dt>Focus:</dt>
+                                <dd>{{badgeHolder.badge.Focus__c}}</dd>
+                                <dt>Status:</dt>
+                                <dd ng-show="badgeHolder.badge.Active__c">Active</dd>
+                                <dd ng-show="!badgeHolder.badge.Active__c">Inactive</dd>                                
+                            </dl>
+                            <h5>How to earn this badge</h5>
+                            <p>Complete the following challenge(s):</p>
+                            <ul class="list-inline">
+                                <li ng-repeat="challenge in badgeHolder.badgeChallenges">
+                                  <a href="/apex/Challenges#?challengeId={{challenge.Challenge__c}}" class="btn btn-primary" ng-bind="htmlMe(challenge.Challenge_Title__c)"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" ng-show="badgeHolder.badge.Description__c"  ng-bind="htmlMe(badgeHolder.badge.Description__c)">
+                </div>
+            </div><!-- /.panel-badge -->
+
+            
+        </div>
+
+    </div>
+</div><!-- /.container -->
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 clearfix">
+                <ul class="list-unstyled list-inline pull-left">
+                    <li><a href="/apex/AgeProfile">Profile</a></li>
+                    <li><a href="/apex/Community">Community</a></li>
+                    <li><a href="/apex/Challenges">Challenges</a></li>
+                    <li><a href="/apex/Badges">Badges</a></li>
+                    <li><a href="/">Salesforce</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-4 text-right">
+                <a href="http://www.appirio.com"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/logo-APPIRIO.png'))}"/></a>
+                <a class="btn btn-primary btn-top"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/icon-top.png'))}"/></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-award" tabindex="-1" role="dialog" aria-labelledby="modal-award" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group input-group">
+                        <input type="text" placeholder="Effective Date" date="awardDate" date-picker="true" class="date form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="submitAwardBadge()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+                                                           <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.js'))}"/>
+                                                            <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/bootstrap.min.js'))}"/>
+                                                                                          <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/bootstrap-select.js'))}"/>
+                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/prettyCheckable.js'))}"/>
+                                                                                                                        <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.mousewheel.js'))}"/>
+                                                                                                                                                      <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.jscrollpane.min.js'))}"/>
+                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery-ui-1.10.3.custom.min.js'))}"/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/owl.carousel.min.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/script.js'))}"/>
+                                                                                                                                                                                                                  <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/angular.min-1.1.4.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/ui-bootstrap-tpls.min-0.5.0.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/moment.min-2.1.0.js'))}"/>
+<apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/underscore.min-1.5.1.js'))}"/>
+
+<script type="text/javascript">
+
+/**
+ * Convert url parameters to JavaScript Object for
+ * easy data extraction
+ *
+ * created by Nir Kaufman
+ * il.linkedin.com/in/nirkaufman/
+ *
+ */
+var qs = angular.module('Qs', []);
+
+/**
+ * This service will return the Query object that
+ * contain all the url parameters passed.
+ * it depends on the global angular $window object
+ * that build in the library
+ */
+qs.factory('Query', function ($window) {
+
+    var query_string = {};
+    var query = $window.location.search.substring(1);
+    var vars = query.split("&");
+
+    for (var i = 0; i < vars.length; i++) {
+
+        var pair = vars[i].split("=");
+
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = pair[1];
+        } else if (typeof query_string[pair[0]] === "string") {
+            query_string[pair[0]] = [ query_string[pair[0]], pair[1] ];
+        } else {
+            query_string[pair[0]].push(pair[1]);
+        }
+    }
+    return query_string;
+})
+
+    var au = angular.module('ageUserInfo', []);
+    
+    //factory method to load logged in user    
+    au.factory('loadLoggedInUser', ['$q', '$rootScope', 'controllerName', function($q, $rootScope, controllerName) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          controllerName + '.getLoggedInUser',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);      
+    
+
+    au.controller('ctrlAgeUserInfo', 
+      ['$scope', '$location', 'loadLoggedInUser',
+      function ($scope, $location, loadLoggedInUser) {
+      
+      $scope.user = [];
+      
+      $scope.loadLoggedInUser = function(){
+        loadLoggedInUser().then(function(results){$scope.user=results})
+      }
+      
+    }])  
+      
+      
+    var userSearch = angular.module('userSearch', []);
+    
+    //factory method to load all employees from the ChallengeManagerController
+    userSearch.factory('loadUsersForSearch', ['$q', '$rootScope', 'controllerName', function($q, $rootScope, controllerName) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          controllerName + '.getAllUsers',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //defines the controller
+    var userSearchController=userSearch.controller('ctrlUserSearch', 
+      ['$scope', '$location', 'loadUsersForSearch',
+      function ($scope, $location, loadUsersForSearch) {
+      
+      $scope.users = [];
+      $scope.selectedUser = '';
+      
+      $scope.loadUsers = function(){
+        loadUsersForSearch().then(function(results){$scope.users=results})
+      }
+      
+      $scope.goToProfile = function(user){
+        location.href=window.location.protocol + '//' + window.location.hostname + '/apex/AgeProfile?userId=' + user.Id;
+      }
+      
+    }]) 
+
+
+
+    <!-- Name your application -->
+    var badgesApp = angular.module('badgesApp', ['ui.bootstrap', 'Qs', 'ageUserInfo', 'userSearch']);
+    
+    badgesApp.provider('controllerName', function(){ this.$get = function(){  return 'BadgesController'}})
+    
+    
+    //factory method to load users security settings
+    badgesApp.factory('loadUserSecuritySettings', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'BadgesController.getUserSecuritySettings',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory method to load all employees from the BadgesController
+    badgesApp.factory('loadEmployees', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'BadgesController.getAllUsers',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory method to get the new badge url for the button
+    badgesApp.factory('loadNewBadgeURL', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.BadgesController.getNewBadgeURL}',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory method to load all possible Core Values for the filter from the BadgesController
+    badgesApp.factory('loadCoreValues', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'BadgesController.getCoreValueTypes',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+
+
+    //factory method to load all possible Focuses for the filter from the BadgesController    
+    badgesApp.factory('loadFocuses', ['$q', '$rootScope', function($q, $rootScope) {
+      return function() {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'BadgesController.getFocusTypes',
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory method to load all badges from the BadgesController    
+    badgesApp.factory('loadBadges', ['$q', '$rootScope', function($q, $rootScope) {
+      return function(selectedEmployee) {
+        var deferred = $q.defer();
+ 
+        Visualforce.remoting.Manager.invokeAction(
+          'BadgesController.getAllBadges', selectedEmployee,
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    //factory to award a badge
+    badgesApp.factory('awardBadge', ['$q', '$rootScope', function($q, $rootScope) {
+      return function(selectedUserId, selectedChallengeId, selectedDate) {
+        var deferred = $q.defer();
+   
+        Visualforce.remoting.Manager.invokeAction(
+          'BadgesController.saveAwardedBadge', selectedUserId, selectedChallengeId, selectedDate,
+          function(result, event) {
+            $rootScope.$apply(function() {
+              if (event.status) {
+                deferred.resolve(result);
+              } else {
+                deferred.reject(event);
+              }
+            })
+          },
+          { buffer: true, escape: true, timeout: 30000 }
+        );
+        return deferred.promise;              
+      }
+    }]);
+    
+    
+    badgesApp.directive('datePicker', function() {
+        return {
+            restrict: 'A',
+            scope: { date : "=date" },
+            link: function(scope, element, attrs){
+            
+                $(element).datepicker({
+                    showOn: "button",
+                    buttonImage: "{!JSENCODE(URLFOR($Resource.AgeResources, 'i/icon-date.png'))}",
+                    buttonImageOnly: true,
+                    dayNamesMin: [ "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" ],
+                    firstDay: 1,
+                    showOtherMonths: true,
+                    onSelect : function(date) {
+                      scope.date = date; 
+                      scope.$apply()
+                    }
+                });
+            
+            }
+        }
+    
+    });
+    
+    
+    badgesApp.directive('prettyCheckableGroup', function() {
+        return {
+            restrict: 'E',
+            scope: {models: "="},
+            replace: true,
+            template : '<div><div ng-repeat="model in models" class="form-group" ng-class="{active: showAll, more:$index > 2}"><div class="clearfix prettycheckbox labelright  blue " ng-click="model.checked = !model.checked"><input label="{{model.name}}" type="checkbox" style="display: none;"><a ng-class="{checked : model.checked}"></a><label for="undefined">{{model.name}}</label></div></div><div class="for-group" ng-show="models.length > 3"><a style="cursor:pointer" class="show-more" ng-click="toggle()">{{showText}}</div><div class="actions"><a style="cursor:pointer" ng-click="clearAll()">Clear all</a></div></div>',
+            link: function(scope, element, attrs) {
+                scope.showText = "Show More...";
+                scope.showAll = false;
+                scope.toggle = function(){
+                    if(scope.showText === "Show More...") {
+                        scope.showText = "Show Less..."
+                        scope.showAll = true;
+                    } else {
+                        scope.showText = "Show More..."
+                        scope.showAll = false;
+                    }
+                }
+                scope.clearAll = function() {
+                    angular.forEach(scope.models, function(item, key){
+                        item.checked = false;
+                    })
+                }
+            }
+        }
+    });
+    
+    
+    
+    
+    //defines the controller
+  var badgesController=badgesApp.controller('ctrlBadges', 
+      ['$scope', '$location', '$timeout', 'loadUserSecuritySettings', 'loadCoreValues', 'loadFocuses', 
+        'loadEmployees', 'loadLoggedInUser', 'loadBadges', 'awardBadge', 'loadNewBadgeURL',
+      function ($scope, $location, $timeout, loadUserSecuritySettings, loadCoreValues, loadFocuses, 
+        loadEmployees, loadLoggedInUser, loadBadges, awardBadge, loadNewBadgeURL) {
+      
+      //logged in user
+      $scope.user = '';
+
+      //employee list for filter
+      $scope.employees = [];
+      
+      //selected employee in the employee list filter
+      $scope.selectedEmployee = '';
+      
+      //userId based on url params
+      $scope.userId = '';
+      
+      //URL for button to navigate to create a new badge
+      $scope.newBadgeURL = '';
+      
+      //list of badges to display
+      $scope.badges = [];
+      
+      //logged in users security settings
+      $scope.userSecuritySettings = [];
+      
+      
+      //filters
+      //sort order for badges data set
+      $scope.orderProp = 'badge.Title__c';
+      $scope.challengeTitle = '';
+      $scope.statuses = [{name:'Active', checked : false}, {name : 'Inactive', checked : false}];
+      $scope.coreValues = [];
+      $scope.focuses = [];
+      
+      
+      //function to render quotes correctly
+      $scope.htmlMe = function (html) {
+        return $("<div/>").html(html).text();
+      }
+      
+      
+      //function to display the date correctly
+      $scope.convertToUTC = function(dt) {
+        var localDate = new Date(dt);
+        var localTime = localDate.getTime();
+        var localOffset = localDate.getTimezoneOffset() * 60000;
+        return new Date(localTime + localOffset);
+      };
+      
+      //Helper to update url params based on selected filers
+      $scope.$watch(
+        function(){
+            return [$scope.coreValues, $scope.focuses, $scope.statuses];
+        }, 
+        function(newVal, oldVal) {
+            $scope.updateParams();
+        }, 
+        true);
+
+      $scope.$watch(
+        function(){
+            return [$scope.badgeTitle];
+        }, 
+        function(newVal, oldVal) {
+            $scope.updateParams();
+            $scope.placeholderTitle = $scope.htmlMe($scope.badgeTitle);
+        }, 
+        true);
+        
+      
+      $scope.$watch(
+        function(){
+          return $scope.placeholderTitle;
+        
+        },
+        function(newVal, oldVal) {
+          if($scope.placeholderTitle.length==0){
+            $scope.badgeTitle = '';
+            $scope.badgeId = '';
+          }
+        }
+      )    
+      
+      
+      //function for status filter
+      $scope.statusSelection = function(item) {
+        var activeChecked = false;
+        var inActiveChecked = false;
+        
+        //this is when both active and inactive checkboxes are checked
+        for(var j=0; j < $scope.statuses.length; j++) {
+          var status = $scope.statuses[j];
+          if(status.checked && status.name == 'Active'){
+            activeChecked = true;
+          }else if(status.checked && status.name == 'Inactive'){
+            inActiveChecked = true;
+          }
+        }
+        
+        //return all the badges; active and inactive
+        if(activeChecked && inActiveChecked) {
+          return true;
+        }
+        
+          //this is when only active OR inactive have been checked
+          for(var i=0; i < $scope.statuses.length;i++){
+              var status = $scope.statuses[i];
+              if(status.checked && status.name == 'Active'){
+                  return item.badge.Active__c == true;
+              }
+              else if(status.checked && status.name == 'Inactive'){
+                  return item.badge.Active__c == false;
+              }
+          }
+          return true;
+      }     
+      
+      //function for core value filter
+      $scope.coreValueSelection = function(item){
+        var selectedValues =  [];
+        for(var i=0; i < $scope.coreValues.length;i++){
+            if($scope.coreValues[i].checked){
+                selectedValues.push($scope.coreValues[i].name);
+            }
+        }
+        
+        if(selectedValues.length == 0) {
+            return true;
+        }
+        else {
+            return _.contains(selectedValues, item.badge.Core_Value__c);
+        }
+      }
+      
+      //function for focus filter
+      $scope.focusSelection = function(item){
+        var selectedValues =  [];
+        for(var i=0; i < $scope.focuses.length;i++){
+            if($scope.focuses[i].checked){
+                selectedValues.push($scope.focuses[i].name);
+            }
+        }
+        
+        if(selectedValues.length == 0) {
+            return true;
+        }
+        else {
+            return _.contains(selectedValues, item.badge.Focus__c);
+        }
+      }  
+        
+      //function for when the employee drop down has been changed  
+      $scope.changeSelectedEmployee = function(){
+        $scope.userId = $scope.selectedEmployee.Id;
+        $scope.unsetBadgeIdAndUpdateParams();
+        loadBadges($scope.userId).then(function(result){
+          $scope.badges = result;
+        }); 
+      }  
+        
+     
+      //filter for badge title
+      $scope.badgeTitle = '';
+      $scope.placeholderTitle = '';
+      $scope.setBadgeTitle = function(item){
+        $scope.badgeId = '';
+        $scope.badgeTitle = item.badge.Title__c;
+      }  
+        
+        
+      //list of challenges to filter associated to the badges  
+      $scope.filterableChallenges = [];
+
+        $scope.$watch(function(){return $scope.badges}, function(){$scope.updateFilterableChallenges()})
+
+        $scope.updateFilterableChallenges = function() {
+            angular.forEach($scope.badges, function(item, key){
+
+                angular.forEach(item.badgeChallenges, function(item, key){
+
+                    $scope.filterableChallenges.push(item.Challenge_Title__c);
+                })
+            });
+            
+            $scope.filterableChallenges = _.uniq($scope.filterableChallenges);
+        }
+
+        $scope.challengeTitlesForFilter = [];
+
+        $scope.lastSelectedChallenge = "";
+        $scope.addChallengeTitleToFilters = function(title) {
+            //only add the challenges if its not already in the list
+            if(!_.contains($scope.challengeTitlesForFilter, title)){
+              $scope.challengeTitlesForFilter.push($scope.htmlMe(title));
+              $scope.lastSelectedChallenge = "";
+            }
+        }
+
+
+        $scope.removeChallengeTitleToFilters = function(title) {
+            $scope.challengeTitlesForFilter.remove(title);
+            $scope.lastSelectedChallenge = "";
+        }
+
+        //filter for display of badges.  this filters the result set
+        //by the selected challenges
+        $scope.challengeTitleFilter = function(badgeHolder) {
+            if($scope.challengeTitlesForFilter.length == 0){
+                return true;
+            }
+
+            var match = false;
+            angular.forEach(badgeHolder.badgeChallenges, function(item, key){
+                if(_.contains($scope.challengeTitlesForFilter, $scope.htmlMe(item.Challenge_Title__c))){
+                    match = true;
+                }
+            });
+            return match;
+        }  
+        
+        
+      $scope.search = {};  
+      $scope.updateParams = function() {
+        console.log("Updating Params");
+        var search = {};
+        
+        if($scope.userId.length > 0) {
+          search.userId = $scope.userId;
+        }
+              
+        if($scope.badgeTitle.length > 0 ) {
+            search.badgeTitle = $scope.badgeTitle;
+        }
+
+        var selectedStatuses = [];
+        for(var i = 0; i < $scope.statuses.length; i++){
+            if($scope.statuses[i].checked){
+              selectedStatuses.push($scope.statuses[i].name);
+            }
+        }
+
+        if(selectedStatuses.length > 0) {
+          search.selectedStatuses = selectedStatuses;
+        }
+        
+        var selectedCoreValues = [];
+        for(var i = 0; i < $scope.coreValues.length; i++){
+            if($scope.coreValues[i].checked){
+              selectedCoreValues.push($scope.coreValues[i].name);
+            }
+        }
+        
+        if(selectedCoreValues.length > 0) {
+          search.selectedCoreValues = selectedCoreValues;
+        }
+        
+        var selectedFocusValues = [];
+        for(var i = 0; i < $scope.focuses.length; i++){
+            if($scope.focuses[i].checked){
+              selectedFocusValues.push($scope.focuses[i].name);
+            }
+        }
+        
+        if(selectedFocusValues.length > 0) {
+          search.selectedFocusValues = selectedFocusValues;
+        }
+        
+        $location.search(search);
+        
+      }
+      
+      $scope.unsetBadgeIdAndUpdateParams = function() {
+          $scope.badgeId = ''
+          console.log('unsetBadgeIdAndUpdateParams calling update')
+          $scope.updateParams();
+      }        
+      
+      $scope.search = $location.search();  
+
+
+        
+      
+      
+      //function to deterimine whether or not to show the award buttom
+      $scope.showAwardButton = function(badgeHolder) {
+        if ($scope.userId === $scope.user.Id) {
+          return badgeHolder.badge.Active__c && !badgeHolder.badge.Awarded_Badges__r;
+        } else {
+          return badgeHolder.badge.Active__c && !badgeHolder.badge.Awarded_Badges__r && $scope.userSecuritySettings.Award_Badge_to_Another_User__c;
+        }
+      }
+      
+      
+      //function to populate the badge information to award
+      $scope.badgeForAward;
+      $scope.awardDate = new Date();
+      $scope.setBadgeForAward = function(badge) {
+        $scope.badgeForAward = badge;      
+      }
+      
+      
+      //function from modal box to award the badge
+      $scope.submitAwardBadge = function() {
+        $scope.badgeForAward.awardDate = $scope.awardDate;
+        $scope.save($scope.badgeForAward);
+      }  
+      
+      
+      //function that calls the saveAwardedBadge from the BadgesController
+      $scope.save = function(badge) {
+        awardBadge($scope.selectedEmployee.Id, badge.badge.Id, moment(badge.awardDate).format("MM/DD/YYYY"))
+        .then(function(result) {
+          if(result.success) {
+            badge.badge.Awarded_Badges__r = [];
+            badge.badge.Awarded_Badges__r.push({CreatedDate:moment(badge.awardDate)});
+            return true;
+          } else {
+            alert(result.message);
+            return false;
+          }
+        });
+      }
+      
+      
+      //Inital Load
+      $scope.load = function(){
+        loadNewBadgeURL().then(function(results){console.log(results); $scope.newBadgeURL=results});
+      
+        //load the current logged in user information
+        loadLoggedInUser().then(function(results){
+          $scope.user=results
+        });
+        
+        
+        //set the userId based on logic in the BadgesController
+        //if the the userId is not in the url params, get the current
+        //logged in user  
+        if($scope.search.userId && $scope.search.userId.length>0) {
+            $scope.userId = $scope.search.userId;
+        }
+        else {
+            $scope.userId = '{!selectedEmployee}';
+        }       
+       
+        
+        //load the logged in users security settings
+        loadUserSecuritySettings().then(function(result){
+          $scope.userSecuritySettings = result;
+        });
+      
+      
+      
+        //load all the employees for the employee filter for search      
+        loadEmployees().then(function(result){
+          $scope.employees = result;
+          
+          for(var i = 0; i<$scope.employees.length; i++) {
+            if ($scope.employees[i].Id === $scope.userId){
+              $scope.selectedEmployee = $scope.employees[i];
+            }
+          }       
+        }); 
+        
+        
+        // Default the status if any
+        var selectedStatuses = [];
+        
+        selectedStatuses[0] = 'Active';        
+          
+        if($scope.search.selectedStatuses && $scope.search.selectedStatuses.length>0) {
+          selectedStatuses = $scope.search.selectedStatuses.split(',');
+        }
+          
+        for(var i = 0; i < $scope.statuses.length; i++){
+          if(_.contains(selectedStatuses, $scope.statuses[i].name)){
+            $scope.statuses[i].checked = true;
+          }
+        }
+      
+      
+        //load all the core values for the search filter
+        loadCoreValues().then(function(result){
+        
+          var selectedCoreValues = [];
+          
+          if($scope.search.selectedCoreValues && $scope.search.selectedCoreValues.length>0) {
+            selectedCoreValues = $scope.search.selectedCoreValues.split(',');
+          }
+          
+          for(var i = 0; i < result.length; i++){
+            $scope.coreValues.push({name:result[i], checked:_.contains(selectedCoreValues, result[i])});
+          }
+       
+        }); 
+
+
+        //load all the focuses for the search filter
+        loadFocuses().then(function(result){
+          var selectedFocusValues = [];
+          
+          if($scope.search.selectedFocusValues && $scope.search.selectedFocusValues.length>0) {
+            selectedFocusValues = $scope.search.selectedFocusValues.split(',');
+          }
+          
+          for(var i = 0; i < result.length; i++){
+            $scope.focuses.push({name:result[i], checked:_.contains(selectedFocusValues, result[i])});
+          }
+        }); 
+        
+        
+        // Default the title if in the URL
+        if($scope.search.badgeTitle && $scope.search.badgeTitle.length>0) {
+            $scope.badgeTitle = $scope.search.badgeTitle;
+        }
+      
+      
+        //load all the badges for the particular user      
+        loadBadges($scope.userId).then(function(result){
+          $scope.badges = result;
+          
+          // Set the title of the selected badge in the filter
+          if($scope.search.badgeId) {
+
+            $scope.badgeId = $scope.search.badgeId;
+
+            for(var i=0; i < result.length;i++) {
+              if($scope.badges[i] && $scope.badges[i].badge.Id === $scope.badgeId) {
+                $scope.badgeTitle = $scope.badges[i].badge.Title__c;
+              }
+            }
+          }  
+          $scope.updateParams();
+          console.log(result);
+        });
+
+      
+      }
+      
+      
+  }])   
+    
+</script>    
+
+
+
+
+</body>
+</html>
+</apex:page>

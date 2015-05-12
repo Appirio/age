@@ -1,0 +1,9 @@
+<messaging:emailTemplate subject="Badge Awarded! - {!relatedTo.Badge_Title__c}" recipientType="User" relatedToType="Awarded_Badge__c">
+<messaging:htmlEmailBody >
+Congratulations! You have just been awarded the {!relatedTo.Badge_Title__c} badge. 
+<br />
+<br />
+Your new badge is now viewable on your <a href="https://appirio.my.salesforce.com/apex/AgeProfile">AGE Profile</a>. 
+<br/>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Challenge in Game Engine</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Action__c</fullName>
+        <description>Chatter action of Post or Comment</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Chatter action of Post or Comment</inlineHelpText>
+        <label>Action</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Comment</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Post</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Status of Challenge.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Status of Challenge.</inlineHelpText>
+        <label>Active</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Archived__c</fullName>
+        <description>A challenge that has been inactive for over 1 year.</description>
+        <externalId>false</externalId>
+        <formula>Days_Inactive__c &gt; 365</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>A challenge that has been inactive for over 1 year.</inlineHelpText>
+        <label>Archived</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Automated__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicator if the Challenge is awarded automatically</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicator if the Challenge is awarded automatically</inlineHelpText>
+        <label>Automated</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Core_Value__c</fullName>
+        <description>Core Value associated to the Challenge</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Core Value associated to the Challenge</inlineHelpText>
+        <label>Core Value</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Customer</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Team</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Fun</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Date_Deactivated__c</fullName>
+        <description>Date that the Challenge status was set to inactive</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Date that the Challenge status was set to inactive</inlineHelpText>
+        <label>Date Deactivated</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Days_Inactive__c</fullName>
+        <externalId>false</externalId>
+        <formula>Today() - NULLVALUE(Date_Deactivated__c, Today())</formula>
+        <label>Days Inactive</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <description>Description of the Challenge</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Description of the Challenge</inlineHelpText>
+        <label>Description</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <defaultValue>date(year(today())+1, month(today()), day(today()))</defaultValue>
+        <description>Date the Challenge ends</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Date the Challenge ends</inlineHelpText>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Ended_in_Last_Year__c</fullName>
+        <externalId>false</externalId>
+        <formula>(Days_Inactive__c &gt; 30) &amp;&amp; (Days_Inactive__c &lt; 365)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ended in Last Year</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Focus__c</fullName>
+        <description>Focus associated to Challenge</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Focus associated to Challenge</inlineHelpText>
+        <label>Focus</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Anniversaries</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Assets</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Awards</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Continuing Ed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Recognition</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Recruiting</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Shoutouts</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Silver Lining</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Social</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Topcoder</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>true</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Hashtag__c</fullName>
+        <description>Hashtag to indicate the Challenge</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hashtag phrase.  Do not include the &quot;#&quot; symbol.</inlineHelpText>
+        <label>Hashtag</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Max_Number_of_Achievements_Per_User__c</fullName>
+        <description>Maximum number of times a particular user can achieve this Challenge.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Maximum number of times a particular user can achieve this Challenge.</inlineHelpText>
+        <label>Max Number of Achievements Per User</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Points_Awarded_To__c</fullName>
+        <description>Points that will be Awarded to when Challenge is Chattered about</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Points that will be Awarded to when Challenge is Chattered about</inlineHelpText>
+        <label>Points Awarded To</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Poster</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>@Mentions</fullName>
+                <default>true</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Recently_Ended__c</fullName>
+        <description>A challenge that has been de-activated in the past 30 days.</description>
+        <externalId>false</externalId>
+        <formula>Days_Inactive__c &gt;= 1 &amp;&amp; Days_Inactive__c &lt;= 30</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>A challenge that has been de-activated in the past 30 days.</inlineHelpText>
+        <label>Recently Ended</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reward_Points__c</fullName>
+        <description>Points awarded to the user upon completion of the Challenge</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Points awarded to the user upon completion of the Challenge</inlineHelpText>
+        <label>Reward Points</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <defaultValue>today()</defaultValue>
+        <description>The date that the Challenge becomes active.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The date that the Challenge becomes active.</inlineHelpText>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Technical_Notes__c</fullName>
+        <description>Technical notes about how this challenge is awarded, such as the name of the trigger, filter conditions, batch processes, etc.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Technical notes about how this challenge is awarded, such as the name of the trigger, filter conditions, batch processes, etc.</inlineHelpText>
+        <label>Technical Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Title__c</fullName>
+        <description>Title for the Challenge</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Title for the Challenge</inlineHelpText>
+        <label>Title</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Challenge</label>
+    <listViews>
+        <fullName>Active</fullName>
+        <columns>NAME</columns>
+        <columns>Title__c</columns>
+        <columns>Active__c</columns>
+        <columns>Automated__c</columns>
+        <columns>Hashtag__c</columns>
+        <columns>Reward_Points__c</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Active__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Active</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Title__c</columns>
+        <columns>Active__c</columns>
+        <columns>Automated__c</columns>
+        <columns>Reward_Points__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>Inactive</fullName>
+        <columns>NAME</columns>
+        <columns>Title__c</columns>
+        <columns>Active__c</columns>
+        <columns>Automated__c</columns>
+        <columns>Hashtag__c</columns>
+        <columns>Reward_Points__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Active__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Inactive</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <displayFormat>C-{0000}</displayFormat>
+        <label>Name</label>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Challenges</pluralLabel>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Challenge</fullName>
+        <active>true</active>
+        <description>Base Challenge</description>
+        <label>Challenge</label>
+        <picklistValues>
+            <picklist>Action__c</picklist>
+            <values>
+                <fullName>Comment</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Post</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Core_Value__c</picklist>
+            <values>
+                <fullName>Customer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fun</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Team</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Focus__c</picklist>
+            <values>
+                <fullName>Anniversaries</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Assets</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Awards</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Continuing Ed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Recognition</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Recruiting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Shoutouts</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Silver Lining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Social</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Topcoder</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Points_Awarded_To__c</picklist>
+            <values>
+                <fullName>%40Mentions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Poster</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Chatter</fullName>
+        <active>true</active>
+        <description>Chatter Challenge</description>
+        <label>Chatter</label>
+        <picklistValues>
+            <picklist>Action__c</picklist>
+            <values>
+                <fullName>Comment</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Post</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Core_Value__c</picklist>
+            <values>
+                <fullName>Customer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Fun</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Team</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Focus__c</picklist>
+            <values>
+                <fullName>Anniversaries</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Assets</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Awards</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Continuing Ed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Recognition</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Shoutouts</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Silver Lining</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Social</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Topcoder</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Points_Awarded_To__c</picklist>
+            <values>
+                <fullName>%40Mentions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Poster</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Title__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Start_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Reward_Points__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Description__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Title__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Start_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>End_Date__c</lookupDialogsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Hashtag_alphanumeric_only</fullName>
+        <active>true</active>
+        <description>Regex function to check for alpha numerics</description>
+        <errorConditionFormula>NOT(REGEX(Hashtag__c, &quot;^[a-zA-Z0-9]*$&quot;))</errorConditionFormula>
+        <errorDisplayField>Hashtag__c</errorDisplayField>
+        <errorMessage>Hashtag can only have a-z and 0-9 character</errorMessage>
+    </validationRules>
+</CustomObject>
