@@ -728,10 +728,7 @@
         <enabled>true</enabled>
         <name>ExportReport</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageDynamicDashboards</name>
-    </userPermissions>
+
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageKnowledge</name>

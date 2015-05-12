@@ -2,7 +2,7 @@
 BUILD FAILED
 /Users/kylebowerman/Documents/appirio/projects/AppirioIT/age/build.xml:27: 
 *********** DEPLOYMENT FAILED ***********
-Request ID: 0Afi000000FNEuYCAX
+Request ID: 0Afi000000FNFEECA5
 
 All Component Failures:
 1.  objects/Points_Bucket__c.object (Points_Bucket__c.Owner_Employee_ID__c) -- Error: Field WD_Employee_ID__c does not exist. Check spelling. (line 83, column 13)
@@ -17,49 +17,43 @@ All Component Failures:
 10.  workflows/Challenge__c.workflow (Challenge__c.Activate Challenge when Start Date arrives) -- Error: The Default Workflow User must be set before activating this workflow rule. (line 34, column 12)
 11.  workflows/Challenge__c.workflow (Challenge__c.Deactivate Challenge when End date has passed) -- Error: The Default Workflow User must be set before activating this workflow rule. (line 50, column 12)
 12.  workflows/Points__c.workflow (Points__c.Send Email Notification Upon Awarding a Challenge) -- Error: In field: name - no WorkflowAlert named Points__c.Send_Email_to_Awarded_Challenge_User found (line 41, column 18)
-13.  classes/AwardMillionBiller.cls-meta.xml -- Error: Must specify both the source file & the metadata file
-14.  classes/AwardMillionBillerTest.cls -- Error: Not in package.xml
-15.  classes/AgeScheduledBatchJobs.cls -- Error: Invalid type: AwardEmployeeAnniversary (line 14, column 31)
-16.  triggers/AfterWin.trigger -- Error: No such column 'Amount_USD__c' on entity 'Opportunity'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 61, column 31)
-17.  classes/ChallengeManagerController.cls -- Error: Invalid type: PointsValidationResult (line 152, column 5)
-18.  classes/ChallengeManagerControllerTest.cls -- Error: Dependent class is invalid and needs recompilation:
+13.  classes/AgeScheduledBatchJobs.cls -- Error: Invalid type: AwardEmployeeAnniversary (line 14, column 31)
+14.  triggers/afterInsertFeedItem.trigger -- Error: Invalid type: ChatterFeedTriggerHandler (line 18, column 43)
+15.  triggers/afterUpdateIdea.trigger -- Error: Invalid type: IdeaTriggerHandler (line 5, column 39)
+16.  classes/ChallengeManagerController.cls -- Error: Invalid type: PointsValidationResult (line 152, column 5)
+17.  classes/ChallengeManagerControllerTest.cls -- Error: Dependent class is invalid and needs recompilation:
      ChallengeManagerController: line 152, column 5: Invalid type: PointsValidationResult (line 52, column 48)
-19.  classes/CommunityController.cls -- Error: sObject type 'pse__Practice__c' is not supported. If you are attempting to use a custom object, be sure to append the '__c' after the entity name. Please reference your WSDL or the describe call for the appropriate names. (line 106, column 43)
-20.  classes/CommunityControllerTest.cls -- Error: Variable does not exist: CommunityController (line 31, column 48)
-21.  classes/GameEngine.cls -- Error: No such column 'pse__Salesforce_User__c' on entity 'Contact'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 63, column 56)
-22.  classes/IdeaTriggerHandler.cls -- Error: Invalid type: GameEngine.AwardedChallenge (line 13, column 72)
-23.  classes/PointsSummaryController.cls -- Error: No such column 'Direct_Deposit_Points_Into_Company_Store__c' on entity 'User'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 59, column 25)
-24.  classes/PointsSummaryControllerTest.cls -- Error: Invalid type: PointsSummaryController (line 23, column 43)
-25.  classes/PointsTriggerHandler.cls -- Error: Invalid type: PointsValidationResult (line 98, column 59)
-26.  classes/gameActionsForSkillCertRatingTest.cls -- Error: Invalid type: pse__Practice__c (line 14, column 51)
+18.  classes/CommunityController.cls -- Error: sObject type 'pse__Practice__c' is not supported. If you are attempting to use a custom object, be sure to append the '__c' after the entity name. Please reference your WSDL or the describe call for the appropriate names. (line 106, column 43)
+19.  classes/CommunityControllerTest.cls -- Error: Variable does not exist: CommunityController (line 31, column 48)
+20.  classes/GameEngine.cls -- Error: No such column 'pse__Salesforce_User__c' on entity 'Contact'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 63, column 56)
+21.  classes/IdeaTriggerHandler.cls -- Error: Invalid type: GameEngine.AwardedChallenge (line 13, column 72)
+22.  classes/PointsSummaryController.cls -- Error: No such column 'Direct_Deposit_Points_Into_Company_Store__c' on entity 'User'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 59, column 25)
+23.  classes/PointsSummaryControllerTest.cls -- Error: Invalid type: PointsSummaryController (line 23, column 43)
+24.  classes/PointsTriggerHandler.cls -- Error: Invalid type: PointsValidationResult (line 98, column 59)
+25.  classes/gameActionsForSkillCertRatingTest.cls -- Error: Invalid type: pse__Practice__c (line 14, column 51)
+26.  triggers/AfterWin.trigger -- Error: No such column 'Amount_USD__c' on entity 'Opportunity'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 61, column 31)
 27.  triggers/afterInsertFeedComment.trigger -- Error: Invalid type: ChatterFeedTriggerHandler (line 14, column 43)
-28.  triggers/afterInsertFeedItem.trigger -- Error: Invalid type: ChatterFeedTriggerHandler (line 18, column 43)
-29.  triggers/afterUpdateIdea.trigger -- Error: Invalid type: IdeaTriggerHandler (line 5, column 39)
-30.  triggers/afterUpdatePointsBucket.trigger -- Error: Invalid type: ChallengePointsBucketHolder (line 45, column 59)
-31.  triggers/beforeInsertAndAfterDeletePoints.trigger -- Error: Invalid type: PointsTriggerHandler (line 25, column 38)
-32.  triggers/gameActionsForSkillCertificationRating.trigger -- Error: Invalid SObject type name: pse__Skill_Certification_Rating__c (line 1, column 51)
-33.  profiles/Admin.profile -- Error: Unknown user permission: CreateDashboardFolders
-34.  profiles/Appirio API User.profile -- Error: Unknown user permission: CreateDashboardFolders
-35.  profiles/Appirio Account Executive.profile -- Error: Unknown user permission: CreateDashboardFolders
-36.  profiles/Appirio Consulting Manager.profile -- Error: Unknown user permission: CreateDashboardFolders
-37.  profiles/Appirio Consulting Ops.profile -- Error: Unknown user permission: CreateDashboardFolders
-38.  profiles/Appirio Customer Portal - CMC Customer.profile -- Error: Unknown user permission: PortalSuperUser
-39.  profiles/Appirio Customer Portal - CMC Customer Fixed-Fee.profile -- Error: Unknown user permission: ViewGlobalHeader
-40.  profiles/Appirio Customer Portal - CMC Subcontractor.profile -- Error: Unknown user permission: PortalSuperUser
-41.  profiles/Appirio Customer Portal - Cloud Management.profile -- Error: Unknown user permission: PortalSuperUser
-42.  profiles/Appirio Deployment User.profile -- Error: Unknown user permission: ApiUserOnly
-43.  profiles/Appirio Employee.profile -- Error: Permission ManageDynamicDashboards depends on permission(s): ManageDashboards
-44.  profiles/Appirio Finance.profile -- Error: Unknown user permission: CreateDashboardFolders
-45.  profiles/Appirio HR.profile -- Error: Unknown user permission: CreateDashboardFolders
-46.  profiles/Appirio IT Operations.profile -- Error: Unknown user permission: CreateDashboardFolders
-47.  profiles/Appirio Products.profile -- Error: Unknown user permission: CreateDashboardFolders
-48.  profiles/Appirio Sales VP.profile -- Error: Unknown user permission: CreateDashboardFolders
-49.  profiles/Appirio Support.profile -- Error: Unknown user permission: CreateDashboardFolders
-50.  profiles/Appirio Training Only %28Platform%29.profile -- Error: Unknown user permission: ViewGlobalHeader
-51.  pages/Challenges.page -- Error: Apex class 'ChallengeManagerController' does not exist
-52.  pages/Community.page -- Error: Apex class 'CommunityController' does not exist
-53.  pages/PointsSummary.page -- Error: Apex class 'PointsSummaryController' does not exist
-54.  objects/Points__c.object -- Error: pointredirecttochallenges does not exist or is not a valid override for action New.
+28.  triggers/afterUpdatePointsBucket.trigger -- Error: Invalid type: ChallengePointsBucketHolder (line 45, column 59)
+29.  triggers/beforeInsertAndAfterDeletePoints.trigger -- Error: Invalid type: PointsTriggerHandler (line 25, column 38)
+30.  triggers/gameActionsForSkillCertificationRating.trigger -- Error: Invalid SObject type name: pse__Skill_Certification_Rating__c (line 1, column 51)
+31.  profiles/Admin.profile -- Error: Unknown user permission: CreateDashboardFolders
+32.  profiles/Appirio API User.profile -- Error: Unknown user permission: CreateDashboardFolders
+33.  profiles/Appirio Account Executive.profile -- Error: Unknown user permission: CreateDashboardFolders
+34.  profiles/Appirio Consulting Manager.profile -- Error: Unknown user permission: CreateDashboardFolders
+35.  profiles/Appirio Consulting Ops.profile -- Error: Unknown user permission: CreateDashboardFolders
+36.  profiles/Appirio Deployment User.profile -- Error: Unknown user permission: ApiUserOnly
+37.  profiles/Appirio Employee.profile -- Error: In field: field - no CustomObject named CMC_Asset_Usage__c found
+38.  profiles/Appirio Finance.profile -- Error: Unknown user permission: CreateDashboardFolders
+39.  profiles/Appirio HR.profile -- Error: Unknown user permission: CreateDashboardFolders
+40.  profiles/Appirio IT Operations.profile -- Error: Unknown user permission: CreateDashboardFolders
+41.  profiles/Appirio Products.profile -- Error: Unknown user permission: CreateDashboardFolders
+42.  profiles/Appirio Sales VP.profile -- Error: Unknown user permission: CreateDashboardFolders
+43.  profiles/Appirio Support.profile -- Error: Unknown user permission: CreateDashboardFolders
+44.  profiles/Appirio Training Only %28Platform%29.profile -- Error: Unknown user permission: ViewGlobalHeader
+45.  pages/Challenges.page -- Error: Apex class 'ChallengeManagerController' does not exist
+46.  pages/Community.page -- Error: Apex class 'CommunityController' does not exist
+47.  pages/PointsSummary.page -- Error: Apex class 'PointsSummaryController' does not exist
+48.  objects/Points__c.object -- Error: pointredirecttochallenges does not exist or is not a valid override for action New.
 
 *********** DEPLOYMENT FAILED ***********
 
