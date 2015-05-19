@@ -10,3 +10,9 @@ Smart Anonymizer is a tool written in NodeJS that uses a regular expression mapp
  4. A sample mapping file is included in the smart-anonymizier dir
  5. create a destinination directory ```mkdir smart-output``` you will deploy from this directory
  6. Run the tool  ```smart-anonymizer/bin/smart-anonymizer ageKL age-smartoutput smart-anonymizer/mapping.json``` the syntax is ```srcDir destDir mappingFile```
+
+
+ **cleaner.sh**
+ We need to remove some files that the smart anonymoyzier cant handled so I created a script to do that called ```cleaner.sh``` it should be run with ```sh cleaner.sh``` or you could attached to run after the smart-anyomyzier like so:
+
+ ```smart-anonymizer/bin/smart-anonymizer ageKL smart-output smart-anonymizer/mapping.json ; sh cleaner.sh```

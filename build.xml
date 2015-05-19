@@ -24,7 +24,7 @@
     username="${dev6.username}"
     password="${dev6.password}"
     serverurl="${dev6.serverurl}"
-    deployroot="agesrc">
+    deployroot="smart-output">
   </sf:deploy>
 </target>
 
