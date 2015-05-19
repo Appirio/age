@@ -1,0 +1,8 @@
+#! /usr/bin/env node
+
+//for some reason I had to use this form for the args
+//otherwise "args[0] === '-v'"  doesn't work
+var args = [];
+for(var i = 2; i < process.argv.length; i++)
+	args.push(''+process.argv[i]);
+require('../main').execute(args);

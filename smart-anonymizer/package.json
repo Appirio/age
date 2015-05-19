@@ -1,0 +1,21 @@
+{
+    "author": "ForceLogic",
+    "name": "SmartAnonymizer",
+    "description": "",
+    "version": "0.1.0",
+    "homepage": "",
+    "repository": {
+        "type": "",
+        "url": ""
+    },
+    "keywords": "",
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "dependencies": {
+        "walk" : "2.3.x",
+        "mkdirp" :"0.3.x"
+    },
+    "devDependencies": {
+    }
+}

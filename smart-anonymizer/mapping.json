@@ -1,0 +1,4 @@
+[
+["workflows/*", "donotreply@appirio.com", "CurrentUser"],
+["workflows/*", "OrgWideEmailAddress", "CurrentUser"]
+]

@@ -1,0 +1,8 @@
+[
+	["*","AAA","111"],
+	["subfolder/*","BBB","222"],
+	["subfolder", "CCC", "333"],
+	["/", "DDD", "444"],
+	["/*", "44", "EE"],
+	["subfolder/sub2/*","AWESOME","AMAZING"],
+]
