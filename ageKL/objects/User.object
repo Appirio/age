@@ -25,6 +25,18 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Full_Name__c</fullName>
+        <description>First name plus last name.  Formula field.</description>
+        <externalId>false</externalId>
+        <formula>FirstName &amp; &quot; &quot; &amp; LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>First name plus last name.  Formula field.</inlineHelpText>
+        <label>Full Name</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>LinkedIn_URL__c</fullName>
         <description>Synced automatically from the corresponding PSA Contact record.  Do not update directly on the User record.</description>
         <externalId>false</externalId>
@@ -81,5 +93,18 @@
         <trackFeedHistory>false</trackFeedHistory>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>WD_Employee_ID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>This field stores the Employee Id as assigned in Workday.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>This field stores the Employee Id as assigned in Workday.</inlineHelpText>
+        <label>Workday Employee ID</label>
+        <length>50</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>true</unique>
     </fields>
 </CustomObject>

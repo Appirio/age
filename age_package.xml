@@ -93,7 +93,6 @@
     <members>Challenge__c.Title__c</members>
     <members>Challenge_Points_Bucket__c.Challenge__c</members>
     <members>Challenge_Points_Bucket__c.Points_Bucket__c</members>
-    <members>CMC_Asset_Usage__c.Project_Id__c</members>
     <members>cmc_GameSettings__c.Challenge_Asset_First_Timer__c</members>
     <members>cmc_GameSettings__c.Challenge_Asset_Royalties__c</members>
     <members>cmc_GameSettings__c.Challenge_New_Asset__c</members>
@@ -118,7 +117,6 @@
     <members>Points_Bucket__c.Current_Balance__c</members>
     <members>Points_Bucket__c.Owner__c</members>
     <members>Points_Bucket__c.Title__c</members>
-    <members>pse__Skill_Certification_Rating__c.Skill_Certification_Name__c</members>
     <members>User.AGE_Profile_Quote__c</members>
     <members>User.Facebook_URL__c</members>
     <members>User.LinkedIn_URL__c</members>
@@ -126,7 +124,8 @@
     <members>User.Region__c</members>
     <members>User.Start_Date__c</members>
     <members>User.Twitter_URL__c</members>
-
+    <members>User.WD_Employee_ID__c</members>
+    <members>User.Full_Name__c</members>
     <name>CustomField</name>
   </types>
   <types>
@@ -143,7 +142,7 @@
     <name>CustomObject</name>
   </types>
   <types>
-    <members>Age_Profile</members>
+    <members>AGE_Profile</members>
     <members>Awarded_Badge__c</members>
     <members>Badge__c</members>
     <members>Badge_Challenge__c</members>
@@ -155,13 +154,19 @@
     <name>CustomTab</name>
   </types>
   <types>
+    <members>AppirioLogos</members>
     <members>AppirioLogos/AGE_Logo.png</members>
     <name>Document</name>
   </types>
   <types>
+    <members>Gamification</members>
     <members>Gamification/Badge_Awarded</members>
     <members>Gamification/Challenge_Awarded</members>
     <name>EmailTemplate</name>
+  </types>
+  <types>
+    <members>AppirioITSupport259231</members>
+    <name>Group</name>
   </types>
   <types>
     <members>Awarded_Badge__c-Awarded Badge Layout</members>

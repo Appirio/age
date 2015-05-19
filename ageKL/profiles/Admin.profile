@@ -201,12 +201,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Badge__c.Title__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>CMC_Asset_Usage__c.Project_Id__c</field>
+        <field>Badge__c.Title__c_test_test</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -460,6 +455,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>User.Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>User.LinkedIn_URL__c</field>
         <readable>true</readable>
@@ -485,8 +485,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>pse__Skill_Certification_Rating__c.Skill_Certification_Name__c</field>
+        <editable>true</editable>
+        <field>User.WD_Employee_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
@@ -629,6 +629,10 @@
         <recordType>Points__c.Transferred_Points</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>AGE_Profile</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Awarded_Badge__c</tab>
         <visibility>DefaultOn</visibility>
