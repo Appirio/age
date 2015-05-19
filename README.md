@@ -9,4 +9,4 @@ Smart Anonymizer is a tool written in NodeJS that uses a regular expression mapp
  3. Move back to the root folder and   ``` smart-anonymizer/bin/smart-anonymizer -h``` to see the help, also you can look at the readme for more details.  
  4. A sample mapping file is included in the smart-anonymizier dir
  5. create a destinination directory ```mkdir smart-output``` you will deploy from this directory
- 6. Run the tool  ```smart-anonymizer/bin/smart-anonymizer ageKL age-smartout smart-anonymizer/mapping.json``` the syntax is srcDir destDir mappingFile
+ 6. Run the tool  ```smart-anonymizer/bin/smart-anonymizer ageKL age-smartoutput smart-anonymizer/mapping.json``` the syntax is ```srcDir destDir mappingFile```
