@@ -4,17 +4,6 @@
     <property environment="env"/>
     <tstamp/>
 
-<target name="fetchAge">
-	<sf:retrieve
-		username="${username}"
-		password="${password}"
-		serverurl="${serverurl}"
-		retrieveTarget="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/age"
-		unpackaged="age_package.xml"
-		pollWaitMillis="10000"
-		maxPoll="20"/>
-</target>
-
 <target name="fetchAgeAndCleanKB">
   <antcall target="fetchAgeAndClean">
     <param name="folder" value="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/age"/>
