@@ -265,7 +265,7 @@
         <filters>
             <field>Owner__c</field>
             <operation>contains</operation>
-            <value>angad</value>
+            <value>Prasad</value>
         </filters>
         <label>Points bucket by owner</label>
         <language>en_US</language>

@@ -26,6 +26,7 @@ trigger cmc_GameActionsForAssetUsage on CMC_Asset_Usage__c (after insert) {
   // 2014-09-10     Saurabh Gupta       S-259138 : Add User Feedback for Primary Contributors of Asset on Challenge Earned Email for Asset Royalty.
   // 2014-09-19     Saurabh Gupta       I-130899 : Add space on Notes for being Primary Contributors of Asset
   // 2014-09-30     Saurabh Gupta       I-132363 : Add space on Notes for Asset Usages (Propose and Reuse Assets)
+  // 2015-01-29     Saurabh Gupta		S-287408 : Changes made to handle note on Asset Usage for Project only
 
   // PART 0 - PRELIMINARY STUFF
   
@@ -234,8 +235,15 @@ trigger cmc_GameActionsForAssetUsage on CMC_Asset_Usage__c (after insert) {
             	isValidReuse = true; //Code Fix changes for for S-170919
           	}
           }
-        }        
-        note = '&nbsp;' + 'For using asset "' + assetName + '" on Product "' + productName + '".';
+        }
+		
+		//Changes for S-287408 Starts
+		if (productName != '') {
+        	note = '&nbsp;' + 'For using asset "' + assetName + '" on Product "' + productName + '".';
+		} else {
+			note = '&nbsp;' + 'For using asset "' + assetName + '" which just got used.';
+		}
+        //Changes for S-287408 Ends
         
         if (assetUsageType == CMC_Constants.ASSET_USAGE_TYPE_PROPOSED) {
           populateAndAwardChallenge(cmc_GameSettings__c.getInstance().Challenge_Propose_Asset_on_Project__c, resourceId, assetName, assetId, note);          

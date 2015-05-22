@@ -8,8 +8,6 @@
     <members>AGETestUtility</members>
     <members>AgeUserController</members>
     <members>AgeUserControllerTest</members>
-    <members>AwardMillionBiller</members>
-    <members>AwardMillionBillerTest</members>
     <members>BadgeException</members>
     <members>BadgesController</members>
     <members>BadgesControllerTest</members>
@@ -17,7 +15,6 @@
     <members>ChallengeManagerControllerTest</members>
     <members>CommunityController</members>
     <members>CommunityControllerTest</members>
-    <members>gameActionsForSkillCertRatingTest</members>
     <members>GameEngine</members>
     <members>GameEngineInterface</members>
     <members>IdeaTriggerHandler</members>
@@ -27,6 +24,7 @@
     <members>PointsTriggerHandler</members>
     <members>UserChallengeCounter</members>
     <members>UserChallengeCounterTest</members>
+    <members>AwardEmployeeAnniversary</members>
     <name>ApexClass</name>
   </types>
   <types>
@@ -47,7 +45,6 @@
     <members>beforeInsertAndAfterDeletePoints</members>
     <members>cmc_GameActionsForAsset</members>
     <members>cmc_GameActionsForAssetUsage</members>
-    <members>gameActionsForSkillCertificationRating</members>
     <name>ApexTrigger</name>
   </types>
   <types>
@@ -126,6 +123,10 @@
     <members>User.Twitter_URL__c</members>
     <members>User.WD_Employee_ID__c</members>
     <members>User.Full_Name__c</members>
+    <members>User.Continuous_Service_Date__c</members>
+    <members>Contact.pse__Salesforce_User__c</members>
+    <members>User.Direct_Deposit_Points_Into_Company_Store__c</members>
+    <members>Opportunity.Amount_USD__c</members>
     <name>CustomField</name>
   </types>
   <types>

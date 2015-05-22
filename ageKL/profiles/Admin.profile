@@ -30,11 +30,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AwardMillionBiller</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>AwardMillionBillerTest</apexClass>
+        <apexClass>AwardEmployeeAnniversary</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -103,10 +99,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afterUpdatePointsBucketTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>gameActionsForSkillCertRatingTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <fieldPermissions>
@@ -201,7 +193,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Badge__c.Title__c_test_test</field>
+        <field>Badge__c.Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -307,6 +299,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Challenge__c.Title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.pse__Salesforce_User__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Opportunity.Amount_USD__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -447,6 +449,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>User.AGE_Profile_Quote__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Continuous_Service_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Direct_Deposit_Points_Into_Company_Store__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -7,8 +7,7 @@
         <members>AgeScheduledBatchJobs</members>
         <members>AgeUserController</members>
         <members>AgeUserControllerTest</members>
-        <members>AwardMillionBiller</members>
-        <members>AwardMillionBillerTest</members>
+        <members>AwardEmployeeAnniversary</members>
         <members>BadgeException</members>
         <members>BadgesController</members>
         <members>BadgesControllerTest</members>
@@ -26,7 +25,6 @@
         <members>UserChallengeCounter</members>
         <members>UserChallengeCounterTest</members>
         <members>afterUpdatePointsBucketTest</members>
-        <members>gameActionsForSkillCertRatingTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -47,7 +45,6 @@
         <members>beforeInsertAndAfterDeletePoints</members>
         <members>cmc_GameActionsForAsset</members>
         <members>cmc_GameActionsForAssetUsage</members>
-        <members>gameActionsForSkillCertificationRating</members>
         <name>ApexTrigger</name>
     </types>
     <types>
@@ -93,6 +90,7 @@
         <members>Challenge__c.Reward_Points__c</members>
         <members>Challenge__c.Start_Date__c</members>
         <members>Challenge__c.Title__c</members>
+        <members>Contact.pse__Salesforce_User__c</members>
         <members>Game_Security__c.Award_Points_to_Another_User__c</members>
         <members>Game_Security__c.Create_New_Badge__c</members>
         <members>Game_Security__c.Create_New_Challenge__c</members>
@@ -100,6 +98,7 @@
         <members>Game_Settings__c.Challenge_Use_Asset_on_Won_Opportunity__c</members>
         <members>Game_Settings__c.Chatter_Group_ID_All_Activities__c</members>
         <members>Game_Settings__c.Fun_Factor__c</members>
+        <members>Opportunity.Amount_USD__c</members>
         <members>Points_Bucket__c.Current_Balance__c</members>
         <members>Points_Bucket__c.Owner__c</members>
         <members>Points_Bucket__c.Title__c</members>
@@ -114,6 +113,8 @@
         <members>Points__c.Type__c</members>
         <members>Points__c.User__c</members>
         <members>User.AGE_Profile_Quote__c</members>
+        <members>User.Continuous_Service_Date__c</members>
+        <members>User.Direct_Deposit_Points_Into_Company_Store__c</members>
         <members>User.Facebook_URL__c</members>
         <members>User.Full_Name__c</members>
         <members>User.LinkedIn_URL__c</members>

@@ -13,6 +13,26 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Continuous_Service_Date__c</fullName>
+        <description>Continuous service date from Workday.  This represents the start date of Appirio employees as well as acquired employees</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Continuous service date brought over from Workday</inlineHelpText>
+        <label>Continuous Service Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Direct_Deposit_Points_Into_Company_Store__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>AGE setting that indicates automatic transfer of all available points to the Company Store.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>AGE setting that indicates automatic transfer of all available points to the Company Store.</inlineHelpText>
+        <label>Direct Deposit Points Into Company Store</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Facebook_URL__c</fullName>
         <description>Synced automatically from the corresponding PSA Contact record.  Do not update directly on the User record.</description>
         <externalId>false</externalId>

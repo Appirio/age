@@ -30,11 +30,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AwardMillionBiller</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>AwardMillionBillerTest</apexClass>
+        <apexClass>AwardEmployeeAnniversary</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -103,10 +99,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>afterUpdatePointsBucketTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>gameActionsForSkillCertRatingTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <fieldPermissions>
@@ -311,6 +303,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.pse__Salesforce_User__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Opportunity.Amount_USD__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Points_Bucket__c.Current_Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -448,6 +450,16 @@
         <editable>true</editable>
         <field>User.AGE_Profile_Quote__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.Continuous_Service_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.Direct_Deposit_Points_Into_Company_Store__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
