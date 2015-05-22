@@ -83,7 +83,6 @@
     <members>Challenge__c.Hashtag__c</members>
     <members>Challenge__c.Max_Number_of_Achievements_Per_User__c</members>
     <members>Challenge__c.Points_Awarded_To__c</members>
-    <members>Challenge__c.Points_Bucket__c</members>
     <members>Challenge__c.Recently_Ended__c</members>
     <members>Challenge__c.Reward_Points__c</members>
     <members>Challenge__c.Start_Date__c</members>
@@ -177,40 +176,34 @@
     <members>Challenge__c-Chatter Challenge Layout</members>
     <members>Challenge_Points_Bucket__c-Challenge Points Bucket Layout</members>
     <members>Points__c-Earned Points Layout</members>
-    <members>Points__c-Spent Points Layout</members>
+    <members>Points__c-Transferred Points Layout</members>
     <members>Points_Bucket__c-Points Bucket Layout</members>
     <name>Layout</name>
   </types>
   <types>
     <members>Admin</members>
-    <members>Appirio - Workday Integration View Encrypted</members>
     <members>Appirio Account Executive</members>
     <members>Appirio API User</members>
     <members>Appirio Consulting Manager</members>
     <members>Appirio Consulting Ops</members>
-    <members>Appirio Customer Portal - Cloud Management</members>
-    <members>Appirio Customer Portal - CMC Customer</members>
-    <members>Appirio Customer Portal - CMC Customer Fixed-Fee</members>
-    <members>Appirio Customer Portal - CMC Subcontractor</members>
-    <members>Appirio Customer Portal - Tech Support</members>
     <members>Appirio Deployment User</members>
-    <members>Appirio EM%27s%2C CP%27s%2C SA%27s%2C TA%27s</members>
+    <members>Appirio EM%27s%2C CP%27s%2C SA%27s%2C TA%27s%2C PM%27s</members>
     <members>Appirio Employee</members>
     <members>Appirio Finance</members>
     <members>Appirio HR</members>
     <members>Appirio IT Operations</members>
     <members>Appirio Products</members>
     <members>Appirio Sales VP</members>
-    <members>Appirio Subcontractors %28Platform%29</members>
     <members>Appirio Support</members>
     <members>Appirio Training Only %28Platform%29</members>
+    <members>Appirio Workday Integration View Encrypted</members>
     <name>Profile</name>
   </types>
   <types>
     <members>Challenge__c.Challenge</members>
     <members>Challenge__c.Chatter</members>
     <members>Points__c.Earned_Points</members>
-    <members>Points__c.Spent_Points</members>
+    <members>Points__c.Transferred_Points</members>
     <name>RecordType</name>
   </types>
   <types>
