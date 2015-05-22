@@ -1,12 +1,8 @@
-<project name="Sample usage of Salesforce Ant tasks" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+<project name="AGE" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
 
     <property file="buildall.properties"/>
     <property environment="env"/>
     <tstamp/>
-
-
-
-
 
 <target name="fetchAge">
 	<sf:retrieve
@@ -17,6 +13,50 @@
 		unpackaged="age_package.xml"
 		pollWaitMillis="10000"
 		maxPoll="20"/>
+</target>
+
+<target name="fetchAgeAndCleanKB">
+  <antcall target="fetchAgeAndClean">
+    <param name="folder" value="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/age"/>
+  </antcall>
+</target>
+
+<target name="fetchAgeAndCleanCB">
+  <antcall target="fetchAgeAndClean">
+    <param name="folder" value="ageCB"/>
+  </antcall>
+</target>
+
+<target name="fetchAgeAndCleanKL">
+  <antcall target="fetchAgeAndClean">
+    <param name="folder" value="ageKL"/>
+  </antcall>
+</target>
+
+<!-- SYNTAX: ant fetchAgeAndClean -Dfolder=ageCB -->
+<target name="fetchAgeAndClean">
+  <mkdir dir="${folder}"/>
+	<sf:retrieve
+		username="${prod.username}"
+		password="${prod.password}"
+		serverurl="${prod.serverurl}"
+    retrieveTarget="${folder}"
+		unpackaged="age_package.xml"
+		pollWaitMillis="10000"
+		maxPoll="20"/>
+    <antcall target="clean">
+      <param name="folder" value="${folder}"/>
+    </antcall>
+</target>
+
+<!-- SYNTAX: ant clean -Dfolder=ageCB -->
+<target name="clean">
+  <exec executable="./smart-anonymizer/bin/smart-anonymizer">
+    <arg value="${folder}"/>
+    <arg value="smart-output"/>
+    <arg value="smart-anonymizer/mapping.json"/>
+  </exec>
+  <exec executable="./cleaner.sh"/>
 </target>
 
 <target name="deployAge2dev6">
