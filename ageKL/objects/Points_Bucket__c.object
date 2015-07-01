@@ -67,6 +67,19 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Job_Title__c</fullName>
+        <description>The Job Title of the owner of this Points bucket</description>
+        <externalId>false</externalId>
+        <formula>Owner__r.Title</formula>
+        <inlineHelpText>The Job Title of the owner of this Points bucket</inlineHelpText>
+        <label>Job Title</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Number_of_Direct_Reports__c</fullName>
         <description>Number of direct reports that this Points Bucket owner has, as a manager.  This number is used solely for computing the amount of points to add during periodic replenishment.</description>
         <externalId>false</externalId>
@@ -117,6 +130,18 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Owner_s_Manager__c</fullName>
+        <description>The manager of the person who owns the points bucket. Used for reporting purposes only.</description>
+        <externalId>false</externalId>
+        <formula>Owner__r.Manager.Full_Name__c</formula>
+        <label>Owner&apos;s Manager</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Replenishment_Amount__c</fullName>
@@ -265,7 +290,7 @@
         <filters>
             <field>Owner__c</field>
             <operation>contains</operation>
-            <value>Prasad</value>
+            <value>price</value>
         </filters>
         <label>Points bucket by owner</label>
         <language>en_US</language>

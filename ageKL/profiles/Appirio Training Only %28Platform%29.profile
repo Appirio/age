@@ -18,19 +18,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>AgeScheduledBatchJobs</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>AgeUserController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AgeUserControllerTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>AwardEmployeeAnniversary</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -54,6 +46,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ChallengePointsBucketHolder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ChatterFeedTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunityController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -70,10 +70,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>IdeaTriggerHandler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PointsException</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -88,6 +84,14 @@
     <classAccesses>
         <apexClass>PointsTriggerHandler</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PointsValidationResult</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PointsValidator</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>UserChallengeCounter</apexClass>
@@ -307,6 +311,31 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Log_Message__c.Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log_Message__c.Resolution__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log_Message__c.Resolved__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Log_Message__c.Server_Pod__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log_Message__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Amount_USD__c</field>
         <readable>false</readable>
@@ -314,6 +343,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Points_Bucket__c.Current_Balance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Points_Bucket__c.Job_Title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -334,6 +368,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Points_Bucket__c.Owner_is_Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Points_Bucket__c.Owner_s_Manager__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -534,6 +573,10 @@
         <layout>Points__c-Earned Points Layout</layout>
         <recordType>Points__c.Earned_Points</recordType>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>Points__c-Transferred Points Layout</layout>
+        <recordType>Points__c.Transferred_Points</recordType>
+    </layoutAssignments>
     <pageAccesses>
         <apexPage>AgeProfile</apexPage>
         <enabled>true</enabled>
@@ -549,6 +592,10 @@
     <pageAccesses>
         <apexPage>Community</apexPage>
         <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>PointRedirectToChallenges</apexPage>
+        <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>PointsSummary</apexPage>

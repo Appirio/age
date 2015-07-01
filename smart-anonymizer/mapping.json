@@ -1,5 +1,5 @@
 [
-["workflows/*", "donotreply@appirio.com", "CurrentUser"],
+["workflows/*", "<senderAddress>donotreply@appirio.com</senderAddress>", ""],
 ["workflows/*", "OrgWideEmailAddress", "CurrentUser"],
 
 ["*","<members>Appirio Customer Portal - CMC Customer</members>",""],
@@ -8,8 +8,20 @@
 ["*","<members>Appirio Customer Portal - Cloud Management</members>",""],
 ["*","<members>Appirio Customer Portal - Tech Support</members>",""],
 ["*","<members>Appirio Training Only %28Platform%29</members>",""],
+["*","pse__Salesforce_User__c","pse_Salesforce_User__c"],
+["*","pse__Region__c","pse_Region__c"],
+["*","pse__Practice__c","pse_Practice__c"],
+
+["objects/*","<excludedStandardButtons>Forward</excludedStandardButtons>",""],
 
 
+["profiles/*","<name>PasswordNeverExpires</name>","<name>ConvertLeads</name> "],
+["profiles/*","<name>BulkApiHardDelete</name>","<name>ConvertLeads</name> "],
+["profiles/*","<name>ModifyAllData</name>","<name>ConvertLeads</name> "],
+["profiles/*","<name>AuthorApex</name>","<name>ConvertLeads</name> "],
+["profiles/*","<name>TagManager</name>","<name>ConvertLeads</name> "],
+["profiles/*","<name>ViewAllData</name>","<name>ConvertLeads</name> "],
+["profiles/*","<name>ApproveContract</name>","<name>ConvertLeads</name> "],
 ["profiles/*","<name>CreateCustomizeDashboards</name>","<name>ConvertLeads</name> "],
 ["profiles/*","<name>CreateCustomizeReports</name>","<name>ConvertLeads</name> "],
 ["profiles/*","<name>CreateDashboardFolders</name>","<name>ConvertLeads</name> "],

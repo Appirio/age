@@ -1,0 +1,29 @@
+<project name="Sample usage of Salesforce Ant tasks" default="test" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <property file="buildall.properties"/>
+    <property environment="env"/>
+    <tstamp/>
+
+<target name="fetchAge">
+	<sf:retrieve
+		username="${username}"
+		password="${password}"
+		serverurl="${serverurl}"
+		retrieveTarget="ageKL"
+		unpackaged="age_package.xml"
+		pollWaitMillis="10000"
+		maxPoll="20"/>
+</target>
+
+
+<target name="deployAgeKltoDev">
+  <sf:deploy
+    username="${dev.username}"
+    password="${dev.password}"
+    serverurl="${dev.serverurl}"
+    deployroot="smart-output">
+  </sf:deploy>
+</target>
+
+
+</project>

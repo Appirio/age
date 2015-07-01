@@ -1,0 +1,18 @@
+<!--
+
+(c) Appirio 2014
+
+11/4/2014   Kym Le      Original
+                        This page redirects the user to the Challenges page.  Users were using the "new" button on the Points
+                        page and awarding themselves points (earned and transferred).  We want users to go to the Challenges 
+                        page for awarding points and the Points Summary page to transfer points.
+-->
+
+
+<apex:page standardController="Points__c">
+
+  <script language="javascript">
+    parent.location="/apex/Challenges";
+  </script>
+
+</apex:page>

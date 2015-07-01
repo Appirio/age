@@ -4,7 +4,6 @@
     <members>afterUpdatePointsBucketTest</members>
     <members>AgeProfileManagerController</members>
     <members>AgeProfileManagerControllerTest</members>
-    <members>AgeScheduledBatchJobs</members>
     <members>AGETestUtility</members>
     <members>AgeUserController</members>
     <members>AgeUserControllerTest</members>
@@ -17,14 +16,16 @@
     <members>CommunityControllerTest</members>
     <members>GameEngine</members>
     <members>GameEngineInterface</members>
-    <members>IdeaTriggerHandler</members>
     <members>PointsException</members>
     <members>PointsSummaryController</members>
     <members>PointsSummaryControllerTest</members>
     <members>PointsTriggerHandler</members>
+    <members>PointsValidator</members>
     <members>UserChallengeCounter</members>
     <members>UserChallengeCounterTest</members>
-    <members>AwardEmployeeAnniversary</members>
+    <members>ChatterFeedTriggerHandler</members>
+    <members>PointsValidationResult</members>
+    <members>ChallengePointsBucketHolder</members>
     <name>ApexClass</name>
   </types>
   <types>
@@ -33,18 +34,15 @@
     <members>Challenges</members>
     <members>Community</members>
     <members>PointsSummary</members>
+    <members>PointRedirectToChallenges</members>
     <name>ApexPage</name>
   </types>
   <types>
     <members>afterInsertAwardedBadge</members>
     <members>afterInsertFeedComment</members>
     <members>afterInsertFeedItem</members>
-    <members>afterUpdateIdea</members>
     <members>afterUpdatePointsBucket</members>
-    <members>AfterWin</members>
     <members>beforeInsertAndAfterDeletePoints</members>
-    <members>cmc_GameActionsForAsset</members>
-    <members>cmc_GameActionsForAssetUsage</members>
     <name>ApexTrigger</name>
   </types>
   <types>
@@ -139,6 +137,7 @@
     <members>Game_Settings__c</members>
     <members>Points__c</members>
     <members>Points_Bucket__c</members>
+    <members>Log_Message__c</members>
     <name>CustomObject</name>
   </types>
   <types>
