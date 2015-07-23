@@ -48,15 +48,18 @@
   <exec executable="./cleaner.sh"/>
 </target>
 
-<target name="deployAge2dev6">
+<!-- SYNTAX: ant deployAge2dev optional: -DcheckOnly=true -DrunAllTests=true -->
+<target name="deployAge2dev">
   <sf:deploy
-    username="${dev6.username}"
-    password="${dev6.password}"
-    serverurl="${dev6.serverurl}"
-    deployroot="smart-output">
-  </sf:deploy>
+               username="${devorg.username}"
+               password="${devorg.password}"
+               serverurl="${prod.serverurl}"
+               pollWaitMillis="20000"
+               maxPoll="5000"
+               checkOnly="${checkOnly}"
+               runAllTests="${runAllTests}"
+               deployRoot="smart-output"/>
 </target>
-
 
 
 
