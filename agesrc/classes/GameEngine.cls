@@ -14,7 +14,7 @@ public class GameEngine implements GameEngineInterface {
   //                                    made AwardedChallenge members public, to avoid awkward constructors;
   //                                    put in null checks for tag and notes before trying to take left(255);
   //                                    removed @future annotation from method that takes lists of strings
-  //
+  // 2014-07-14    Kym Le                Added new overloaded method to award Challege with Tag parameter
   
   // **
   // The first method below is the "main" method - it's the one that "does" all the work and has all the logic.
@@ -411,6 +411,12 @@ public class GameEngine implements GameEngineInterface {
     public AwardedChallenge(String challenge, Id user, Id fromUser, Date effDate, String nts){
       this(challenge, user, fromUser, effDate);
       this.notes = nts;
+    }
+    
+        public AwardedChallenge(String challenge, Id user, Id fromUser, Date effDate, String nts, String tg){
+      this(challenge, user, fromUser, effDate);
+      this.notes = nts;
+      this.tag = tg;
     }
   }
 

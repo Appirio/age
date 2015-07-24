@@ -4,29 +4,28 @@
         <members>AGETestUtility</members>
         <members>AgeProfileManagerController</members>
         <members>AgeProfileManagerControllerTest</members>
-        <members>AgeScheduledBatchJobs</members>
         <members>AgeUserController</members>
         <members>AgeUserControllerTest</members>
-        <!-- <members>AwardMillionBiller</members> -->
-        <!-- <members>AwardMillionBillerTest</members> -->
         <members>BadgeException</members>
         <members>BadgesController</members>
         <members>BadgesControllerTest</members>
         <members>ChallengeManagerController</members>
         <members>ChallengeManagerControllerTest</members>
+        <members>ChallengePointsBucketHolder</members>
+        <members>ChatterFeedTriggerHandler</members>
         <members>CommunityController</members>
         <members>CommunityControllerTest</members>
         <members>GameEngine</members>
         <members>GameEngineInterface</members>
-        <members>IdeaTriggerHandler</members>
         <members>PointsException</members>
         <members>PointsSummaryController</members>
         <members>PointsSummaryControllerTest</members>
         <members>PointsTriggerHandler</members>
+        <members>PointsValidationResult</members>
+        <members>PointsValidator</members>
         <members>UserChallengeCounter</members>
         <members>UserChallengeCounterTest</members>
         <members>afterUpdatePointsBucketTest</members>
-        <members>gameActionsForSkillCertRatingTest</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -34,18 +33,16 @@
         <members>Badges</members>
         <members>Challenges</members>
         <members>Community</members>
+        <members>PointRedirectToChallenges</members>
         <members>PointsSummary</members>
         <name>ApexPage</name>
     </types>
     <types>
-        <members>AfterWin</members>
         <members>afterInsertAwardedBadge</members>
         <members>afterInsertFeedComment</members>
         <members>afterInsertFeedItem</members>
-        <members>afterUpdateIdea</members>
         <members>afterUpdatePointsBucket</members>
         <members>beforeInsertAndAfterDeletePoints</members>
-        <members>gameActionsForSkillCertificationRating</members>
         <name>ApexTrigger</name>
     </types>
     <types>
@@ -86,11 +83,11 @@
         <members>Challenge__c.Hashtag__c</members>
         <members>Challenge__c.Max_Number_of_Achievements_Per_User__c</members>
         <members>Challenge__c.Points_Awarded_To__c</members>
-        <members>Challenge__c.Points_Bucket__c</members>
         <members>Challenge__c.Recently_Ended__c</members>
         <members>Challenge__c.Reward_Points__c</members>
         <members>Challenge__c.Start_Date__c</members>
         <members>Challenge__c.Title__c</members>
+        <members>Contact.pse__Salesforce_User__c</members>
         <members>Game_Security__c.Award_Points_to_Another_User__c</members>
         <members>Game_Security__c.Create_New_Badge__c</members>
         <members>Game_Security__c.Create_New_Challenge__c</members>
@@ -98,6 +95,7 @@
         <members>Game_Settings__c.Challenge_Use_Asset_on_Won_Opportunity__c</members>
         <members>Game_Settings__c.Chatter_Group_ID_All_Activities__c</members>
         <members>Game_Settings__c.Fun_Factor__c</members>
+        <members>Opportunity.Amount_USD__c</members>
         <members>Points_Bucket__c.Current_Balance__c</members>
         <members>Points_Bucket__c.Owner__c</members>
         <members>Points_Bucket__c.Title__c</members>
@@ -112,13 +110,20 @@
         <members>Points__c.Type__c</members>
         <members>Points__c.User__c</members>
         <members>User.AGE_Profile_Quote__c</members>
+        <members>User.Continuous_Service_Date__c</members>
+        <members>User.Direct_Deposit_Points_Into_Company_Store__c</members>
         <members>User.Facebook_URL__c</members>
+        <members>User.Full_Name__c</members>
         <members>User.LinkedIn_URL__c</members>
         <members>User.Practice__c</members>
         <members>User.Region__c</members>
         <members>User.Start_Date__c</members>
         <members>User.Twitter_URL__c</members>
-        <members>User.Full_Name__c</members>
+        <members>User.WD_Employee_ID__c</members>
+        <members>cmc_GameSettings__c.Challenge_Asset_First_Timer__c</members>
+        <members>cmc_GameSettings__c.Challenge_Asset_Royalties__c</members>
+        <members>cmc_GameSettings__c.Challenge_New_Asset__c</members>
+        <members>cmc_GameSettings__c.Challenge_Use_Asset_on_Project__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -129,12 +134,14 @@
         <members>Challenge__c</members>
         <members>Game_Security__c</members>
         <members>Game_Settings__c</members>
+        <members>Log_Message__c</members>
         <members>Points_Bucket__c</members>
         <members>Points__c</members>
+        <members>cmc_GameSettings__c</members>
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Age_Profile</members>
+        <members>AGE_Profile</members>
         <members>Awarded_Badge__c</members>
         <members>Badge_Challenge__c</members>
         <members>Badge__c</members>
@@ -151,9 +158,14 @@
         <name>Document</name>
     </types>
     <types>
+        <members>Gamification</members>
         <members>Gamification/Badge_Awarded</members>
         <members>Gamification/Challenge_Awarded</members>
         <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>AppirioITSupport259231</members>
+        <name>Group</name>
     </types>
     <types>
         <members>Awarded_Badge__c-Awarded Badge Layout</members>
@@ -164,34 +176,33 @@
         <members>Challenge__c-Chatter Challenge Layout</members>
         <members>Points_Bucket__c-Points Bucket Layout</members>
         <members>Points__c-Earned Points Layout</members>
-        <members>Points__c-Spent Points Layout</members>
+        <members>Points__c-Transferred Points Layout</members>
         <name>Layout</name>
     </types>
     <types>
         <members>Admin</members>
-        <members>Appirio - Workday Integration View Encrypted</members>
         <members>Appirio API User</members>
         <members>Appirio Account Executive</members>
         <members>Appirio Consulting Manager</members>
         <members>Appirio Consulting Ops</members>
         <members>Appirio Deployment User</members>
-        <members>Appirio EM%27s%2C CP%27s%2C SA%27s%2C TA%27s</members>
+        <members>Appirio EM%27s%2C CP%27s%2C SA%27s%2C TA%27s%2C PM%27s</members>
         <members>Appirio Employee</members>
         <members>Appirio Finance</members>
         <members>Appirio HR</members>
         <members>Appirio IT Operations</members>
         <members>Appirio Products</members>
         <members>Appirio Sales VP</members>
-        <members>Appirio Subcontractors %28Platform%29</members>
         <members>Appirio Support</members>
         <members>Appirio Training Only %28Platform%29</members>
+        <members>Appirio Workday Integration View Encrypted</members>
         <name>Profile</name>
     </types>
     <types>
         <members>Challenge__c.Challenge</members>
         <members>Challenge__c.Chatter</members>
         <members>Points__c.Earned_Points</members>
-        <members>Points__c.Spent_Points</members>
+        <members>Points__c.Transferred_Points</members>
         <name>RecordType</name>
     </types>
     <types>
@@ -209,5 +220,5 @@
         <members>Points__c</members>
         <name>Workflow</name>
     </types>
-    <version>33.0</version>
+    <version>29.0</version>
 </Package>

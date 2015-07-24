@@ -15,6 +15,4 @@
     <tab>Points_Summary</tab>
     <tab>standard-report</tab>
     <tab>standard-Dashboard</tab>
-    <tab>Timecard_Entry</tab>
-    <tab>Docurated</tab>
 </CustomApplication>

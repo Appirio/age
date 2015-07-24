@@ -67,6 +67,19 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Job_Title__c</fullName>
+        <description>The Job Title of the owner of this Points bucket</description>
+        <externalId>false</externalId>
+        <formula>Owner__r.Title</formula>
+        <inlineHelpText>The Job Title of the owner of this Points bucket</inlineHelpText>
+        <label>Job Title</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Number_of_Direct_Reports__c</fullName>
         <description>Number of direct reports that this Points Bucket owner has, as a manager.  This number is used solely for computing the amount of points to add during periodic replenishment.</description>
         <externalId>false</externalId>
@@ -117,6 +130,18 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Owner_s_Manager__c</fullName>
+        <description>The manager of the person who owns the points bucket. Used for reporting purposes only.</description>
+        <externalId>false</externalId>
+        <formula>Owner__r.Manager.Full_Name__c</formula>
+        <label>Owner&apos;s Manager</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Replenishment_Amount__c</fullName>
@@ -222,8 +247,57 @@
         <label>All</label>
         <language>en_US</language>
     </listViews>
-
-  
+    <listViews>
+        <fullName>Points_buckets_for_Inactive_Users</fullName>
+        <columns>NAME</columns>
+        <columns>Owner__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_is_Active__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Points buckets for Inactive Users</label>
+        <language>en_US</language>
+        <sharedTo>
+            <group>AppirioITSupport259231</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Replenishments</fullName>
+        <columns>NAME</columns>
+        <columns>Title__c</columns>
+        <columns>Current_Balance__c</columns>
+        <columns>Owner_Employee_ID__c</columns>
+        <columns>Owner__c</columns>
+        <columns>Replenishment_Type__c</columns>
+        <columns>Number_of_Direct_Reports__c</columns>
+        <columns>Replenishment_Amount__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Replenishment_Type__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>Replenishments</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>by_owner</fullName>
+        <columns>NAME</columns>
+        <columns>Owner__c</columns>
+        <columns>Title__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner__c</field>
+            <operation>contains</operation>
+            <value>price</value>
+        </filters>
+        <label>Points bucket by owner</label>
+        <language>en_US</language>
+        <sharedTo>
+            <group>AppirioITSupport259231</group>
+        </sharedTo>
+    </listViews>
     <nameField>
         <displayFormat>PB-{0000}</displayFormat>
         <label>Name</label>
@@ -255,14 +329,14 @@
         <masterLabel>Add Shoutout Challenges</masterLabel>
         <openType>onClickJavaScript</openType>
         <protected>false</protected>
-        <url>//
-// (c) Appirio
-//
-// 2014-07-11     Glenn Weinstein     Original
+        <url>// 
+// (c) Appirio 
+// 
+// 2014-07-11     Glenn Weinstein     Original 
 
-{!REQUIRESCRIPT(&quot;/soap/ajax/30.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/30.0/connection.js&quot;)} 
 
-// Adds a Challenge Points Bucket record for all &quot;shoutout&quot; challenges.
+// Adds a Challenge Points Bucket record for all &quot;shoutout&quot; challenges. 
 
 var query = &quot;&quot;;
 query += &quot;SELECT Id &quot;;
@@ -275,20 +349,20 @@ var shoutouts = sforce.connection.query(query).getArray(&quot;records&quot;);
 var cpbList = [];
 
 for (i = 0; i &lt; shoutouts.length; i++) {
-  var cpb = new sforce.SObject(&quot;Challenge_Points_Bucket__c&quot;);
-  cpb.Points_Bucket__c = &quot;{!Points_Bucket__c.Id}&quot;;
+  var cpb = new sforce.SObject(&quot;Challenge_Points_Bucket__c&quot;); 
+  cpb.Points_Bucket__c = &quot;{!Points_Bucket__c.Id}&quot;; 
   cpb.Challenge__c = shoutouts[i].Id;
   cpbList.push(cpb);
 }
 
-try {
-  var result = sforce.connection.create(cpbList);
-  if (!result[0].getBoolean(&quot;success&quot;)) {
-    alert(&quot;An error occurred while trying to add shoutout Challenges to this Points Bucket:\n\n&quot; + result);
-  }
-} catch(e) {
-  alert(e);
-}
+try { 
+  var result = sforce.connection.create(cpbList); 
+  if (!result[0].getBoolean(&quot;success&quot;)) { 
+    alert(&quot;An error occurred while trying to add shoutout Challenges to this Points Bucket:\n\n&quot; + result); 
+  } 
+} catch(e) { 
+  alert(e); 
+} 
 
 window.location.reload();</url>
     </webLinks>

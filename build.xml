@@ -4,26 +4,34 @@
     <property environment="env"/>
     <tstamp/>
 
+<target name="fetchAgeAndClean">
+  <antcall target="fetchAgeAndCleanIntoFolder">
+    <param name="folder" value="agesrc"/>
+  </antcall>
+</target>
+
+<!--
 <target name="fetchAgeAndCleanKB">
-  <antcall target="fetchAgeAndClean">
+  <antcall target="fetchAgeAndCleanIntoFolder">
     <param name="folder" value="/Users/kylebowerman/Documents/appirio/projects/Appirio_F10/age"/>
   </antcall>
 </target>
 
 <target name="fetchAgeAndCleanCB">
-  <antcall target="fetchAgeAndClean">
+  <antcall target="fetchAgeAndCleanIntoFolder">
     <param name="folder" value="ageCB"/>
   </antcall>
 </target>
 
 <target name="fetchAgeAndCleanKL">
-  <antcall target="fetchAgeAndClean">
+  <antcall target="fetchAgeAndCleanIntoFolder">
     <param name="folder" value="ageKL"/>
   </antcall>
 </target>
+-->
 
 <!-- SYNTAX: ant fetchAgeAndClean -Dfolder=ageCB -->
-<target name="fetchAgeAndClean">
+<target name="fetchAgeAndCleanIntoFolder">
   <mkdir dir="${folder}"/>
 	<sf:retrieve
 		username="${prod.username}"
@@ -60,12 +68,5 @@
                runAllTests="${runAllTests}"
                deployRoot="smart-output"/>
 </target>
-
-
-
-
-
-
-
 
 </project>

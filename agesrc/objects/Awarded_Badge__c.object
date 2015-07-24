@@ -132,7 +132,7 @@
         <filters>
             <field>User__c</field>
             <operation>equals</operation>
-            <value>Puneet Sardana</value>
+            <value>rachel tallant</value>
         </filters>
         <label>Awarded Badges for a Single User</label>
         <language>en_US</language>

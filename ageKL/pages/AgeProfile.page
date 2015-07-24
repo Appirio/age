@@ -1,350 +1,0 @@
-<apex:page standardStylesheets="false" showHeader="false" sidebar="false" showChat="false" controller="AgeProfileManagerController">
-
-   <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap.css'))}"/>
-      <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-select.css'))}"/>
-         <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/jquery.jscrollpane.css'))}"/>
-                  <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/prettyCheckable.css'))}"/>
-           <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/jquery-ui-1.10.3.custom.css'))}"/>
-            <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/owl.carousel.css'))}"/>
-               <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-theme.css'))}"/>
-                              <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/style.css'))}"/>
-
-<html lang="en" ng-app="ageProfileApp">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
-
-    <title>AGE Profile - {!displayUser.Name}</title>
-</head>
-
-<body>
-<header>
-    <div class="container" ng-controller="ctrlAgeUserInfo" ng-init="loadLoggedInUser()">
-        <div class="row">
-            <div class="col-sm-8">
-                <a href="#"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/AGE.png'))}" width="300px"/></a>
-            </div>
-            <div class="col-sm-4 text-right">
-                Hi, <a href="/apex/AgeProfile">{{user.Name}}</a>
-                <img ng-src="{{user.SmallPhotoUrl}}"/>
-            </div>
-        </div>
-    </div>
-</header>
-
-<nav class="navbar" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-menu">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand visible-xs" href="#">MENU</a>
-        </div>
-        <div class="collapse navbar-collapse col-sm-9" id="nav-menu">
-            <ul class="nav navbar-nav navbar-left">
-                <li class="active"><a href="/apex/AgeProfile">Profile</a></li>
-                <li><a href="/apex/Community">Community</a></li>
-                <li><a href="/apex/Challenges">Challenges</a></li>
-                <li><a href="/apex/Badges">Badges</a></li>
-                <li><a href="/">Salesforce</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-3 navbar-right">
-            <form class="navbar-form" role="search">
-                <div class="search-control" ng-init="loadUsers()" ng-controller="ctrlUserSearch">
-                    <input type="text" ng-model="selectedUser" typeahead="e as e.Name for e in users | filter:{Name:$viewValue} | limitTo:8" typeahead-on-select="goToProfile($item)" class="form-control" placeholder="Search Members"/>
-                    <button type="submit" class="btn btn-default"></button>
-                </div>             
-            </form>
-        </div>
-    </div>
-</nav>
-
-<div class="container">
-
-    <div class="row">
-
-        <div class="col-md-8 col-sm-12">
-
-            <div class="panel-bio panel">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4 col-sm-4 col-xs-12"><apex:image url="{!displayUser.FullPhotoUrl}"/></div>
-                        <div class="col-md-8 col-sm-8 col-xs-12">
-                            <h3><a href="../_ui/core/userprofile/UserProfilePage?u={!displayUser.Id}">{!displayUser.Name}</a></h3>
-                            <p>Appirian since <span class="data-value">
-                            <apex:outputText value="{0, date, M'/'d'/'yyyy}">
-                                <apex:param value="{!displayUser.Start_Date__c}" />
-                              </apex:outputText>
-                            </span></p>
-                            <dl class="dl-horizontal">
-                                <dt>Title:</dt>
-                                <dd>{!displayUser.Title}</dd>
-                                <dt>Manager:</dt>
-                                <dd>{!displayUser.Manager.Name}</dd>
-                                <dt>Location:</dt>
-                                <dd>{!displayUser.City}, {!displayUser.State} {!displayUser.Country}  |  {!displayUserTimeZone}</dd>
-                                <dt>Contact:</dt>
-                                <dd>{!displayUser.Phone} &nbsp;|&nbsp; <a href="mailto:{!displayUser.email}">{!displayUser.email}</a></dd>
-                                <apex:outputText rendered="{!displayUser.AGE_Profile_Quote__c != ''}">
-                                  <dt>Quote:</dt>
-                                  <dd><em>{!displayUser.AGE_Profile_Quote__c}</em></dd>
-                                </apex:outputText>
-                                
-                                <apex:outputText rendered="{!displayUser.Id == $User.Id && displayUser.AGE_Profile_Quote__c == ''}">
-                                  <dt>Quote:</dt>
-                                  <dd>Set your AGE quote under My Settings -> Personal -> Advance User Detail</dd>
-                                </apex:outputText>
-                            </dl>
-                            <ul class="socials list-inline">
-                                <apex:outputText rendered="{!displayUser.Twitter_URL__c != null}">
-                                <li><a href="{!displayUser.Twitter_URL__c}" target="_blank" class="btn btn-primary btn-facebook"></a></li>
-                              </apex:outputText>
-                              <apex:outputText rendered="{!displayUser.LinkedIn_URL__c != null}">
-                                <li><a href="{!displayUser.LinkedIn_URL__c}" target="_blank" class="btn btn-primary btn-linkedin"></a></li>
-                              </apex:outputText>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer"></div>
-            </div><!-- /.panel-bio -->
-
-            <div class="panel-status panel">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-7 col-sm-7">
-                            <div class="row">
-                                <dl class="col-md-5 col-sm-5">
-                                    <dt>Total AGE</dt>
-                                    <dd>
-                                     <a href="PointsSummary?sfdc.tabName=01rP00000004Z0n&userId={!displayUser.Id}">
-                                      <apex:outputText value="{0, number, ###,###,###,##0}">
-                                        <apex:param value="{!totalPoints}" />
-                                      </apex:outputText></a>
-                                    </dd>
-                                </dl>
-                                <dl class="col-md-7 col-sm-7">
-                                    <dt>Current Quarter AGE</dt>
-                                    <dd>
-                                    <a href="PointsSummary?sfdc.tabName=01rP00000004Z0n&userId={!displayUser.Id}">
-                                      <apex:outputText value="{0, number, ###,###,###,##0}">
-                                        <apex:param value="{!quarterPoints}" />
-                                      </apex:outputText></a>
-                                    </dd>
-                                </dl>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-5 col-sm-5">
-                                    <dl>
-                                        <dt>Past 30 Days</dt>
-                                        <dd>
-                                        <a href="PointsSummary?sfdc.tabName=01rP00000004Z0n&userId={!displayUser.Id}">
-                                          <apex:outputText value="{0, number, ###,###,###,##0}">
-                                            <apex:param value="{!lastThirtyDaysPoints}" />
-                                          </apex:outputText></a>
-                                        </dd>
-                                    </dl>
-                                </div>
-                                <div class="col-md-7 col-sm-7">
-                                    <div class="points-status">
-                                      <apex:image url="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/ironman.png'))}" rendered="{!IF(lastThirtyDaysPoints>4000,true,false)}"/>    
-                                      <apex:outputText rendered="{!IF(lastThirtyDaysPoints>4000,true,false)}"><div>Ironman</div></apex:outputText>
-                                      <apex:image url="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/runner.png'))}" title="Runner" rendered="{!IF(lastThirtyDaysPoints>2000 && lastThirtyDaysPoints<=4000 ,true,false)}"/>
-                                      <apex:outputText rendered="{!IF(lastThirtyDaysPoints>2000 && lastThirtyDaysPoints<=4000 ,true,false)}"><div>Runner</div></apex:outputText>
-                                      <apex:image url="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/jogger.png'))}" title="Jogger" rendered="{!IF(lastThirtyDaysPoints>200&& lastThirtyDaysPoints<=2000,true,false)}"/>
-                                      <apex:outputText rendered="{!IF(lastThirtyDaysPoints>200&& lastThirtyDaysPoints<=2000,true,false)}"><div>Jogger</div></apex:outputText>
-                                      <apex:image url="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/walker.png'))}" title="Walker" rendered="{!IF(lastThirtyDaysPoints>0 && lastThirtyDaysPoints<=200,true,false)}"/>
-                                      <apex:outputText rendered="{!IF(lastThirtyDaysPoints>0 && lastThirtyDaysPoints<=200,true,false)}"><div>Walker</div></apex:outputText>
-                                      <apex:image url="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/warming-up.png'))}" title="Warming Up" rendered="{!IF(lastThirtyDaysPoints==0,true,false)}"/>                         
-                                      <apex:outputText rendered="{!IF(lastThirtyDaysPoints==0,true,false)}"><div>Warming up</div></apex:outputText>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <h6>Most Recent Challenges</h6>
-                            <ul class="list-unstyled">
-                            <apex:repeat value="{!points}" var="p">
-                              <li>
-                                <a href="/apex/Challenges?sfdc.tabName=01rP00000004Z0i&userId={!displayUser.Id}#?challengeId={!p.Challenge__c}">
-                                  <apex:outputText value="{0, date, M'/'d'/'yyyy}">
-                                    <apex:param value="{!p.CreatedDate}" />
-                                  </apex:outputText>&nbsp;     
-                                  {!p.Challenge_Title__c}
-                                </a>
-                              </li>
-                            </apex:repeat>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer"></div>
-            </div><!-- /.panel-status -->
-
-            <div class="panel-badges panel">
-                <div class="panel-body">
-                    <h6>Badges</h6>
-                    <div class="list-badges clearfix">
-                        <ul class="list-inline">
-                          <apex:repeat value="{!badges}" var="b">
-                            <li><apex:image value="{!b.Image_URL__c}" title="{!b.Title__c}"/></li>
-                          </apex:repeat>  
-                        </ul>
-                        <div class="owl-caption"></div>
-                    </div>
-                </div>
-                <div class="panel-footer visible-xs visible-sm"></div>
-            </div><!-- /.panel-status -->
-        </div>
-
-        <aside class="col-md-4 col-sm-12">
-            <h6 data-toggle="collapse" href="#collapse-chatter" class="collapse-filtes-header collapsed">Chatter</h6>
-            <div id="collapse-chatter" class="collapse">
-                <pre><apex:iframe src="{!chatterURL}" width="100%" height="600px" scrolling="false"/></pre>
-            </div>
-
-        </aside><!-- /.aside -->
-    </div>
-</div><!-- /.container -->
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8 clearfix">
-                <ul class="list-unstyled list-inline pull-left">
-                    <li><a href="/apex/AgeProfile">Profile</a></li>
-                    <li><a href="/apex/Community">Community</a></li>
-                    <li><a href="/apex/Challenges">Challenges</a></li>
-                    <li><a href="/apex/Badges">Badges</a></li>
-                    <li><a href="/">Salesforce</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-4 text-right">
-                <a href="http://www.appirio.com"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/logo-APPIRIO.png'))}"/></a>
-                <a class="btn btn-primary btn-top"><img src="{!JSENCODE(URLFOR($Resource.AgeResources, 'i/icon-top.png'))}"/></a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-                                                            <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.js'))}"/>
-                                                            <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/bootstrap.min.js'))}"/>
-                                                                                          <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/bootstrap-select.js'))}"/>
-                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/prettyCheckable.js'))}"/>
-                                                                                                                        <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.mousewheel.js'))}"/>
-                                                                                                                                                      <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery.jscrollpane.min.js'))}"/>
-                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/jquery-ui-1.10.3.custom.min.js'))}"/>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/owl.carousel.min.js'))}"/>
-                                                                                                                                                                                                                  <apex:includeScript value="{!JSENCODE(URLFOR($Resource.AgeResources, '/js/script.js'))}"/>
-                                                                                                                                                                                                                  <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.js"/>
-<apex:includeScript value="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.5.0/ui-bootstrap-tpls.js"/>
-<script type="text/javascript">
-
-var au = angular.module('ageUserInfo', []);
-    
-    //factory method to load logged in user    
-    au.factory('loadLoggedInUser', ['$q', '$rootScope', 'controllerName', function($q, $rootScope, controllerName) {
-      return function() {
-        var deferred = $q.defer();
- 
-        Visualforce.remoting.Manager.invokeAction(
-          controllerName + '.getLoggedInUser',
-          function(result, event) {
-            $rootScope.$apply(function() {
-              if (event.status) {
-                deferred.resolve(result);
-              } else {
-                deferred.reject(event);
-              }
-            })
-          },
-          { buffer: true, escape: true, timeout: 30000 }
-        );
-        return deferred.promise;              
-      }
-    }]);      
-    
-
-    au.controller('ctrlAgeUserInfo', 
-      ['$scope', '$location', 'loadLoggedInUser',
-      function ($scope, $location, loadLoggedInUser) {
-      
-      $scope.user = [];
-      
-      $scope.loadLoggedInUser = function(){
-        loadLoggedInUser().then(function(results){$scope.user=results})
-      
-      }
-      
-      
-      }])  
-      
-      
-    var userSearch = angular.module('userSearch', []);
-    
-    //factory method to load all employees from the ChallengeManagerController
-    userSearch.factory('loadUsersForSearch', ['$q', '$rootScope', 'controllerName', function($q, $rootScope, controllerName) {
-      return function() {
-        var deferred = $q.defer();
- 
-        Visualforce.remoting.Manager.invokeAction(
-          controllerName + '.getAllUsers',
-          function(result, event) {
-            $rootScope.$apply(function() {
-              if (event.status) {
-                deferred.resolve(result);
-              } else {
-                deferred.reject(event);
-              }
-            })
-          },
-          { buffer: true, escape: true, timeout: 30000 }
-        );
-        return deferred.promise;              
-      }
-    }]);
-    
-    
-    //defines the controller
-  var userSearchController=userSearch.controller('ctrlUserSearch', 
-      ['$scope', '$location', 'loadUsersForSearch',
-      function ($scope, $location, loadUsersForSearch) {
-      
-      $scope.users = [];
-      $scope.selectedUser = '';
-      
-      $scope.loadUsers = function(){
-        loadUsersForSearch().then(function(results){$scope.users=results})
-      
-      }
-      
-      $scope.goToProfile = function(user){
-        location.href=window.location.protocol + '//' + window.location.hostname + '/apex/AgeProfile?userId=' + user.Id;
-      }
-      
-      }]) 
-
-<!-- Name your application -->
-    var ageProfileApp = angular.module('ageProfileApp', ['ui.bootstrap', 'ageUserInfo','userSearch']);
-    
-    ageProfileApp.provider('controllerName', function(){ this.$get = function(){  return 'AgeProfileManagerController'}})
-    
-    
-    
-    
-    
-</script>
-</body>
-</html>
-
-</apex:page>

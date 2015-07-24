@@ -371,7 +371,7 @@ For Transferred Points: the Id of the Object to WHERE the points were transferre
         <filters>
             <field>User__c</field>
             <operation>contains</operation>
-            <value>jeegar</value>
+            <value>spangler</value>
         </filters>
         <filters>
             <field>RECORDTYPE</field>

@@ -1,55 +1,25 @@
 BUILD FAILED
-/Users/bruzzi/Dropbox/Development/SFDC/ant projects/AGE/age/build.xml:70:
+/Users/bruzzi/Dropbox/Development/SFDC/ant projects/AGE/age/build.xml:69:
 *********** DEPLOYMENT FAILED ***********
-Request ID: 0Af1a000004ft5pCAA
+Request ID: 0Af1a00000ASpj1CAD
 
 All Component Failures:
-1.  workflows/Badge__c.workflow (Badge__c.Activate Badge when Start Date arrives) -- Error: The Default Workflow User must be set before activating this workflow rule. (line 23, column 12)
-2.  workflows/Badge__c.workflow (Badge__c.Deactivate Badge when End date has passed) -- Error: The Default Workflow User must be set before activating this workflow rule. (line 39, column 12)
-3.  workflows/Challenge__c.workflow (Challenge__c.Activate Challenge when Start Date arrives) -- Error: The Default Workflow User must be set before activating this workflow rule. (line 34, column 12)
-4.  workflows/Challenge__c.workflow (Challenge__c.Deactivate Challenge when End date has passed) -- Error: The Default Workflow User must be set before activating this workflow rule. (line 50, column 12)
-5.  classes/AgeScheduledBatchJobs.cls -- Error: Invalid type: AwardEmployeeAnniversary (line 14, column 31)
-6.  classes/AwardMillionBiller.cls -- Error: sObject type 'pse__Timecard_Header__c' is not supported. If you are attempting to use a custom object, be sure to append the '__c' after the entity name. Please reference your WSDL or the describe call for the appropriate names. (line 16, column 65)
-7.  classes/ChallengeManagerController.cls -- Error: Invalid type: PointsValidationResult (line 152, column 5)
-8.  classes/ChallengeManagerControllerTest.cls -- Error: Dependent class is invalid and needs recompilation:
-    ChallengeManagerController: line 152, column 5: Invalid type: PointsValidationResult (line 52, column 48)
-9.  classes/CommunityController.cls -- Error: sObject type 'pse__Practice__c' is not supported. If you are attempting to use a custom object, be sure to append the '__c' after the entity name. Please reference your WSDL or the describe call for the appropriate names. (line 106, column 43)
-10.  classes/GameEngine.cls -- Error: No such column 'pse__Salesforce_User__c' on entity 'Contact'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 63, column 56)
-11.  classes/IdeaTriggerHandler.cls -- Error: Invalid type: GameEngine.AwardedChallenge (line 13, column 72)
-12.  classes/PointsSummaryController.cls -- Error: No such column 'Direct_Deposit_Points_Into_Company_Store__c' on entity 'User'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 59, column 25)
-13.  classes/PointsSummaryControllerTest.cls -- Error: Invalid type: PointsSummaryController (line 23, column 43)
-14.  classes/PointsTriggerHandler.cls -- Error: Invalid type: PointsValidationResult (line 98, column 59)
-15.  classes/gameActionsForSkillCertRatingTest.cls -- Error: Invalid type: pse__Practice__c (line 14, column 51)
-16.  triggers/AfterWin.trigger -- Error: No such column 'Amount_USD__c' on entity 'Opportunity'. If you are attempting to use a custom field, be sure to append the '__c' after the custom field name. Please reference your WSDL or the describe call for the appropriate names. (line 61, column 31)
-17.  triggers/afterInsertFeedComment.trigger -- Error: Invalid type: ChatterFeedTriggerHandler (line 14, column 43)
-18.  triggers/afterInsertFeedItem.trigger -- Error: Invalid type: ChatterFeedTriggerHandler (line 18, column 43)
-19.  triggers/afterUpdateIdea.trigger -- Error: Invalid type: IdeaTriggerHandler (line 5, column 39)
-20.  triggers/afterUpdatePointsBucket.trigger -- Error: Invalid type: ChallengePointsBucketHolder (line 45, column 59)
-21.  triggers/beforeInsertAndAfterDeletePoints.trigger -- Error: Invalid type: PointsTriggerHandler (line 25, column 38)
-22.  triggers/cmc_GameActionsForAsset.trigger -- Error: Invalid SObject type name: CMC_Asset__c (line 1, column 36)
-23.  triggers/cmc_GameActionsForAssetUsage.trigger -- Error: Invalid SObject type name: CMC_Asset_Usage__c (line 1, column 41)
-24.  triggers/gameActionsForSkillCertificationRating.trigger -- Error: Invalid SObject type name: pse__Skill_Certification_Rating__c (line 1, column 51)
-25.  profiles/Admin.profile -- Error: Unknown user permission: ApproveContract
-26.  profiles/Appirio API User.profile -- Error: Permission ViewAllData depends on permission(s): ViewPublicDashboards, ViewPublicReports
-27.  profiles/Appirio Deployment User.profile -- Error: Permission ViewAllData depends on permission(s): ViewPublicDashboards, ViewPublicReports
-28.  profiles/Appirio Account Executive.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-29.  profiles/Appirio Consulting Manager.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-30.  profiles/Appirio Consulting Ops.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-31.  profiles/Appirio EM%27s%2C CP%27s%2C SA%27s%2C TA%27s%2C PM%27s.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-32.  profiles/Appirio Employee.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-33.  profiles/Appirio Finance.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-34.  profiles/Appirio HR.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-35.  profiles/Appirio IT Operations.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-36.  profiles/Appirio Products.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-37.  profiles/Appirio Sales VP.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-38.  profiles/Appirio Support.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-39.  profiles/Appirio Workday Integration View Encrypted.profile -- Error: In field: apexClass - no ApexClass named AgeScheduledBatchJobs found
-40.  pages/Challenges.page -- Error: Apex class 'ChallengeManagerController' does not exist
-41.  pages/Community.page -- Error: Apex class 'CommunityController' does not exist
-42.  pages/PointsSummary.page -- Error: Apex class 'PointsSummaryController' does not exist
-43.  objects/Points__c.object -- Error: pointredirecttochallenges does not exist or is not a valid override for action New.
-
-*********** DEPLOYMENT FAILED ***********
-
-
-Total time: 45 seconds
+1.  objects/Contact.object (Contact.pse_Salesforce_User__c) -- Error: The entity: Contact does not have history tracking enabled (line 3, column 13)
+2.  classes/CommunityController.cls -- Error: sObject type 'pse_Practice__c' is not supported. If you are attempting to use a custom object, be sure to append the '__c' after the entity name. Please reference your WSDL or the describe call for the appropriate names. (line 106, column 42)
+3.  classes/CommunityControllerTest.cls -- Error: Invalid type: CommunityController (line 221, column 50)
+4.  profiles/Admin.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+5.  profiles/Appirio API User.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+6.  profiles/Appirio Account Executive.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+7.  profiles/Appirio Consulting Manager.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+8.  profiles/Appirio Consulting Ops.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+9.  profiles/Appirio Deployment User.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+10.  profiles/Appirio EM%27s%2C CP%27s%2C SA%27s%2C TA%27s%2C PM%27s.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+11.  profiles/Appirio Employee.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+12.  profiles/Appirio Finance.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+13.  profiles/Appirio HR.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+14.  profiles/Appirio IT Operations.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+15.  profiles/Appirio Products.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+16.  profiles/Appirio Sales VP.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+17.  profiles/Appirio Support.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+18.  profiles/Appirio Workday Integration View Encrypted.profile -- Error: In field: apexClass - no ApexClass named CommunityController found
+19.  pages/Community.page -- Error: Apex class 'CommunityController' does not exist
