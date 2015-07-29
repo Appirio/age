@@ -12,6 +12,7 @@
 ["*","pse__Region__c","pse_Region__c"],
 ["*","pse__Practice__c","pse_Practice__c"],
 
+["objects/*","<trackHistory>true</trackHistory>",""],
 ["objects/*","<excludedStandardButtons>Forward</excludedStandardButtons>",""],
 
 

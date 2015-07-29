@@ -30,6 +30,19 @@
 </target>
 -->
 
+<target name="fetchAgeAddendum">
+  <mkdir dir="agesrc-addendum"/>
+	<sf:retrieve
+		username="${kymdevorg.username}"
+		password="${kymdevorg.password}"
+		serverurl="${prod.serverurl}"
+    retrieveTarget="agesrc-addendum"
+		unpackaged="age_addendum_package.xml"
+		pollWaitMillis="10000"
+		maxPoll="20"/>
+</target>
+
+
 <!-- SYNTAX: ant fetchAgeAndClean -Dfolder=ageCB -->
 <target name="fetchAgeAndCleanIntoFolder">
   <mkdir dir="${folder}"/>
@@ -58,6 +71,15 @@
 
 <!-- SYNTAX: ant deployAge2dev optional: -DcheckOnly=true -DrunAllTests=true -->
 <target name="deployAge2dev">
+  <sf:deploy
+               username="${devorg.username}"
+               password="${devorg.password}"
+               serverurl="${prod.serverurl}"
+               pollWaitMillis="20000"
+               maxPoll="5000"
+               checkOnly="${checkOnly}"
+               runAllTests="${runAllTests}"
+               deployRoot="agesrc-addendum"/>
   <sf:deploy
                username="${devorg.username}"
                password="${devorg.password}"
