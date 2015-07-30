@@ -61,6 +61,7 @@
 
 <!-- SYNTAX: ant clean -Dfolder=ageCB -->
 <target name="clean">
+  <mkdir dir="smart-output"/>
   <exec executable="./smart-anonymizer/bin/smart-anonymizer">
     <arg value="${folder}"/>
     <arg value="smart-output"/>
