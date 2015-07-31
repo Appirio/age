@@ -155,8 +155,8 @@
   &quot;Account Executive&quot;, 5000 + (1000 * Number_of_Direct_Reports__c),
   &quot;Solutions Architect&quot;, 5000 + (1000 * Number_of_Direct_Reports__c),
   &quot;Director&quot;, MAX(5000, 1000 * Number_of_Direct_Reports__c),
-  &quot;VP&quot;, 25000,
-  &quot;Senior Management&quot;, 50000,
+  &quot;VP&quot;, 12500,
+  &quot;Senior Management&quot;, 25000,
   null
 )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
