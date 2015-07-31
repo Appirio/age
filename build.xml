@@ -6,7 +6,7 @@
 
 <target name="fetchAgeAndClean">
   <antcall target="fetchAgeAndCleanIntoFolder">
-    <param name="folder" value="agesrc"/>
+    <param name="folder" value="src-original"/>
   </antcall>
 </target>
 
@@ -30,14 +30,14 @@
 </target>
 -->
 
-<target name="fetchAgeAddendum">
-  <mkdir dir="agesrc-addendum"/>
+<target name="fetchAgePredeploy">
+  <mkdir dir="src-predeploy"/>
 	<sf:retrieve
 		username="${kymdevorg.username}"
 		password="${kymdevorg.password}"
 		serverurl="${prod.serverurl}"
-    retrieveTarget="agesrc-addendum"
-		unpackaged="age_addendum_package.xml"
+    retrieveTarget="src-predeploy"
+		unpackaged="package-age-predeploy.xml"
 		pollWaitMillis="10000"
 		maxPoll="20"/>
 </target>
@@ -51,7 +51,7 @@
 		password="${prod.password}"
 		serverurl="${prod.serverurl}"
     retrieveTarget="${folder}"
-		unpackaged="age_package.xml"
+		unpackaged="package-age.xml"
 		pollWaitMillis="10000"
 		maxPoll="20"/>
     <antcall target="clean">
@@ -61,10 +61,9 @@
 
 <!-- SYNTAX: ant clean -Dfolder=ageCB -->
 <target name="clean">
-  <mkdir dir="smart-output"/>
   <exec executable="./smart-anonymizer/bin/smart-anonymizer">
     <arg value="${folder}"/>
-    <arg value="smart-output"/>
+    <arg value="src"/>
     <arg value="smart-anonymizer/mapping.json"/>
   </exec>
   <exec executable="./cleaner.sh"/>
@@ -73,23 +72,23 @@
 <!-- SYNTAX: ant deployAge2dev optional: -DcheckOnly=true -DrunAllTests=true -->
 <target name="deployAge2dev">
   <sf:deploy
-               username="${devorg.username}"
-               password="${devorg.password}"
-               serverurl="${prod.serverurl}"
-               pollWaitMillis="20000"
-               maxPoll="5000"
-               checkOnly="${checkOnly}"
-               runAllTests="${runAllTests}"
-               deployRoot="agesrc-addendum"/>
+    username="${devorg.username}"
+    password="${devorg.password}"
+    serverurl="${prod.serverurl}"
+    pollWaitMillis="20000"
+    maxPoll="5000"
+    checkOnly="${checkOnly}"
+    runAllTests="${runAllTests}"
+    deployRoot="src-predeploy"/>
   <sf:deploy
-               username="${devorg.username}"
-               password="${devorg.password}"
-               serverurl="${prod.serverurl}"
-               pollWaitMillis="20000"
-               maxPoll="5000"
-               checkOnly="${checkOnly}"
-               runAllTests="${runAllTests}"
-               deployRoot="smart-output"/>
+    username="${devorg.username}"
+    password="${devorg.password}"
+    serverurl="${prod.serverurl}"
+    pollWaitMillis="20000"
+    maxPoll="5000"
+    checkOnly="${checkOnly}"
+    runAllTests="${runAllTests}"
+    deployRoot="src"/>
 </target>
 
 </project>

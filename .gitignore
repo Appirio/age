@@ -1,4 +1,4 @@
 buildall.properties
 .DS_Store
 node_modules
-smart-output
+src-original

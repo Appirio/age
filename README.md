@@ -1,23 +1,56 @@
 # age
 Appirio Gamification Engine, copyright Appirio Inc.
 
-## Using Smart-anonymizer
-Smart Anonymizer is a tool written in NodeJS that uses a regular expression mapping file to substitute keywords in source files.
+## Building
 
-**Usage**
- 1. You must have node installed on your machine
- 2. goto the smart-anonymizer dir and run npm install
- 3. Move back to the root folder and   ``` smart-anonymizer/bin/smart-anonymizer -h``` to see the help, also you can look at the readme for more details.  
- 4. A sample mapping file is included in the smart-anonymizer dir
- 5. create a destination directory ```mkdir smart-output``` you will deploy from this directory
- 6. Run the tool  ```smart-anonymizer/bin/smart-anonymizer ageKL smart-output smart-anonymizer/mapping.json``` the syntax is ```srcDir destDir mappingFile```
+**Prerequisites**
+1. Install [ant and the salesforce ant libraries]( https://resources.docs.salesforce.com/sfdc/pdf/salesforce_migration_guide.pdf)
+2. Sign up for a [Salesforce Developer Org](https://developer.salesforce.com/signup)
 
+**Deploying**
+To deploy the AGE metadata to your own Salesforce dev org:
+1. [Identify a Default Workflow User](https://help.salesforce.com/apex/HTViewHelpDoc?id=workflow_defaultuser.htm&language=en_US) in your dev org
+2. Deploy the package via ant:
+```
+ant deployAge2dev
+```
+3. Copy the contents from ```postdeploy.apex``` into an [Anonymous Apex](https://help.salesforce.com/apex/HTViewHelpDoc?id=code_dev_console_execute_anonymous.htm&language=en) window to create the required Chatter Group and populate related Custom Settings.
 
- **cleaner.sh**
+AGE should now be available in your dev org!
 
- We need to remove some files that the smart anonymizer cant handled so I created a script to do that called ```cleaner.sh``` it should be run with ```sh cleaner.sh``` or you could attached to run after the smart-anyomyzier like so:
+## Admins
 
- ```smart-anonymizer/bin/smart-anonymizer ageKL smart-output smart-anonymizer/mapping.json ; sh cleaner.sh```
+**smart-anonymizer and cleaner.sh**
+smart-anonymizer is a tool written in Node.js that uses a regular expression mapping file (mapping.json) to substitute keywords in source files.  smart-anonymizer is called from the ant build.xml script to prepare the AGE metadata for crowdsourced development by removing dependencies on other applications.  To remove other files that smart-anonymizer cannot handle, ```sh cleaner.sh``` is called after smart-anonymizer.
 
- Note: You'll need to make it executable first with a command like:
- ```chmod a+x cleaner.sh```
+If you don't already have Node.js installed on your machine:
+
+```
+run npm install
+```
+
+from the smart-anonymizer directory.
+
+Next, make cleaner.sh executable:
+
+```
+chmod a+x cleaner.sh
+```
+
+See smart-anonymizer/readme or help for more details:
+
+```
+smart-anonymizer/bin/smart-anonymizer -h
+```
+
+To run the tool manually, the syntax is:
+
+```
+srcDir destDir mappingFile
+```
+
+For example:
+
+```
+smart-anonymizer/bin/smart-anonymizer src-original src smart-anonymizer/mapping.json
+```
