@@ -16,9 +16,9 @@ To deploy AGE to your own Salesforce dev org:
 1. [Identify a Default Workflow User](https://help.salesforce.com/apex/HTViewHelpDoc?id=workflow_defaultuser.htm&language=en_US) in your dev org
 
 2. Deploy the AGE package via ant:
-```
-ant deployAge2dev
-```
+ ```
+ ant deployAge2dev
+ ```
 
 3. Copy the contents from ```postdeploy.apex``` into an [Anonymous Apex](https://help.salesforce.com/apex/HTViewHelpDoc?id=code_dev_console_execute_anonymous.htm&language=en) window to create the required Chatter Group and populate related Custom Settings.
 
