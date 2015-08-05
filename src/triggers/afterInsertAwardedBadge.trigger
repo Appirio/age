@@ -27,27 +27,38 @@ trigger afterInsertAwardedBadge on Awarded_Badge__c (after insert) {
                                    FROM   Awarded_Badge__c
                                    WHERE  Id IN :trigger.newMap.keySet()];                                  
    
+  List<ConnectApi.BatchInput> lstBatchInput = new List<ConnectApi.BatchInput>();
+  
   //for every item in the trigger, populate the User Id list and the Badge Id list   
   for (Awarded_Badge__c ab : awardedBadges) {
   
     if (ab.Badge__r.Active__c == false) {
       throw new BadgeException('You can not award an inactive Badge');
     }
-    
-    FeedItem post = new FeedItem();
-    //ParentId to the AGE Chatter Group
-    post.ParentId = chatterGroupId;
-    post.body =  ab.User__r.Name + ' has just achieved the ' + ab.Badge__r.Title__c +  ' badge!!';
-    
-    chatterFeedToInsert.add(post);
-    
+
+    ConnectApi.FeedItemInput input = new ConnectApi.FeedItemInput();
+    input.subjectId = chatterGroupId;
+
+    ConnectApi.MessageBodyInput body = new ConnectApi.MessageBodyInput();
+    body.messageSegments = new List<ConnectApi.MessageSegmentInput>();
+
+    ConnectApi.MentionSegmentInput mentionSegment = new ConnectApi.MentionSegmentInput();
+    mentionSegment.id = ab.User__c;
+    body.messageSegments.add(mentionSegment);
+
+    ConnectApi.TextSegmentInput textSegment = new ConnectApi.TextSegmentInput();
+    textSegment.text = ' has just achieved the ' + ab.Badge__r.Title__c +  ' badge!!';
+
+    body.messageSegments.add(textSegment);
+    input.body = body;
+
+    ConnectApi.BatchInput batchInput = new ConnectApi.BatchInput(input);
+    lstBatchInput.add(batchInput);
+
   }
  
   //if the list is not empty, update it
-  if (chatterFeedToInsert.size() > 0 && !Test.isRunningTest()) { 
-        insert chatterFeedToInsert;   
+  if (!lstBatchInput.isEmpty() && !Test.isRunningTest()) {
+    ConnectApi.ChatterFeeds.postFeedElementBatch(null, lstBatchInput);
   }
-  
- 
-  
 }
