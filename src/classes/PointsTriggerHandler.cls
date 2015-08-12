@@ -496,6 +496,7 @@ public class PointsTriggerHandler {
           Awarded_Badge__c awardBadge = new Awarded_Badge__c();
           awardBadge.Badge__c = badgeId;
           awardBadge.User__c = user.Id;
+          awardBadge.Effective_Date__c = Date.Today();
 
           badgesToAward.add(awardBadge);
           
