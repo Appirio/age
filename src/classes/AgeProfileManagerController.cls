@@ -1,4 +1,4 @@
-public class AgeProfileManagerController extends AgeUserController {
+http://www.recessindy.com/public class AgeProfileManagerController extends AgeUserController {
 
 //
 // (c) Appirio 
@@ -133,11 +133,13 @@ public class AgeProfileManagerController extends AgeUserController {
   public List<Badge__c> getBadges() {
     List<Badge__c> badgeUrl = new List<Badge__c>();
     
+    //@added the order by to sort latest to older
     List<Awarded_Badge__c> badges = [SELECT 
                    Badge__r.Image_Url__c, 
                    Badge__r.Title__c
             FROM   Awarded_Badge__c
-            WHERE  User__r.Id = :user];
+            WHERE  User__r.Id = :user 
+            ORDER BY Effective_Date__c DESC];
            
     for(Awarded_Badge__c ab : badges) {
       Badge__c awardedBadge = new Badge__c();

@@ -64,6 +64,17 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Multi_Award__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Badge can be awarded more than once.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Badge can be awarded more than once.</inlineHelpText>
+        <label>Can Earn Multiple Times</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Core_Value__c</fullName>
         <description>Core Value associated to the Badge</description>
         <externalId>false</externalId>
@@ -250,6 +261,7 @@
         <columns>Core_Value__c</columns>
         <columns>Focus__c</columns>
         <columns>Active__c</columns>
+        <columns>Multi_Award__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
         <language>en_US</language>
@@ -295,41 +307,41 @@
         <masterLabel>Set as Image</masterLabel>
         <openType>onClickJavaScript</openType>
         <protected>false</protected>
-        <url>// 
+        <url>//
 // (c) Appirio 2013
-// 
-// 9/12/2013 Kym Le  Original 
+//
+// 9/12/2013 Kym Le  Original
 //
 // Queries the Attachment object based on the Badge and grabs the first attachment to // set as the image URL
 //
 
 
-{!REQUIRESCRIPT(&quot;/soap/ajax/28.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/28.0/connection.js&quot;)}
 
 
-var imageAttachment = sforce.connection.query(&quot;SELECT Id FROM Attachment WHERE ParentId = &apos;{!Badge__c.Id}&apos; LIMIT 1&quot;); 
+var imageAttachment = sforce.connection.query(&quot;SELECT Id FROM Attachment WHERE ParentId = &apos;{!Badge__c.Id}&apos; LIMIT 1&quot;);
 
 var records = imageAttachment.getArray(&quot;records&quot;);
 
-if (records[0] == null) { 
+if (records[0] == null) {
   alert(&apos;Please attach an image for the Badge&apos;);
 } else {
 
   var fileUrl = window.location.protocol + &apos;//&apos; + window.location.hostname + &apos;/servlet/servlet.FileDownload?file=&apos; + records[0].Id;
 
-  var b = new sforce.SObject(&quot;Badge__c&quot;); 
-  b.Id = &quot;{!Badge__c.Id}&quot;; 
-  b.image_url__c = fileUrl; 
+  var b = new sforce.SObject(&quot;Badge__c&quot;);
+  b.Id = &quot;{!Badge__c.Id}&quot;;
+  b.image_url__c = fileUrl;
 
-  try { 
-    var result = sforce.connection.update([b]); 
-    
-    if (!result[0].getBoolean(&quot;success&quot;)) { 
-      alert(&quot;An error occurred while trying to set image URL:\n\n&quot; + result); 
-    } 
-  } catch(e) { 
-  
-    alert(e); 
+  try {
+    var result = sforce.connection.update([b]);
+
+    if (!result[0].getBoolean(&quot;success&quot;)) {
+      alert(&quot;An error occurred while trying to set image URL:\n\n&quot; + result);
+    }
+  } catch(e) {
+
+    alert(e);
   }
 }
 

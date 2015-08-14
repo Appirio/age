@@ -153,7 +153,7 @@
                     <div class="row">
                         <div class="col-sm-9 col-xs-12"><h4 ng-bind="htmlMe(badgeHolder.badge.Title__c)"></h4></div>
                         <div class="col-sm-3 col-xs-12"><button class="btn btn-primary pull-right" data-toggle="modal" href="#modal-award" ng-click="setBadgeForAward(badgeHolder)" ng-show="showAwardButton(badgeHolder)">Award</button></div>
-                        <span ng-show="badgeHolder.badge.Awarded_Badges__r">Awarded on {{convertToUTC(badgeHolder.badge.Awarded_Badges__r[0].CreatedDate) | date:'M/d/yyyy'}}</span>
+                        <span ng-show="badgeHolder.badge.Awarded_Badges__r">Awarded on {{convertToUTC(badgeHolder.badge.Awarded_Badges__r[0].Effective_Date__c) | date:'M/d/yyyy'}}</span>
                         <span ng-show="!badgeHolder.badge.Active__c">Badge is Inactive</span>
                     </div>
                     <div class="row">
@@ -595,10 +595,10 @@ qs.factory('Query', function ($window) {
     
     
     //defines the controller
-  var badgesController=badgesApp.controller('ctrlBadges', 
-      ['$scope', '$location', '$timeout', 'loadUserSecuritySettings', 'loadCoreValues', 'loadFocuses', 
+  var badgesController=badgesApp.controller('ctrlBadges',
+      ['$scope', '$location', '$timeout', '$filter', 'loadUserSecuritySettings', 'loadCoreValues', 'loadFocuses',
         'loadEmployees', 'loadLoggedInUser', 'loadBadges', 'awardBadge', 'loadNewBadgeURL',
-      function ($scope, $location, $timeout, loadUserSecuritySettings, loadCoreValues, loadFocuses, 
+      function ($scope, $location, $timeout, $filter, loadUserSecuritySettings, loadCoreValues, loadFocuses,
         loadEmployees, loadLoggedInUser, loadBadges, awardBadge, loadNewBadgeURL) {
       
       //logged in user
@@ -883,9 +883,9 @@ qs.factory('Query', function ($window) {
       //function to deterimine whether or not to show the award buttom
       $scope.showAwardButton = function(badgeHolder) {
         if ($scope.userId === $scope.user.Id) {
-          return badgeHolder.badge.Active__c && !badgeHolder.badge.Awarded_Badges__r;
+          return badgeHolder.badge.Active__c && (badgeHolder.badge.Multi_Award__c || !badgeHolder.badge.Awarded_Badges__r);
         } else {
-          return badgeHolder.badge.Active__c && !badgeHolder.badge.Awarded_Badges__r && $scope.userSecuritySettings.Award_Badge_to_Another_User__c;
+          return badgeHolder.badge.Active__c && $scope.userSecuritySettings.Award_Badge_to_Another_User__c && (badgeHolder.badge.Multi_Award__c || !badgeHolder.badge.Awarded_Badges__r);
         }
       }
       
@@ -910,8 +910,9 @@ qs.factory('Query', function ($window) {
         awardBadge($scope.selectedEmployee.Id, badge.badge.Id, moment(badge.awardDate).format("MM/DD/YYYY"))
         .then(function(result) {
           if(result.success) {
-            badge.badge.Awarded_Badges__r = [];
-            badge.badge.Awarded_Badges__r.push({CreatedDate:moment(badge.awardDate)});
+            badge.badge.Awarded_Badges__r = badge.badge.Awarded_Badges__r || [];
+            badge.badge.Awarded_Badges__r.push({Effective_Date__c:moment(badge.awardDate).valueOf()});
+            badge.badge.Awarded_Badges__r = $filter('orderBy')(badge.badge.Awarded_Badges__r, function(b) {return moment(b.Effective_Date__c);}, true);
             return true;
           } else {
             alert(result.message);
