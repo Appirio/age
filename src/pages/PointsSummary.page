@@ -20,7 +20,9 @@
    <apex:pageMessages ></apex:pageMessages>
 
   <b>Select an Appirian:</b>
-  <apex:inputField value="{!proxyPoints.User__c}" />
+  <apex:inputField value="{!proxyPoints.User__c}">
+  <apex:actionSupport event="onchange" reRender="TransferPoints"/>
+  </apex:inputField>
 </apex:form>
 <apex:form id="transferForm">
   <br />
@@ -57,10 +59,13 @@
       
       <apex:pageBlockSectionItem >
         <apex:outputLabel value="To"></apex:outputLabel>
-        <apex:selectList value="{!transferToSelection}" size="1">
-          <apex:selectOptions value="{!transferToList}"></apex:selectOptions>
-          <apex:actionSupport event="onchange" action="{!displayCreatePointsBucketTextField}" reRender="TransferPoints"/>
-      </apex:selectList>
+        <apex:outputPanel id="panelId">
+	        <apex:selectList value="{!transferToSelection}" size="1" rendered="{!IF(transferToSelection !='anotherUser', true, false)}">
+	          <apex:selectOptions value="{!transferToList}"></apex:selectOptions>
+	          <apex:actionSupport event="onchange" action="{!displayCreatePointsBucketTextField}" reRender="TransferPoints,panelId"/>
+	      </apex:selectList>
+	      <apex:inputField value="{!pointsTransferObj.User__c}" rendered="{!IF(transferToSelection =='anotherUser', true, false)}" id="transferAnotherUserId"/>
+      </apex:outputPanel>
       </apex:pageBlockSectionItem>
       
       <apex:pageBlockSectionItem >
