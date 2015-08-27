@@ -1,4 +1,4 @@
-http://www.recessindy.com/public class AgeProfileManagerController extends AgeUserController {
+public class AgeProfileManagerController extends AgeUserController {
 
 //
 // (c) Appirio 
