@@ -117,8 +117,8 @@ public class PointsSummaryController {
                                                   Title__c,
                                                   Current_Balance__c
                                            FROM   Points_Bucket__c
-                                           WHERE  Owner__c = :proxyPoints.User__c
-                                           AND    CreatedById = :proxyPoints.User__c];
+                                           WHERE  Owner__c = :proxyPoints.User__c];
+                                           //AND    CreatedById = :proxyPoints.User__c];
   
     return pointsBucket;
   }
@@ -169,20 +169,27 @@ public class PointsSummaryController {
     if (transferFromSelection != null && transferFromSelection.subString(0,2) != 'PB') {
       transferToList.add(new SelectOption('companyStore', 'Company Store'));
     }
-            
-  
-    for(SelectOption so : transferFromList) {
-      if (so.getValue() != transferFromSelection && so.getValue() != '-1') {
-        transferToList.add(so);
-      } 
+    if (transferFromSelection != null && transferFromSelection != 'earnedPoints') {
+       transferToList.add(new SelectOption('earnedPoints', 'Earned Points'));      
+    }
+    
+    
+    if(transferFromSelection != null && transferFromSelection == 'earnedPoints'){ 
+    	for(SelectOption so : transferFromList) {
+      	  if (so.getValue() != transferFromSelection && so.getValue() != '-1') {
+            transferToList.add(so);
+          } 
+        }
     }
         
     if (pointsBucket.size() == 0) {
       transferToList.add(new SelectOption('-2', '--------------------------'));
       transferToList.add(new SelectOption('new', 'Points Bucket - Create New'));
     }
+    
+    
     if(transferFromSelection != null && transferFromSelection.subString(0,2) == 'PB'){
-    	transferToList.add(new SelectOption('anotherUser', 'To Another User'));  
+        transferToList.add(new SelectOption('anotherUser', 'To Another User'));  
     }
     transferToSelection = '-1';
   }
@@ -452,48 +459,48 @@ public class PointsSummaryController {
           pointsToInsert.add(point);
           // If user selected option as Anotheruser      
         }else if (transferToSelection == 'anotherUser') {
-        	
-        	Points_Bucket__c pointsBucketFrom = [SELECT Id,
-	                                                  Name,
-	                                                  Title__c,
-	                                                  Current_Balance__c
-	                                           FROM   Points_Bucket__c
-	                                           WHERE  name=:transferFromSelection];
-	                                           
-        	User transferToUserObj = [select id, name from User where id=:pointsTransferObj.User__c];
-        	String newPointsBucketName = transferToUserObj.Name + ' - Shareable Points'; 
-			
-			// This code checks whether we have To and From users are same. If yes, then we will throw error message.
-        	if(pointsBucketFrom.title__c == newPointsBucketName){
-        		throw new BadgeException('Transfer from and to users are same. Please select different user.');
-        	}else{
-        		
-	        	List<Points_Bucket__c> pointsBucket = [SELECT Id,
-	                                                  Name,
-	                                                  Title__c,
-	                                                  Current_Balance__c
-	                                           FROM   Points_Bucket__c
-	                                           WHERE  Title__c =: newPointsBucketName];
-	                                           
-	            if(pointsBucket != null && pointsBucket.size() > 0){
-	            	 // If bucket is available                             
-			          pointsBucket[0].Current_Balance__c = pointsBucket[0].Current_Balance__c + transferAmount;
-			          pointsBucketsToUpdate.add(pointsBucket[0]);  
-	          
-	          
-	            }else{
-	            	// If bucket is not available create new
-	            	 Points_Bucket__c newPointsBucket = new Points_Bucket__c(Title__c = newPointsBucketName, 
-	                                                                  Current_Balance__c = transferAmount,
-	                                                                  Owner__c = proxyPoints.User__c);                                                            
-	                                                           
-			          try{                                                        
-			            insert newPointsBucket;
-			          }catch (Exception e){
-			            insert new Log_Message__c(Message__c = e.getMessage(), Type__c = 'Points Summary Controller');  
-			          }
-	            }
-        	}      
+            
+            Points_Bucket__c pointsBucketFrom = [SELECT Id,
+                                                      Name,
+                                                      Title__c,
+                                                      Current_Balance__c
+                                               FROM   Points_Bucket__c
+                                               WHERE  name=:transferFromSelection];
+                                               
+            User transferToUserObj = [select id, name from User where id=:pointsTransferObj.User__c];
+            String newPointsBucketName = transferToUserObj.Name + ' - Shareable Points'; 
+            
+            // This code checks whether we have To and From users are same. If yes, then we will throw error message.
+            if(pointsBucketFrom.title__c == newPointsBucketName){
+                throw new BadgeException('Transfer from and to users are same. Please select different user.');
+            }else{
+                
+                List<Points_Bucket__c> pointsBucket = [SELECT Id,
+                                                      Name,
+                                                      Title__c,
+                                                      Current_Balance__c
+                                               FROM   Points_Bucket__c
+                                               WHERE  Title__c =: newPointsBucketName];
+                                               
+                if(pointsBucket != null && pointsBucket.size() > 0){
+                     // If bucket is available                             
+                      pointsBucket[0].Current_Balance__c = pointsBucket[0].Current_Balance__c + transferAmount;
+                      pointsBucketsToUpdate.add(pointsBucket[0]);  
+              
+              
+                }else{
+                    // If bucket is not available create new
+                     Points_Bucket__c newPointsBucket = new Points_Bucket__c(Title__c = newPointsBucketName, 
+                                                                      Current_Balance__c = transferAmount,
+                                                                      Owner__c = pointsTransferObj.User__c);                                                            
+                                                               
+                      try{                                                        
+                        insert newPointsBucket;
+                      }catch (Exception e){
+                        insert new Log_Message__c(Message__c = e.getMessage(), Type__c = 'Points Summary Controller');  
+                      }
+                }
+            }      
         }                          
       } 
       
@@ -520,7 +527,7 @@ public class PointsSummaryController {
       transferAmount = 0;
     
     } catch (Exception e) {
-    	// This code is for rollback to make transaction atomic.
+        // This code is for rollback to make transaction atomic.
       Database.rollback(sp);
       ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));    
     }

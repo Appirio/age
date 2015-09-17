@@ -60,11 +60,11 @@
       <apex:pageBlockSectionItem >
         <apex:outputLabel value="To"></apex:outputLabel>
         <apex:outputPanel id="panelId">
-	        <apex:selectList value="{!transferToSelection}" size="1" rendered="{!IF(transferToSelection !='anotherUser', true, false)}">
-	          <apex:selectOptions value="{!transferToList}"></apex:selectOptions>
-	          <apex:actionSupport event="onchange" action="{!displayCreatePointsBucketTextField}" reRender="TransferPoints,panelId"/>
-	      </apex:selectList>
-	      <apex:inputField value="{!pointsTransferObj.User__c}" rendered="{!IF(transferToSelection =='anotherUser', true, false)}" id="transferAnotherUserId"/>
+            <apex:selectList value="{!transferToSelection}" size="1" rendered="{!IF(transferToSelection !='anotherUser', true, false)}">
+              <apex:selectOptions value="{!transferToList}"></apex:selectOptions>
+              <apex:actionSupport event="onchange" action="{!displayCreatePointsBucketTextField}" reRender="TransferPoints,panelId"/>
+          </apex:selectList>
+          <apex:inputField value="{!pointsTransferObj.User__c}" rendered="{!IF(transferToSelection =='anotherUser', true, false)}" id="transferAnotherUserId"/>
       </apex:outputPanel>
       </apex:pageBlockSectionItem>
       
