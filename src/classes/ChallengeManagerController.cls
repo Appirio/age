@@ -12,7 +12,7 @@ public class ChallengeManagerController extends AgeUserController {
 // 10/18/13   Kym Le              Changed Points Buckets logic to use Challenge_Points_Bucket in save method
 // 03/01/14   Kym Le              Changed awarding call to use GameEngine.AwardChallenge
 // 07/28/14   Kym Le              Added CreatedById for SOQL query to retrieve points bucket to validate
-
+// 09/17/15   Josh Tuttle         Added code for enforcing challenge limits (yearly, monthly, etc)
 
 
   public String selectedEmployee {get; set;}
