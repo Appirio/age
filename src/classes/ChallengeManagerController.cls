@@ -30,6 +30,20 @@ public class ChallengeManagerController extends AgeUserController {
   }   
   
   @RemoteAction
+  public static List<String> getDurationTypes() { 
+    List<String> durations = new List<String>(); 
+    
+    Schema.DescribeFieldResult fieldResult =
+      Challenge__c.Duration__c.getDescribe();
+    List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+    
+    for(Schema.PicklistEntry pl : ple){
+      durations.add(pl.getValue());
+    }   
+    return durations;
+  }
+  
+  @RemoteAction
   public static List<String> getCoreValueTypes() { 
     List<String> coreValues = new List<String>(); 
     
@@ -65,6 +79,7 @@ public class ChallengeManagerController extends AgeUserController {
                                          Title__c,
                                          Reward_Points__c,
                                          Max_Number_of_Achievements_Per_User__c,
+                                         Duration__c,
                                          Automated__c,
                                          Hashtag__c,
                                          Start_Date__c,
@@ -119,10 +134,11 @@ public class ChallengeManagerController extends AgeUserController {
                              Title__c,
                              Reward_Points__c,
                              Active__c,
-                             Max_Number_of_Achievements_Per_User__c
+                             Max_Number_of_Achievements_Per_User__c,
+                             Duration__c
                       FROM   Challenge__c
                       WHERE  Id = :selectedChallengeId];
-                      
+
     User u = [SELECT Id, Name FROM User WHERE Id = :UserInfo.getUserId()];                  
                       
     System.debug('Challenges: ' + c);                      
@@ -137,6 +153,46 @@ public class ChallengeManagerController extends AgeUserController {
       effectiveDate = Date.parse(selectedDate); 
     }
     
+    List<Points__c> pList = [SELECT Id,
+                                    Name,
+                                    Challenge__r.Id,
+                                    Amount__c,
+                                    Date__c,
+                                    Source__c,
+                                    RecordType.Name
+                             FROM   Points__c
+                             WHERE  User__r.Id = :selectedUserId
+                             AND    Challenge__r.id = :selectedChallengeId
+                             ORDER BY Challenge__r.Title__c];
+  
+    for (Points__c point : pList) {
+      System.debug('Point: ' + point);             
+      Date pastEffectiveDate = point.Date__c;
+      Integer daysPast = pastEffectiveDate.daysBetween(effectiveDate);
+      
+      if(c.Duration__c == 'monthly' && daysPast < 30){
+      	SaveResult srFailedByDuration = new SaveResult();
+        srFailedByDuration.success = false;
+        srFailedByDuration.message= 'FAIL! You cannot complete the same challenge in last 30 days';
+        
+        return srFailedByDuration;
+      }
+      if(c.Duration__c == 'quarterly' && daysPast < 90){
+      	SaveResult srFailedByDuration = new SaveResult();
+        srFailedByDuration.success = false;
+        srFailedByDuration.message= 'FAIL! You cannot complete the same challenge in last 90 days';
+        
+        return srFailedByDuration;
+      }
+      if(c.Duration__c == 'yearly' && daysPast < 365){
+      	SaveResult srFailedByDuration = new SaveResult();
+        srFailedByDuration.success = false;
+        srFailedByDuration.message= 'FAIL! You cannot complete the same challenge in last 365 days';
+        
+        return srFailedByDuration;
+      }
+    }
+                        
     List<Challenge_Points_Bucket__c> challengePointsBuckets = [SELECT Id, 
                                                    Points_Bucket__r.Id
                                             FROM   Challenge_Points_Bucket__c
