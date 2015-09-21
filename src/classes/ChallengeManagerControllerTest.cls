@@ -7,6 +7,7 @@
 //
 //Author          : Guna Sevugapperumal Created 09/22/2013
 //Update          : Guna Sevugapperumal Revised 10/15/2013 for code best practices 
+//Update          : Josh Tuttle Revised 09/17/15 updated code from S-325148
 ******************************************************************************/
 @isTest(SeeAllData=true)
 public class ChallengeManagerControllerTest{   
@@ -69,7 +70,12 @@ public class ChallengeManagerControllerTest{
         List<String> focusTypes = ChallengeManagerController.getFocusTypes();
         system.assertEquals(pleFocus.size(), focusTypes.size());
         
-        
+        // Check if the picklist values for duration  are returned by the controller.
+        schema.Describefieldresult durationResult = Challenge__c.Duration__c.getDescribe();
+        List<Schema.PicklistEntry> pleDuration = durationResult.getPicklistValues();
+        List<String> durationTypes = ChallengeManagerController.getDurationTypes();
+        system.assertEquals(pleDuration.size(), durationTypes.size());
+                
         // Check the list of test challenges for the test user who has been 
         // awarded on each challenge note: every other test challenge can be
         // awarded only once and rest only twice. The AGETestUtility class is 
