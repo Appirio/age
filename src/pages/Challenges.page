@@ -179,6 +179,11 @@
                         <div class="col-md-2 col-sm-3 col-xs-12 text-right">
                             <button class="btn btn-primary" data-toggle="modal" href="#modal-award" ng-click="setChallengeForAward(challenge)" ng-show="showAwardButton(challenge)">Award</button>
                             <span ng-show="showMaxReached(challenge)">Max Achievement has been reached</span>
+                            <span ng-show="!showMaxReached(challenge)">
+                                <span ng-show="showMonthlyDurationReached(challenge)">You cannot complete the same challenge in last 30 days</span>
+                                <span ng-show="showQuarterlyDurationReached(challenge)">You cannot complete the same challenge in last 90 days</span>
+                                <span ng-show="showYearlyDurationReached(challenge)">You cannot complete the same challenge in last 365 days</span>
+                            </span>
                             <span ng-show="showInactive(challenge)">Challenge is Inactive</span>
                             <span ng-show="showAutomated(challenge)">Challenge is Automated</span>                             
                             <p>{{challenge.challenge.Reward_Points__c}} Points</p>
@@ -805,18 +810,48 @@ var au = angular.module('ageUserInfo', []);
       }
       
       $scope.showAwardButton = function(challenge) {
+       var durationNotReached = !$scope.showMonthlyDurationReached(challenge) && !$scope.showQuarterlyDurationReached(challenge) && !$scope.showYearlyDurationReached(challenge);
        
         if ($scope.userId === $scope.user.Id) {
-          return !challenge.maxNumberReached && challenge.challenge.Active__c && !challenge.challenge.Automated__c;
+          return !challenge.maxNumberReached && challenge.challenge.Active__c && durationNotReached;
         } else {
-          return !challenge.maxNumberReached && challenge.challenge.Active__c && !challenge.challenge.Automated__c && $scope.userSecuritySettings.Award_Points_to_Another_User__c;
+          return !challenge.maxNumberReached && challenge.challenge.Active__c && durationNotReached && $scope.userSecuritySettings.Award_Points_to_Another_User__c;
         }
       }
       
       $scope.showMaxReached = function(challenge) {
         return challenge.maxNumberReached;
       }
-      
+            
+      $scope.showMonthlyDurationReached = function(challenge) {        
+        if(challenge.lastAwardedDate==undefined){
+            return false;
+        }
+        if(challenge.challenge.Duration__c == "monthly" && $scope.daysFromNow(challenge.lastAwardedDate) < 30){
+            return true;
+        }
+        return false;
+      }
+            
+      $scope.showQuarterlyDurationReached = function(challenge) {
+        if(challenge.lastAwardedDate == undefined){
+            return false;
+        }
+        if(challenge.challenge.Duration__c == "quarterly" && $scope.daysFromNow(challenge.lastAwardedDate) < 90){
+            return true;
+        }
+        return false;
+      }
+            
+      $scope.showYearlyDurationReached = function(challenge) {        if(challenge.lastAwardedDate==undefined){
+            return false;
+        }
+        if(challenge.challenge.Duration__c == "yearly" && $scope.daysFromNow(challenge.lastAwardedDate) < 365){
+            return true;
+        }
+        return false;
+      }
+            
       $scope.showInactive = function(challenge) {
         return !challenge.challenge.Active__c;
       } 
@@ -844,12 +879,17 @@ var au = angular.module('ageUserInfo', []);
         return new Date(localTime + localOffset);
       };
       
+      $scope.daysFromNow = function(dt) {
+        var momentDT = moment(dt);
+        
+        return new moment().diff(momentDT,'days');
+      };
+      
 
       $scope.save = function(challenge) {
         awardChallenge($scope.selectedEmployee.Id, 
                        challenge.challenge.Id, 
-                       moment(challenge.awardDate).format("MM/DD/YYYY"),challenge.count)
-                        .then(
+                       moment(challenge.awardDate).format("MM/DD/YYYY"),challenge.count)                         .then(
                               function(result) {
                                 if(result.success) {
                                     challenge.maxNumberReached = result.maxNumberReached
