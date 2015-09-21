@@ -169,6 +169,29 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>Duration__c</fullName>
+        <externalId>false</externalId>
+        <label>Duration</label>
+        <picklist>
+            <picklistValues>
+                <fullName>yearly</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>quarterly</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>monthly</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
         <fullName>End_Date__c</fullName>
         <defaultValue>date(year(today())+1, month(today()), day(today()))</defaultValue>
         <description>Date the Challenge ends</description>
@@ -369,6 +392,7 @@
         <columns>Reward_Points__c</columns>
         <columns>RECORDTYPE</columns>
         <columns>CREATED_DATE</columns>
+        <columns>Duration__c</columns>
         <filterScope>Everything</filterScope>
         <filters>
             <field>Active__c</field>
@@ -445,6 +469,21 @@
             <values>
                 <fullName>Team</fullName>
                 <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Duration__c</picklist>
+            <values>
+                <fullName>monthly</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>quarterly</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>yearly</fullName>
+                <default>true</default>
             </values>
         </picklistValues>
         <picklistValues>
@@ -538,6 +577,21 @@
             </values>
         </picklistValues>
         <picklistValues>
+            <picklist>Duration__c</picklist>
+            <values>
+                <fullName>monthly</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>quarterly</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>yearly</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
             <picklist>Focus__c</picklist>
             <values>
                 <fullName>Anniversaries</fullName>
@@ -613,3 +667,4 @@
         <errorMessage>Hashtag can only have a-z and 0-9 character</errorMessage>
     </validationRules>
 </CustomObject>
+
