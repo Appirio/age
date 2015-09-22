@@ -9,6 +9,8 @@ public class PointsSummaryController {
 // 2013-10-18     Glenn Weinstein     Add Badge Summary
 // 2013-10-24     Glenn Weinstein     Add "Entered in Company Store" field on Points
 // 2014-07-20     Kym Le                  Added changes for transferring points
+// 2014-09-XX     
+// 2014-07-20     Chris Bruzzi        Added validation that from/to selected when transferring points (I-179899)
 
 
 
@@ -175,8 +177,8 @@ public class PointsSummaryController {
     
     
     if(transferFromSelection != null && transferFromSelection == 'earnedPoints'){ 
-    	for(SelectOption so : transferFromList) {
-      	  if (so.getValue() != transferFromSelection && so.getValue() != '-1') {
+        for(SelectOption so : transferFromList) {
+          if (so.getValue() != transferFromSelection && so.getValue() != '-1') {
             transferToList.add(so);
           } 
         }
@@ -324,11 +326,15 @@ public class PointsSummaryController {
     
     try {
     
-      system.debug('transferFromSelection ' + transferFromSelection.subString(0,2));
+      //Make sure user picked both a FROM and TO when attempting the transfer
+      if (transferFromSelection == '-1' || transferToSelection == '-1' || transferToSelection == '-2') {
+        throw new PointsSummaryException('You must select both FROM and TO when transferring points');
+      }
+
+//    system.debug('transferFromSelection ' + transferFromSelection.subString(0,2));
       system.debug('transferFromSelection ' + transferFromSelection);      
-      system.debug('transferToSelection ' + transferToSelection.subString(0,2));
+//    system.debug('transferToSelection ' + transferToSelection.subString(0,2));
       system.debug('transferToSelection ' + transferToSelection);      
-      
       
       //figure out transfer logic if the user's from selection is earned points
       if (transferFromSelection == 'earnedPoints') {
