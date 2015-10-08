@@ -64,7 +64,7 @@ public with sharing class ChatterFeedTriggerHandler {
         List<ConnectApi.MessageSegment> messageSegments = feedItem.body.messageSegments;      
  
         //create a custom Feed Object to hold all the necessary data elements for the Feed Object 
-        AlteredFeedObject alteredFeedObject = getNewFeedObject(f.CreatedById, f.body, messageSegments);
+        AlteredFeedObject alteredFeedObject = getNewFeedObject(f.id,f.CreatedById, f.body, messageSegments);
 
         //if there are any custom Feed Objects, add it to the list of custom Feed Objects so we can
         //later do bulked queries
@@ -118,7 +118,7 @@ public with sharing class ChatterFeedTriggerHandler {
         List<ConnectApi.MessageSegment> messageSegments = feedItem.body.messageSegments;      
  
         //create a custom Feed Object to hold all the necessary data elements for the Feed Object 
-        AlteredFeedObject alteredFeedObject = getNewFeedObject(f.CreatedById, f.commentBody, messageSegments);
+        AlteredFeedObject alteredFeedObject = getNewFeedObject(f.FeedItemId,f.CreatedById, f.commentBody, messageSegments);
 
         //if there are any custom Feed Objects, add it to the list of custom Feed Objects so we can
         //later do bulked queries
@@ -245,6 +245,7 @@ public with sharing class ChatterFeedTriggerHandler {
               String note = 'Mentioned in a Chatter post for ' + c.Title__c;
             
               GameEngine.AwardedChallenge awardedChallenge = new GameEngine.AwardedChallenge(c.Name, id, afo.createdById, Date.Today(), note); 
+              awardedChallenge.sourceId = afo.feeditemId;
               awardedChallengesList.add(awardedChallenge);
             }
           }
@@ -256,7 +257,7 @@ public with sharing class ChatterFeedTriggerHandler {
           GameEngine.AwardedChallenge awardedChallenge = new GameEngine.AwardedChallenge(c.Name, afo.createdById, afo.createdById, Date.Today(), note); 
           
           System.debug('Awarded Challenge: ' + awardedChallenge);
-          
+          awardedChallenge.sourceId = afo.feeditemId;
           awardedChallengesList.add(awardedChallenge);
         }
       }
@@ -296,14 +297,14 @@ public with sharing class ChatterFeedTriggerHandler {
   }
 
 
-  public AlteredFeedObject getNewFeedObject(Id createdById, String feedBody, List<ConnectApi.messageSegment> feedMessageSegments) {
+  public AlteredFeedObject getNewFeedObject(Id feedId,Id createdById, String feedBody, List<ConnectApi.messageSegment> feedMessageSegments) {
     
     List<String> feedHashtags = getHashtagsForMessageSegment(feedMessageSegments);
 
     if (feedHashtags.size() == 0) {
       return null;
     } else {
-      return new AlteredFeedObject(createdById, feedBody, feedMessageSegments, feedHashtags);
+      return new AlteredFeedObject(feedId,createdById, feedBody, feedMessageSegments, feedHashtags);
     }
   }
 
@@ -399,18 +400,21 @@ public with sharing class ChatterFeedTriggerHandler {
 
   public class AlteredFeedObject {
     private Id createdById {get; set;}
+    private Id feedItemId {get;set;} // this will store the feeditem id in both both case feed item & feed comment
+    
     private String feedBody {get; set;}
     private List<Challenge__c> feedChallenges {get; set;}
     private List<ConnectApi.MessageSegment> feedMessageSegments {get; set;}
     private List<String> feedHashtags {get; set;}
 
     
-    public AlteredFeedObject(Id feedCreatedById, String bodyContent, List<ConnectApi.MessageSegment> messageSegments, List<String> hashtags){
+    public AlteredFeedObject(Id feedId,Id feedCreatedById, String bodyContent, List<ConnectApi.MessageSegment> messageSegments, List<String> hashtags){
       feedChallenges = new List<Challenge__c>();
       feedMessageSegments = new List<ConnectApi.MessageSegment>();
       feedHashtags = new List<String>();
-
+	  
       createdById = feedCreatedById;
+      feedItemId=feedId;
       feedBody = bodyContent;
       feedMessageSegments.addAll(messageSegments);
       feedHashtags.addAll(hashtags);

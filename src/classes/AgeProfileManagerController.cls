@@ -13,8 +13,6 @@ public class AgeProfileManagerController extends AgeUserController {
   public String user;
   
   Double lastThrityDayPoint;
-  
-  //S-161785 Display Badges Count
   public Map<Id,Integer> badgeCount {get;set;}
   
   public AgeProfileManagerController() { 
@@ -105,6 +103,11 @@ public class AgeProfileManagerController extends AgeUserController {
   
   
   public List<Points__c> getPoints() {
+    
+    /* updating method to exclude the challenges listed in shoutout challage */
+    String  shoutoutChall = Game_Settings__c.getInstance().Shoutout_Challenge_Titles__c;
+    List<String> listOfChall = shoutoutChall!=null ? shoutoutChall.split(','):new List<String>();
+    
     return [SELECT   Id,
                      Challenge__c,
                      Challenge_Title__c,
@@ -113,8 +116,29 @@ public class AgeProfileManagerController extends AgeUserController {
             WHERE    User__r.Id = :user
             AND      Amount__c > 0
             AND      Challenge__c != ''
+            AND		 Challenge_Title__c NOT IN :listOfChall
             ORDER BY CreatedDate DESC
-            LIMIT 5];
+            LIMIT 2];
+  }
+  
+  public List<Points__c> getRecentShoutoutChallenges() {
+    
+    /* updating method to exclude the challenges listed in shoutout challage */
+    String  shoutoutChall = Game_Settings__c.getInstance().Shoutout_Challenge_Titles__c;
+    List<String> listOfChall = shoutoutChall!=null ? shoutoutChall.split(','):new List<String>();
+    
+    return [SELECT   Id,
+                     Challenge__c,
+                     Challenge_Title__c,
+                     CreatedDate,
+                     Source_Id__c
+            FROM     Points__c
+            WHERE    User__r.Id = :user
+            AND      Amount__c > 0
+            AND      Challenge__c != ''
+            AND		 Challenge_Title__c  IN :listOfChall
+            ORDER BY CreatedDate DESC
+            LIMIT 2];
   }
   
   
@@ -193,7 +217,6 @@ public class AgeProfileManagerController extends AgeUserController {
   	   return getUser(id);
   }
   
-  //updated the method for chall :- S-161785 Display Badges Count
   public List<Badge__c> getBadges() {
     List<Badge__c> badgeUrl = new List<Badge__c>();
     badgeCount = new Map<Id,Integer>();

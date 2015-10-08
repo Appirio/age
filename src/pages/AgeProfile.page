@@ -234,6 +234,23 @@
                             </apex:repeat>
                             </ul>
                         </div>
+                        
+                        <!--  SHOUT OUT CHALLENGES -->
+                        <div class="col-md-5">
+                            <h6>Most Recent Shoutout Challenges</h6>
+                            <ul class="list-unstyled">
+                            <apex:repeat value="{!RecentShoutoutChallenges}" var="p">
+                              <li>
+                                <a href="/{!p.Source_Id__c}">
+                                  <apex:outputText value="{0, date, M'/'d'/'yyyy}">
+                                    <apex:param value="{!p.CreatedDate}" />
+                                  </apex:outputText>&nbsp;     
+                                  {!p.Challenge_Title__c}
+                                </a>
+                              </li>
+                            </apex:repeat>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="panel-footer"></div>

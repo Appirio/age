@@ -94,10 +94,10 @@ public class AgeProfileManagerControllerTest{
       // created. If numOfChallenges < 5 then result should be numOfChallenges.
       // else the result should be 5(since the function query LIMIT is set to 5) 
       List<points__c> points = contr.getPoints();
-      if (numOfChallenges <= 5)
+      if (numOfChallenges <= 2)
         System.assertEquals(numOfChallenges, points.size());
       else
-        System.assertEquals(5, points.size());
+        System.assertEquals(2, points.size());
         
       // check the getbadge function. Since only one test badge is created 
       // there should be only one badge awarded badge returned and 3 dummy image
@@ -119,6 +119,80 @@ public class AgeProfileManagerControllerTest{
         system.debug('Cannot get the chatterURL data');          
       }
             
+      test.stopTest();
+            
+    }
+  }
+    
+    
+  public static testmethod void testRecentShoutoutChallenges(){
+        
+    // Create test user
+    User u = AGETestUtility.CreateTestUser();
+    System.runAs(u) { 
+             
+      // Create test data
+      Integer numOfChallenges = 2;
+      Integer awardPointsAmt = 1000;
+      Integer bucketBalance = 10000;
+      String  bucketName = 'Test Shoutout Bucket';
+      String  badgeName = 'Test Shoutout Master';
+     
+      AggregateResult[] quarterPointsEarnedBeforeTest = [ SELECT SUM(Amount__c) points
+                                                FROM   Points__c
+                                                WHERE  Amount__c > 0
+                                                AND    CreatedDate = THIS_QUARTER];
+     
+      // Create test collaboration group
+      CollaborationGroup collabGroup = AGETestUtility.createTestCollaborationGroup();
+      
+      // Create a test badge record
+      List<badge__c> badges = AGETestUtility.createTestBadges(badgeName);
+      
+      // Create test point Bucket    
+      List<points_bucket__c> pointbuckets = AGETestUtility.CreatePointsBuckets(
+                                                           bucketName, 
+                                                           bucketBalance);
+      
+      // Create test challenge records
+      List<Challenge__c> challenges = AGETestUtility.CreateChallenge(
+                                                     numOfChallenges, 
+                                                     awardPointsAmt, 
+                                                     badges[0],
+                                                     pointbuckets[0]);
+      // Create test points records                                               
+      AGETestUtility.createPoints(challenges);
+      AgeProfileManagerController contr = new AgeProfileManagerController();
+      test.startTest();
+            
+	      // test getDisplayUser function
+	      User usr = contr.getDisplayUser();
+	      System.assertEquals('FirstName TestLastName', usr.name);      
+	      
+	      // check getRecentShoutoutChallenges function. This value can be equal to  numOfChallenges
+	      // that match the shoutout title in custom setting. 
+	      //right now we have nothing in custom setting so size has to be 0
+	      List<points__c> points = contr.getRecentShoutoutChallenges();	      
+	      System.assertEquals(0, points.size());
+	        
+	     
+	     
+	     List<String> ctitle = new List<String>();
+         for(Challenge__c chall:challenges)
+         	  ctitle.add(chall.title__c);
+         	  
+         Game_Settings__c settings = Game_Settings__c.getInstance();
+         settings.Shoutout_Challenge_Titles__c = String.join(ctitle,',');
+         insert settings;
+         
+       
+	      points = contr.getRecentShoutoutChallenges();
+	      if (numOfChallenges <= 5)
+	        System.assertEquals(numOfChallenges, points.size());
+	      else
+	        System.assertEquals(5, points.size());
+         
+         
       test.stopTest();
             
     }

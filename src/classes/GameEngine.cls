@@ -113,7 +113,7 @@ public class GameEngine implements GameEngineInterface {
         point.Target_Record_Id__c = awardedChallenge.targetRecordId;
         point.Target_Name__c = awardedChallenge.targetName;
         point.Target_Link__c = awardedChallenge.targetLink;
-        
+        point.Source_Id__c = awardedChallenge.sourceId;
         pointsToInsert.add(point);
         
       } catch (Exception e) {
@@ -370,7 +370,10 @@ public class GameEngine implements GameEngineInterface {
     public String targetRecordId {get;set;}
     public String targetName {get;set;}
     public String targetLink {get;set;}
-
+    
+    //feed item source id:-
+	public String sourceId {get;set;}
+	
     public AwardedChallenge() {}
     
     public AwardedChallenge(String challenge, Id awardedToUser, Date effDate){
