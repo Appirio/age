@@ -13,9 +13,23 @@ public class AgeProfileManagerController extends AgeUserController {
   public String user;
   
   Double lastThrityDayPoint;
-  
-  //S-161785 Display Badges Count
   public Map<Id,Integer> badgeCount {get;set;}
+  
+  private AgeUser leaderboardAheadUser;
+  private AgeUser leaderboardBehindUser;
+  
+  public class AgeUser {
+  	
+  	public AgeUser(User user,Decimal points,Integer rank){
+  	  this.leaderboardUser = user;
+  	  this.points = points;
+  	  this.rank = rank;
+  	}
+  	
+    public User leaderboardUser {get;set;}
+    public Integer rank {get;set;}
+    public Decimal points {get;set;}
+  }
   
   public AgeProfileManagerController() { 
   
@@ -105,6 +119,11 @@ public class AgeProfileManagerController extends AgeUserController {
   
   
   public List<Points__c> getPoints() {
+    
+    /* updating method to exclude the challenges listed in shoutout challage */
+    String  shoutoutChall = Game_Settings__c.getInstance().Shoutout_Challenge_Titles__c;
+    List<String> listOfChall = shoutoutChall!=null ? shoutoutChall.split(','):new List<String>();
+    
     return [SELECT   Id,
                      Challenge__c,
                      Challenge_Title__c,
@@ -113,8 +132,29 @@ public class AgeProfileManagerController extends AgeUserController {
             WHERE    User__r.Id = :user
             AND      Amount__c > 0
             AND      Challenge__c != ''
+            AND		 Challenge_Title__c NOT IN :listOfChall
             ORDER BY CreatedDate DESC
-            LIMIT 5];
+            LIMIT 2];
+  }
+  
+  public List<Points__c> getRecentShoutoutChallenges() {
+    
+    /* updating method to exclude the challenges listed in shoutout challage */
+    String  shoutoutChall = Game_Settings__c.getInstance().Shoutout_Challenge_Titles__c;
+    List<String> listOfChall = shoutoutChall!=null ? shoutoutChall.split(','):new List<String>();
+    
+    return [SELECT   Id,
+                     Challenge__c,
+                     Challenge_Title__c,
+                     CreatedDate,
+                     Source_Id__c
+            FROM     Points__c
+            WHERE    User__r.Id = :user
+            AND      Amount__c > 0
+            AND      Challenge__c != ''
+            AND		 Challenge_Title__c  IN :listOfChall
+            ORDER BY CreatedDate DESC
+            LIMIT 2];
   }
   
   
@@ -137,7 +177,11 @@ public class AgeProfileManagerController extends AgeUserController {
   }
   
   /* adding leader board ahead user  :- 1 place ahead */
-  public User getUserAheadInLeaderBoard(){
+  public AgeUser getUserAheadInLeaderBoard(){
+  	   if(leaderboardAheadUser != null) {
+  	     return leaderboardAheadUser;
+  	   }
+  	
   		AggregateResult[] last30DaysPointsEarned = [SELECT SUM(Amount__c) points,user__c
                                                 	FROM   Points__c
                                                 	WHERE  Amount__c > 0
@@ -160,16 +204,24 @@ public class AgeProfileManagerController extends AgeUserController {
   	   }
   	   
   	   
-  	  return getUser(id);
+  	  leaderboardAheadUser =  getUser(id,minValue,last30DaysPointsEarned.size());
+  	  return leaderboardAheadUser;
   }
   
-  private User getUser(String id){
+  private AgeUser getUser(String id,Decimal points,Integer rank){
   	List<User> u= [Select Id,FullPhotoUrl,Full_Name__c,Name,SmallPhotoURL FROM User WHERE id=:id];
-  	return u.size()==0 ? null : u[0];
+  	if( u.size()==0 ) {
+  	   return new AgeUser(null,points,rank);
+  	} 
+  	return new AgeUser(u[0],points,rank);
   }
   
-  /* adding leader board ahead user  :- 1 place behind */
-  public User getUserBehindInLeaderBoard(){
+  /* adding leader board behind user  :- 1 place behind */
+  public AgeUser getUserBehindInLeaderBoard(){
+  	   if(leaderboardBehindUser != null) {
+  	     return leaderboardBehindUser;
+  	   }
+  	
   		AggregateResult[] last30DaysPointsEarned = [SELECT SUM(Amount__c) points,User__c
                                                 	FROM   Points__c
                                                 	WHERE  Amount__c > 0
@@ -190,10 +242,16 @@ public class AgeProfileManagerController extends AgeUserController {
   	   			id = (String)r.get('User__c');
   	   		}
   	   }
-  	   return getUser(id);
+  	   leaderboardBehindUser = getUser(id,maxValue,getUserAheadInLeaderBoard().rank+2);
+  	   return leaderboardBehindUser;
   }
   
-  //updated the method for chall :- S-161785 Display Badges Count
+  public Integer getCurrentRank(){
+    AgeUser ageUser = getUserAheadInLeaderBoard();
+    return ageUser.rank + 1;
+  }
+  
+  
   public List<Badge__c> getBadges() {
     List<Badge__c> badgeUrl = new List<Badge__c>();
     badgeCount = new Map<Id,Integer>();
