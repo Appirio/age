@@ -63,13 +63,14 @@ public class BadgesController extends AgeUserController{
                                        Focus__c, 
                                        Core_Value__c, 
                                        Active__c,
+                                       Multi_Award__c,
                                        Description__c,
-                                       (SELECT Id, 
-                                               CreatedDate 
-                                        FROM   Awarded_Badges__r 
+                                       (SELECT Id,
+                                               CreatedDate,
+                                               Effective_Date__c
+                                        FROM   Awarded_Badges__r
                                         WHERE  User__c = :selectedEmployee
-                                        ORDER By CreatedDate Desc
-                                        LIMIT 1) 
+                                        ORDER By CreatedDate Desc)
                                 FROM   Badge__c];
                               
     List<Badge_Challenge__c> allBadgeChallenges = [SELECT Badge__c, 
@@ -98,6 +99,24 @@ public class BadgesController extends AgeUserController{
   
   @RemoteAction
   public static SaveResult saveAwardedBadge(String selectedUserId, String selectedBadgeId, String selectedDate) {
+
+    List<Badge__c> badges = [SELECT Id,
+                                   Multi_Award__c,
+                                   (SELECT Id,
+                                           CreatedDate
+                                    FROM   Awarded_Badges__r
+                                    WHERE  User__c = :selectedUserId
+                                    ORDER By CreatedDate Desc)
+                            FROM   Badge__c
+                            WHERE Badge__c.Id = :selectedBadgeId];
+    Badge__c badge = badges.get(0);
+    if (!badge.Multi_Award__c && !badge.Awarded_Badges__r.isEmpty()) {
+      SaveResult sr = new SaveResult();
+      sr.success = false;
+      sr.message= 'FAIL! Badge cannot be earned more than once';
+      return sr;
+    }
+
     Awarded_Badge__c ab = new Awarded_Badge__c();
         
     ab.User__c = selectedUserId;

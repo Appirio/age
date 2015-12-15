@@ -180,7 +180,6 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>Admin</members>
         <members>Appirio API User</members>
         <members>Appirio Account Executive</members>
         <members>Appirio Consulting Manager</members>
@@ -194,8 +193,6 @@
         <members>Appirio Products</members>
         <members>Appirio Sales VP</members>
         <members>Appirio Support</members>
-        
-        <members>Appirio Workday Integration View Encrypted</members>
         <name>Profile</name>
     </types>
     <types>

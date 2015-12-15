@@ -8,6 +8,23 @@
             <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/owl.carousel.css'))}"/>
                <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/bootstrap-theme.css'))}"/>
                               <apex:stylesheet value="{!JSENCODE(URLFOR($Resource.AgeResources, '/css/style.css'))}"/>
+<script>
+    var analyticId = "{!$Setup.game_GamificationConfiguration__c.Google_Analytics_ID__c}";
+    var url = top.location.href;
+	var userId = '{!$User.Id}';
+	var userName = '{!$User.FirstName}' + ' ' + '{!$User.LastName}';
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+      ga('create', analyticId, 'auto');
+      ga('set', 'location', url);
+      ga('set', 'dimension1', userId);
+      ga('set', 'dimension2', userName);
+      ga('send', 'pageview');
+
+</script>
 
 <html lang="en" ng-app="ageProfileApp">
 <head>
@@ -16,6 +33,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+
+	
 
     <title>AGE Profile - {!displayUser.Name}</title>
 </head>
@@ -167,6 +186,38 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5">
+                                    
+                                    <dl>
+                                        <dt>Leader Board-Behind</dt>
+                                        <dd>
+                                        <apex:outputPanel rendered="{!NOT(ISNULL(UserBehindInLeaderBoard))}">
+                                        <a href="AgeProfile?userId={!UserBehindInLeaderBoard.Id}">
+                                        	<apex:image url="{!UserBehindInLeaderBoard.FullPhotoUrl}" /> 	<br/>
+                                        	{!UserBehindInLeaderBoard.Name}	  
+                                        </a>
+                                        </apex:outputPanel>
+                                        </dd>
+                                    </dl>
+                                    
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                     <dl>
+                                        <dt>Leader Board-Ahead</dt>
+                                        <dd>
+                                       <apex:outputPanel rendered="{!NOT(ISNULL(UserAheadInLeaderBoard))}">
+                                        <a href="AgeProfile?userId={!UserAheadInLeaderBoard.Id}">
+                                        	<apex:image url="{!UserBehindInLeaderBoard.FullPhotoUrl}" /> <br/>
+                                        	{!UserAheadInLeaderBoard.Name}	
+                                        </a>
+                                        </apex:outputPanel>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="col-md-5">
                             <h6>Most Recent Challenges</h6>
@@ -194,7 +245,9 @@
                     <div class="list-badges clearfix">
                         <ul class="list-inline">
                           <apex:repeat value="{!badges}" var="b">
-                            <li><apex:image value="{!b.Image_URL__c}" title="{!b.Title__c}"/></li>
+                            <li><apex:image value="{!b.Image_URL__c}" title="{!b.Title__c}"/>
+                            	<div class="{!IF(NOT(ISNULL(b.id)),'numberCircle','')}">{!IF(NOT(ISNULL(b.id)),badgeCount[b.id],'')}</div>
+                            </li>
                           </apex:repeat>  
                         </ul>
                         <div class="owl-caption"></div>

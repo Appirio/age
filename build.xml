@@ -69,6 +69,20 @@
   <exec executable="./cleaner.sh"/>
 </target>
 
+<target name="devDeploy">
+
+<sf:deploy
+    username="${devorg.username}"
+    password="${devorg.password}"
+    serverurl="${prod.serverurl}"
+    pollWaitMillis="20000"
+    maxPoll="5000"
+    checkOnly="${checkOnly}"
+    runAllTests="${runAllTests}"
+    deployRoot="src"/>
+
+</target>
+
 <!-- SYNTAX: ant deployAge2dev optional: -DcheckOnly=true -DrunAllTests=true -->
 <target name="deployAge2dev">
   <sf:deploy
