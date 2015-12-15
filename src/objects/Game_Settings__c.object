@@ -380,6 +380,14 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Shoutout_Challenge_Titles__c</fullName>
+        <externalId>false</externalId>
+        <label>Shoutout Challenge Titles</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
         <fullName>System_User_Id__c</fullName>
         <description>System User Id that will be used to populate the GameEngine methods for Awarded By User.</description>
         <externalId>false</externalId>

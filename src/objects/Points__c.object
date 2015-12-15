@@ -63,7 +63,7 @@
         <precision>5</precision>
         <required>false</required>
         <scale>0</scale>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
@@ -105,7 +105,7 @@
         <relationshipLabel>Points</relationshipLabel>
         <relationshipName>Earned_Points</relationshipName>
         <required>false</required>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -117,7 +117,7 @@
         <inlineHelpText>Effective date, i.e. the date the points were actually earned.</inlineHelpText>
         <label>Effective Date</label>
         <required>false</required>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
     </fields>
@@ -128,7 +128,7 @@
         <externalId>false</externalId>
         <inlineHelpText>IT will check this box when these points have been added to the user&apos;s Company Store balance.</inlineHelpText>
         <label>Entered in Company Store</label>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -139,7 +139,7 @@
         <inlineHelpText>Notes on how or why these points were assigned.</inlineHelpText>
         <label>Notes</label>
         <length>32768</length>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
         <visibleLines>10</visibleLines>
@@ -153,9 +153,21 @@
         <relationshipLabel>Points</relationshipLabel>
         <relationshipName>Points</relationshipName>
         <required>false</required>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Source_Id__c</fullName>
+        <description>to store the Id of the Feed Item or Feed Comment</description>
+        <externalId>false</externalId>
+        <label>Source Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Source__c</fullName>
@@ -182,7 +194,7 @@
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
     </fields>
@@ -215,7 +227,7 @@
         <label>Tag</label>
         <length>255</length>
         <required>false</required>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
@@ -278,7 +290,7 @@ For Transferred Points: the Id of the Object to WHERE the points were transferre
             </picklistValues>
             <sorted>false</sorted>
         </picklist>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
     </fields>
@@ -328,7 +340,7 @@ For Transferred Points: the Id of the Object to WHERE the points were transferre
         <referenceTo>User</referenceTo>
         <relationshipName>Earned_Points</relationshipName>
         <required>false</required>
-        
+        <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
@@ -409,7 +421,7 @@ For Transferred Points: the Id of the Object to WHERE the points were transferre
     <nameField>
         <displayFormat>P-{0000}</displayFormat>
         <label>Name</label>
-        
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Points</pluralLabel>
